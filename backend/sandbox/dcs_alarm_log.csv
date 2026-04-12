@@ -1,0 +1,10 @@
+alarm_id,timestamp,tag,description,priority,value,limit,state,operator,ack_time
+ALM-4821,2025-03-28 06:12:44,TEMP_REACTOR_01,High Temperature Warning,HIGH,81.2,80.0,Acknowledged,J.Wilson,06:13:01
+ALM-4822,2025-03-28 06:45:18,PRESSURE_PT01,High Pressure Warning,HIGH,151.8,150.0,Acknowledged,P.Nair,06:45:35
+ALM-4823,2025-03-28 07:02:33,FLOW_FT01,Low Flow Rate,MEDIUM,9.8,10.0,Acknowledged,P.Nair,07:03:12
+ALM-4824,2025-03-28 07:30:00,MOTOR_CONV_01,Motor Overload Trip,CRITICAL,TRIP,,Acknowledged,J.Wilson,07:30:15
+ALM-4825,2025-03-28 07:31:22,CONVEYOR_RUN,Conveyor Stopped Unexpectedly,HIGH,0,,Acknowledged,J.Wilson,07:31:40
+ALM-4826,2025-03-28 07:45:00,MOTOR_CONV_01,Motor Reset Successful,INFO,RUN,,Auto-Cleared,,
+ALM-4827,2025-03-28 08:15:00,TEMP_REACTOR_01,High Temperature Warning,HIGH,76.3,80.0,Active,,
+ALM-4828,2025-03-28 08:20:11,TEMP_REACTOR_01,High High Temperature CRITICAL,CRITICAL,84.9,85.0,Active,,
+ALM-4829,2025-03-28 08:20:11,SAFETY_SIS_01,Safety Instrumented System Triggered,EMERGENCY,TRIP,,Active,,

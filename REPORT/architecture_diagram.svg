@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" font-family="Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1000" height="700" fill="#F5F5DC"/>
+  <text x="500" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a3a5c">SentinelShield AI — System Architecture</text>
+
+  <!-- ── LAYER 1: File System ── -->
+  <rect x="30" y="60" width="940" height="70" rx="10" fill="#1a3a5c" opacity="0.9"/>
+  <text x="500" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="white">LAYER 1 — FILE SYSTEM (OT Sandbox)</text>
+  <rect x="50" y="95" width="120" height="28" rx="5" fill="#00c8e0" opacity="0.8"/>
+  <text x="110" y="114" text-anchor="middle" font-size="11" fill="white">plc_ladder_logic.txt</text>
+  <rect x="185" y="95" width="120" height="28" rx="5" fill="#00c8e0" opacity="0.8"/>
+  <text x="245" y="114" text-anchor="middle" font-size="11" fill="white">scada_historian.csv</text>
+  <rect x="320" y="95" width="120" height="28" rx="5" fill="#00c8e0" opacity="0.8"/>
+  <text x="380" y="114" text-anchor="middle" font-size="11" fill="white">hmi_screen_config.cfg</text>
+  <rect x="455" y="95" width="120" height="28" rx="5" fill="#00c8e0" opacity="0.8"/>
+  <text x="515" y="114" text-anchor="middle" font-size="11" fill="white">production_schedule.xlsx</text>
+  <rect x="590" y="95" width="120" height="28" rx="5" fill="#e8a020" opacity="0.9"/>
+  <text x="650" y="114" text-anchor="middle" font-size="11" fill="white">🪤 Canary File</text>
+  <rect x="725" y="95" width="120" height="28" rx="5" fill="#c0392b" opacity="0.9"/>
+  <text x="785" y="114" text-anchor="middle" font-size="11" fill="white">🍯 Honeypot Files</text>
+  <rect x="860" y="95" width="95" height="28" rx="5" fill="#2d6a4f" opacity="0.9"/>
+  <text x="907" y="114" text-anchor="middle" font-size="11" fill="white">+ 7 more files</text>
+
+  <!-- Arrow down -->
+  <line x1="500" y1="130" x2="500" y2="155" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ── LAYER 2: Watchdog Monitor ── -->
+  <rect x="300" y="155" width="400" height="50" rx="10" fill="#1e4976"/>
+  <text x="500" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="white">LAYER 2 — WATCHDOG FILE MONITOR</text>
+  <text x="500" y="194" text-anchor="middle" font-size="11" fill="#00c8e0">Python watchdog — Real-time file event detection</text>
+
+  <!-- Arrows to detection engines -->
+  <line x1="350" y1="205" x2="200" y2="255" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="430" y1="205" x2="400" y2="255" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="500" y1="205" x2="500" y2="255" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="570" y1="205" x2="600" y2="255" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="650" y1="205" x2="800" y2="255" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ── LAYER 3: Detection Engines ── -->
+  <text x="500" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a3a5c">LAYER 3 — DETECTION ENGINES</text>
+
+  <!-- Behavioral -->
+  <rect x="50" y="258" width="170" height="75" rx="8" fill="#FFFFFF" stroke="#b7770d" stroke-width="2"/>
+  <text x="135" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#b7770d">Behavioral Engine</text>
+  <text x="135" y="295" text-anchor="middle" font-size="10" fill="#3d3020">Rapid modification</text>
+  <text x="135" y="310" text-anchor="middle" font-size="10" fill="#3d3020">4+ writes / 5 sec</text>
+  <text x="135" y="325" text-anchor="middle" font-size="10" font-weight="bold" fill="#b7770d">+30 pts per file</text>
+
+  <!-- Entropy -->
+  <rect x="240" y="258" width="170" height="75" rx="8" fill="#FFFFFF" stroke="#b7770d" stroke-width="2"/>
+  <text x="325" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#b7770d">Entropy Engine</text>
+  <text x="325" y="295" text-anchor="middle" font-size="10" fill="#3d3020">Shannon entropy</text>
+  <text x="325" y="310" text-anchor="middle" font-size="10" fill="#3d3020">Threshold: 7.0 bits</text>
+  <text x="325" y="325" text-anchor="middle" font-size="10" font-weight="bold" fill="#b7770d">+40 pts per file</text>
+
+  <!-- Canary -->
+  <rect x="430" y="258" width="140" height="75" rx="8" fill="#FFFFFF" stroke="#c0392b" stroke-width="2"/>
+  <text x="500" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Canary Engine</text>
+  <text x="500" y="295" text-anchor="middle" font-size="10" fill="#3d3020">Hidden trap file</text>
+  <text x="500" y="310" text-anchor="middle" font-size="10" fill="#3d3020">Any access = attack</text>
+  <text x="500" y="325" text-anchor="middle" font-size="10" font-weight="bold" fill="#c0392b">+100 pts CRITICAL</text>
+
+  <!-- Exfiltration -->
+  <rect x="590" y="258" width="150" height="75" rx="8" fill="#FFFFFF" stroke="#c0392b" stroke-width="2"/>
+  <text x="665" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Exfil Engine</text>
+  <text x="665" y="295" text-anchor="middle" font-size="10" fill="#3d3020">Honeypot access</text>
+  <text x="665" y="310" text-anchor="middle" font-size="10" fill="#3d3020">Bulk read anomaly</text>
+  <text x="665" y="325" text-anchor="middle" font-size="10" font-weight="bold" fill="#c0392b">+100 pts EXFIL</text>
+
+  <!-- Integrity -->
+  <rect x="760" y="258" width="170" height="75" rx="8" fill="#FFFFFF" stroke="#2d6a4f" stroke-width="2"/>
+  <text x="845" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#2d6a4f">Integrity Engine</text>
+  <text x="845" y="295" text-anchor="middle" font-size="10" fill="#3d3020">SHA-256 hashing</text>
+  <text x="845" y="310" text-anchor="middle" font-size="10" fill="#3d3020">Quarantine verify</text>
+  <text x="845" y="325" text-anchor="middle" font-size="10" font-weight="bold" fill="#2d6a4f">Tamper detection</text>
+
+  <!-- Arrows to Threat Scorer -->
+  <line x1="200" y1="333" x2="430" y2="378" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="325" y1="333" x2="460" y2="378" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="500" y1="333" x2="500" y2="378" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="665" y1="333" x2="540" y2="378" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="845" y1="333" x2="570" y2="378" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── LAYER 4: Threat Scorer ── -->
+  <rect x="350" y="378" width="300" height="50" rx="10" fill="#c0392b"/>
+  <text x="500" y="398" text-anchor="middle" font-size="13" font-weight="bold" fill="white">LAYER 4 — THREAT SCORER</text>
+  <text x="500" y="416" text-anchor="middle" font-size="11" fill="white">Score 0–200 pts | Threshold: 70 pts → AUTO RESPONSE</text>
+
+  <!-- Arrows to Response and Dashboard -->
+  <line x1="420" y1="428" x2="280" y2="468" stroke="#c0392b" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <line x1="580" y1="428" x2="720" y2="468" stroke="#2d6a4f" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ── LAYER 5a: Auto Response ── -->
+  <rect x="100" y="468" width="330" height="90" rx="10" fill="#FFFFFF" stroke="#c0392b" stroke-width="2"/>
+  <text x="265" y="488" text-anchor="middle" font-size="13" font-weight="bold" fill="#c0392b">AUTO RESPONSE ENGINE</text>
+  <text x="265" y="506" text-anchor="middle" font-size="10" fill="#3d3020">① Kill suspicious process (psutil)</text>
+  <text x="265" y="521" text-anchor="middle" font-size="10" fill="#3d3020">② Lock sandbox (read-only)</text>
+  <text x="265" y="536" text-anchor="middle" font-size="10" fill="#3d3020">③ Email alert → Admin</text>
+  <text x="265" y="551" text-anchor="middle" font-size="10" fill="#3d3020">④ Restore from snapshot (RTO &lt; 30s)</text>
+
+  <!-- ── LAYER 5b: Dashboard ── -->
+  <rect x="570" y="468" width="330" height="90" rx="10" fill="#FFFFFF" stroke="#2d6a4f" stroke-width="2"/>
+  <text x="735" y="488" text-anchor="middle" font-size="13" font-weight="bold" fill="#2d6a4f">REACT DASHBOARD</text>
+  <text x="735" y="506" text-anchor="middle" font-size="10" fill="#3d3020">Live threat score + entropy graph</text>
+  <text x="735" y="521" text-anchor="middle" font-size="10" fill="#3d3020">OT Asset Status (PLC, SCADA, HMI)</text>
+  <text x="735" y="536" text-anchor="middle" font-size="10" fill="#3d3020">ML Prediction + Ransomware classifier</text>
+  <text x="735" y="551" text-anchor="middle" font-size="10" fill="#3d3020">AI Chatbot + Backup Snapshots</text>
+
+  <!-- Arrow to Supabase -->
+  <line x1="500" y1="428" x2="500" y2="468" stroke="#6b5a45" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGray)"/>
+  <rect x="420" y="468" width="160" height="35" rx="8" fill="#FFFFFF" stroke="#6b5a45" stroke-width="1.5"/>
+  <text x="500" y="482" text-anchor="middle" font-size="11" font-weight="bold" fill="#6b5a45">Supabase DB</text>
+  <text x="500" y="497" text-anchor="middle" font-size="10" fill="#6b5a45">Event logging + Snapshots</text>
+
+  <!-- ── LAYER 6: Users ── -->
+  <rect x="50" y="590" width="200" height="50" rx="10" fill="#1a3a5c"/>
+  <text x="150" y="610" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Admin / CISO</text>
+  <text x="150" y="627" text-anchor="middle" font-size="10" fill="#00c8e0">Full dashboard access</text>
+
+  <rect x="390" y="590" width="220" height="50" rx="10" fill="#1a3a5c"/>
+  <text x="500" y="610" text-anchor="middle" font-size="12" font-weight="bold" fill="white">SOC Analyst</text>
+  <text x="500" y="627" text-anchor="middle" font-size="10" fill="#00c8e0">Threat monitoring + containment</text>
+
+  <rect x="750" y="590" width="200" height="50" rx="10" fill="#1a3a5c"/>
+  <text x="850" y="610" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Employee / Viewer</text>
+  <text x="850" y="627" text-anchor="middle" font-size="10" fill="#00c8e0">Personal file status</text>
+
+  <line x1="265" y1="558" x2="150" y2="590" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="735" y1="558" x2="500" y2="590" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="735" y1="558" x2="850" y2="590" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="30" y="655" width="940" height="35" rx="8" fill="#FFFFFF" stroke="#D1BFA2" stroke-width="1"/>
+  <rect x="45" y="665" width="14" height="14" rx="3" fill="#c0392b"/>
+  <text x="65" y="676" font-size="10" fill="#3d3020">Critical Detection</text>
+  <rect x="175" y="665" width="14" height="14" rx="3" fill="#b7770d"/>
+  <text x="195" y="676" font-size="10" fill="#3d3020">Behavioral Detection</text>
+  <rect x="330" y="665" width="14" height="14" rx="3" fill="#2d6a4f"/>
+  <text x="350" y="676" font-size="10" fill="#3d3020">Recovery / Dashboard</text>
+  <rect x="490" y="665" width="14" height="14" rx="3" fill="#1a3a5c"/>
+  <text x="510" y="676" font-size="10" fill="#3d3020">Core Infrastructure</text>
+  <rect x="640" y="665" width="14" height="14" rx="3" fill="#00c8e0"/>
+  <text x="660" y="676" font-size="10" fill="#3d3020">OT Data Files</text>
+  <rect x="740" y="665" width="14" height="14" rx="3" fill="#e8a020"/>
+  <text x="760" y="676" font-size="10" fill="#3d3020">Trap / Deception</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#1a3a5c"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#c0392b"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2d6a4f"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#6b5a45"/>
+    </marker>
+  </defs>
+</svg>

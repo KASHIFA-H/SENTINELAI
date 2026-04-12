@@ -165,6 +165,13 @@ function FileModalInner({ file, snapshots, onClose }) {
   const fileSize  = Number(file?.size ?? 0)
   const fileMod   = Number(file?.modified ?? 0)
 
+  // For locked files, default to the oldest snapshot (pre-attack clean state)
+  useEffect(() => {
+    if (isLocked && snapshots?.length > 0) {
+      setSnapIdx(snapshots.length - 1)
+    }
+  }, [isLocked, snapshots?.length])
+
   const accentColor = isLocked ? '#c0392b' : isCanary ? '#b7770d' : '#C2A68D'
   const accentBg    = isLocked ? '#fde8e6' : isCanary ? '#fef3cd' : '#F5F5DC'
 

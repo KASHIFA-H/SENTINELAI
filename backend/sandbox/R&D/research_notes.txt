@@ -1,0 +1,20 @@
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%
+Entropy threshold testing: 7.0 bits optimal
+False positive rate: 0.3%

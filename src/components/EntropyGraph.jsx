@@ -34,11 +34,10 @@ export default function EntropyGraph() {
         const last = prev[prev.length - 1]
         const now = new Date()
         const newVal = Math.max(0, Math.min(8, last.entropy + (Math.random() - 0.5) * 1.5))
-        const newPoint = {
+        return [...prev.slice(-19), {
           time: now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
           entropy: parseFloat(newVal.toFixed(2))
-        }
-        return [...prev.slice(-19), newPoint]
+        }]
       })
     }, 3000)
     return () => clearInterval(id)
@@ -53,16 +52,12 @@ export default function EntropyGraph() {
           <span className="w-2 h-0.5 inline-block" style={{ background: '#c0392b' }} /> Danger threshold (7.5)
         </span>
       </div>
-      <ResponsiveContainer width="100%" height={160}>
+      <ResponsiveContainer width="100%" height={200}>
         <AreaChart data={data} margin={{ top: 5, right: 5, bottom: 0, left: -20 }}>
           <defs>
             <linearGradient id="entropyGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%"  stopColor="#C2A68D" stopOpacity={0.4} />
               <stop offset="95%" stopColor="#C2A68D" stopOpacity={0} />
-            </linearGradient>
-            <linearGradient id="dangerGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#c0392b" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#c0392b" stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#D1BFA2" />
@@ -70,8 +65,7 @@ export default function EntropyGraph() {
           <YAxis domain={[0, 8]} tick={{ fill: '#6b5a45', fontSize: 10 }} axisLine={false} tickLine={false} />
           <Tooltip content={<CustomTooltip />} />
           <ReferenceLine y={7.5} stroke="#c0392b" strokeDasharray="4 4" strokeOpacity={0.7} />
-          <Area
-            type="monotone" dataKey="entropy"
+          <Area type="monotone" dataKey="entropy"
             stroke="#C2A68D" strokeWidth={2}
             fill="url(#entropyGrad)"
             dot={false} activeDot={{ r: 4, fill: '#C2A68D' }}

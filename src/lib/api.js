@@ -1,8 +1,22 @@
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
 
+// Session token stored in memory (not localStorage — safer against XSS)
+let _token = ''
+export const setToken = (t) => { _token = t }
+export const clearToken = () => { _token = '' }
+
+function authHeaders() {
+  return _token ? { 'X-Session-Token': _token } : {}
+}
+
 async function req(path, opts = {}) {
   try {
-    const res = await fetch(`${BASE}${path}`, opts)
+    const res = await fetch(`${BASE}${path}`, {
+      ...opts,
+      headers: { ...authHeaders(), ...(opts.headers ?? {}) },
+    })
+    if (res.status === 401) { clearToken(); return { _unauthorized: true } }
+    if (res.status === 429) return { _rateLimit: true }
     if (!res.ok) return null
     return res.json()
   } catch {
@@ -12,7 +26,10 @@ async function req(path, opts = {}) {
 
 async function del(path) {
   try {
-    const res = await fetch(`${BASE}${path}`, { method: 'DELETE' })
+    const res = await fetch(`${BASE}${path}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    })
     return res.json()
   } catch { return null }
 }
@@ -56,6 +73,7 @@ export const api = {
   deleteQuarantine: (name) => del(`/quarantine/${encodeURIComponent(name)}`),
   restoreQuarantine:(name) => req(`/quarantine/${encodeURIComponent(name)}/restore`, { method: 'POST' }),
   reset:            () => req('/reset', { method: 'POST' }),
+  factoryReset:     () => req('/factory-reset', { method: 'POST' }),
   simulateExfil:    () => req('/simulate-exfiltration', { method: 'POST' }),
   exfilStatus:      () => req('/exfiltration/status'),
   resetExfil:       () => req('/exfiltration/reset', { method: 'POST' }),
@@ -72,4 +90,10 @@ export const api = {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url, scanned_by: by ?? 'user' }),
   }),
+  chat: (message, state) => req('/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, ...state }),
+  }),
+  shap: () => req('/shap'),
 }

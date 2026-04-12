@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" width="700" height="380" font-family="Arial, sans-serif">
+  <rect width="700" height="380" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="350" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Fig. 4 — Threat Score Timeline During Attack Simulation</text>
+
+  <!-- Axes -->
+  <line x1="70" y1="300" x2="660" y2="300" stroke="#333" stroke-width="1.5"/>
+  <line x1="70" y1="50" x2="70" y2="300" stroke="#333" stroke-width="1.5"/>
+
+  <!-- Y labels -->
+  <text x="60" y="304" text-anchor="end" font-size="10" fill="#333">0</text>
+  <text x="60" y="254" text-anchor="end" font-size="10" fill="#333">50</text>
+  <text x="60" y="204" text-anchor="end" font-size="10" fill="#333">100</text>
+  <text x="60" y="154" text-anchor="end" font-size="10" fill="#333">150</text>
+  <text x="60" y="104" text-anchor="end" font-size="10" fill="#333">200</text>
+  <text x="20" y="180" text-anchor="middle" font-size="11" fill="#333" transform="rotate(-90,20,180)">Threat Score (pts)</text>
+
+  <!-- X labels -->
+  <text x="350" y="320" text-anchor="middle" font-size="11" fill="#333">Time (seconds)</text>
+  <text x="120" y="315" text-anchor="middle" font-size="9" fill="#333">0s</text>
+  <text x="200" y="315" text-anchor="middle" font-size="9" fill="#333">2s</text>
+  <text x="280" y="315" text-anchor="middle" font-size="9" fill="#333">4s</text>
+  <text x="360" y="315" text-anchor="middle" font-size="9" fill="#333">6s</text>
+  <text x="440" y="315" text-anchor="middle" font-size="9" fill="#333">8s</text>
+  <text x="520" y="315" text-anchor="middle" font-size="9" fill="#333">10s</text>
+  <text x="600" y="315" text-anchor="middle" font-size="9" fill="#333">12s</text>
+
+  <!-- Grid -->
+  <line x1="70" y1="254" x2="660" y2="254" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="204" x2="660" y2="204" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="154" x2="660" y2="154" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="104" x2="660" y2="104" stroke="#eee" stroke-width="1"/>
+
+  <!-- Threshold line at 70 pts = y 230 -->
+  <line x1="70" y1="230" x2="660" y2="230" stroke="#b7770d" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="665" y="234" font-size="9" fill="#b7770d">70 pts</text>
+
+  <!-- Score line: starts 0, rapid_mod +30 at T=1.2, entropy +40 at T=1.4, rapid_mod +30 at T=1.8, entropy +40 at T=2.1, canary +100 at T=2.4 → total 240 → containment resets to 0 at T=10 -->
+  <!-- Scale: 200pts = 250px, so 1pt = 1.25px. y = 300 - score*1.25 -->
+  <!-- T=0 → score=0 → y=300 -->
+  <!-- T=1.2 → score=30 → y=262 -->
+  <!-- T=1.4 → score=70 → y=212 -->
+  <!-- T=1.8 → score=100 → y=175 -->
+  <!-- T=2.1 → score=140 → y=125 -->
+  <!-- T=2.4 → score=240 → y=0 (cap at 50) -->
+  <!-- T=2.5 → containment starts -->
+  <!-- T=10 → score=0 → y=300 -->
+
+  <!-- x scale: 0s=120, 12s=640, so 1s=43.3px -->
+  <!-- T=0 → x=120, T=1.2 → x=172, T=1.4 → x=181, T=1.8 → x=198, T=2.1 → x=211, T=2.4 → x=224, T=10 → x=553 -->
+
+  <polyline points="120,300 172,300 172,262 181,262 181,212 198,212 198,175 211,175 211,125 224,125 224,60 553,60 553,300 640,300"
+    fill="none" stroke="#c0392b" stroke-width="2.5"/>
+
+  <!-- Fill under curve -->
+  <polygon points="120,300 172,300 172,262 181,262 181,212 198,212 198,175 211,175 211,125 224,125 224,60 553,60 553,300"
+    fill="#c0392b" opacity="0.08"/>
+
+  <!-- Annotation dots -->
+  <circle cx="172" cy="262" r="4" fill="#b7770d"/>
+  <text x="155" y="255" font-size="8" fill="#b7770d">+30</text>
+  <circle cx="181" cy="212" r="4" fill="#b7770d"/>
+  <text x="184" y="208" font-size="8" fill="#b7770d">+40</text>
+  <circle cx="198" cy="175" r="4" fill="#b7770d"/>
+  <text x="201" y="171" font-size="8" fill="#b7770d">+30</text>
+  <circle cx="211" cy="125" r="4" fill="#b7770d"/>
+  <text x="214" y="121" font-size="8" fill="#b7770d">+40</text>
+  <circle cx="224" cy="60" r="5" fill="#c0392b"/>
+  <text x="227" y="56" font-size="8" fill="#c0392b">+100 CANARY</text>
+
+  <!-- Containment marker -->
+  <line x1="553" y1="50" x2="553" y2="300" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="556" y="68" font-size="9" fill="#2d6a4f">Containment</text>
+  <text x="556" y="80" font-size="9" fill="#2d6a4f">+ Recovery</text>
+
+  <!-- Attack start -->
+  <line x1="172" y1="50" x2="172" y2="300" stroke="#b7770d" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="130" y="68" font-size="9" fill="#b7770d">Attack</text>
+  <text x="130" y="80" font-size="9" fill="#b7770d">begins</text>
+
+  <!-- Score labels on right -->
+  <text x="230" y="58" font-size="9" fill="#c0392b">Score: 240</text>
+
+  <!-- Legend -->
+  <line x1="90" y1="345" x2="120" y2="345" stroke="#c0392b" stroke-width="2.5"/>
+  <text x="125" y="349" font-size="10" fill="#333">Threat score progression</text>
+  <line x1="310" y1="345" x2="340" y2="345" stroke="#b7770d" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="345" y="349" font-size="10" fill="#333">Response threshold (70 pts)</text>
+  <line x1="530" y1="345" x2="560" y2="345" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="565" y="349" font-size="10" fill="#333">Containment triggered</text>
+
+  <text x="350" y="368" text-anchor="middle" font-size="10" font-style="italic" fill="#6b5a45">Fig. 4: Threat score accumulation during ransomware simulation — detection at T=1.2s, containment at T=2.5s, recovery complete at T=10s</text>
+</svg>

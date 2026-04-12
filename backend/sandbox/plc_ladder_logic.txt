@@ -1,0 +1,35 @@
+; NexaCore Industrial — PLC Program: Production Line A
+; Controller: Allen-Bradley ControlLogix 5580
+; Last Modified: 2025-03-01  Engineer: Priya Nair
+; =====================================================
+
+PROGRAM: MainRoutine
+; Rung 0001 — Emergency Stop Circuit
+XIC  E_STOP_PB      ; Examine If Closed: E-Stop Pushbutton
+OTE  MOTOR_ENABLE   ; Output Energize: Motor Enable Coil
+
+; Rung 0002 — Conveyor Start Sequence
+XIC  START_PB       ; Start Pushbutton
+XIC  MOTOR_ENABLE   ; Motor Enable confirmed
+XIO  OVERLOAD_RELAY ; Examine If Open: No overload
+OTE  CONVEYOR_RUN   ; Energize Conveyor Motor
+
+; Rung 0003 — Temperature Safety Interlock
+GRT  TEMP_SENSOR_01  85.0  ; Greater Than: Temp > 85C
+OTE  COOLING_VALVE        ; Open cooling valve
+
+; Rung 0004 — Pressure Relief
+GRT  PRESSURE_PT01   150.0 ; Pressure > 150 PSI
+OTE  RELIEF_VALVE         ; Activate relief valve
+OTE  ALARM_HIGH_PRESS     ; Trigger alarm
+
+; Rung 0005 — Production Counter
+XIC  PART_SENSOR     ; Part detected
+CTU  PROD_COUNTER  0  9999 ; Count Up
+
+; TAGS
+; TEMP_SENSOR_01  : REAL  : AI:0  : Thermocouple input
+; PRESSURE_PT01   : REAL  : AI:1  : 4-20mA pressure
+; CONVEYOR_RUN    : BOOL  : DO:0  : Conveyor VFD enable
+; COOLING_VALVE   : BOOL  : DO:1  : Solenoid valve
+END_PROGRAM

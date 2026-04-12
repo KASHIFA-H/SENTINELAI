@@ -1,0 +1,30 @@
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec
+Uptime: 99.97%
+MTTR: 4.2 min
+MTTD: 8.1 sec

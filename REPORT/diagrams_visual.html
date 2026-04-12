@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>SentinelShield AI — Visual Diagrams</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #e8eaf0; padding: 40px; }
+
+.page { width: 1200px; margin: 0 auto; }
+
+.diagram {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 36px 44px;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+.diagram-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0d1b4b;
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.diagram-subtitle {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* ── ARCHITECTURE LAYERS ── */
+.arch-layer {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+.arch-icon {
+  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.arch-label {
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  padding: 8px 4px;
+  text-align: center;
+  line-height: 1.3;
+}
+.arch-name {
+  width: 160px;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  border-left: 1px solid rgba(0,0,0,0.08);
+  border-right: 1px solid rgba(0,0,0,0.08);
+}
+.arch-content {
+  flex: 1;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1.5px solid;
+}
+.arch-arrow {
+  text-align: center;
+  font-size: 22px;
+  color: #999;
+  margin: 1px 0;
+  line-height: 1;
+}
+
+/* ── FLOWCHART ── */
+.fc-node {
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.fc-diamond-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 70px;
+}
+.fc-arrow { text-align: center; font-size: 20px; color: #555; margin: 2px 0; line-height: 1; }
+.fc-yes { font-size: 10px; font-weight: 800; color: #b71c1c; }
+.fc-no  { font-size: 10px; font-weight: 800; color: #2e7d32; }
+
+.parallel-box {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  margin-bottom: 10px;
+}
+.parallel-header {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.parallel-body {
+  padding: 10px 12px;
+  font-size: 10px;
+  color: #333;
+  line-height: 1.9;
+}
+
+.score-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══════════════════════════════════════════════════════
+     DIAGRAM 1 — ARCHITECTURE
+══════════════════════════════════════════════════════ -->
+<div class="diagram">
+  <div class="diagram-title">🛡️ SentinelShield AI — System Architecture</div>
+  <div class="diagram-subtitle">6-Layer Defense Platform · Python FastAPI + React · Real-time OT Protection</div>
+
+  <!-- L1 OT Files -->
+  <div class="arch-layer" style="background:linear-gradient(90deg,#e3f2fd,#f8fbff);">
+    <div class="arch-icon" style="background:#1565c0;">🏭</div>
+    <div class="arch-label" style="background:#1976d2;color:white;">L1<br>OT Files</div>
+    <div class="arch-name" style="color:#1565c0;">OT File System</div>
+    <div class="arch-content">
+      <span class="chip" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">⚙️ PLC Ladder Logic</span>
+      <span class="chip" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">📊 SCADA Historian</span>
+      <span class="chip" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">🖥️ HMI Config</span>
+      <span class="chip" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">📋 Batch Recipe</span>
+      <span class="chip" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">📦 Asset Register</span>
+      <span class="chip" style="background:#fff8e1;border-color:#f57f17;color:#e65100;">🪤 Canary Trap</span>
+      <span class="chip" style="background:#fce4ec;border-color:#c62828;color:#c62828;">🍯 Honeypot ×4</span>
+    </div>
+  </div>
+
+  <div class="arch-arrow">⬇</div>
+
+  <!-- L2 Watchdog -->
+  <div class="arch-layer" style="background:linear-gradient(90deg,#eceff1,#f9fafb);">
+    <div class="arch-icon" style="background:#455a64;">👁️</div>
+    <div class="arch-label" style="background:#546e7a;color:white;">L2<br>Monitor</div>
+    <div class="arch-name" style="color:#37474f;">Watchdog Monitor</div>
+    <div class="arch-content">
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">🐍 Python watchdog</span>
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">📝 CREATE</span>
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">✏️ MODIFY</span>
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">🗑️ DELETE</span>
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">🔄 RENAME</span>
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">⏱️ 3s polling</span>
+      <span class="chip" style="background:#eceff1;border-color:#546e7a;color:#37474f;">📁 Recursive</span>
+    </div>
+  </div>
+
+  <div class="arch-arrow">⬇</div>
+
+  <!-- L3 Detection -->
+  <div class="arch-layer" style="background:linear-gradient(90deg,#fff3e0,#fffaf5);">
+    <div class="arch-icon" style="background:#e65100;">🔍</div>
+    <div class="arch-label" style="background:#f4511e;color:white;">L3<br>Detect</div>
+    <div class="arch-name" style="color:#e65100;">Detection Engines</div>
+    <div class="arch-content">
+      <span class="chip" style="background:#fff3e0;border-color:#f57f17;color:#e65100;">📈 Behavioral<br><span style="font-weight:400;font-size:9px;">4+ writes/5s → +30</span></span>
+      <span class="chip" style="background:#fff3e0;border-color:#f57f17;color:#e65100;">📊 Entropy<br><span style="font-weight:400;font-size:9px;">H &gt; 7.0 bits → +40</span></span>
+      <span class="chip" style="background:#fce4ec;border-color:#c62828;color:#c62828;">🪤 Canary<br><span style="font-weight:400;font-size:9px;">Trap hit → +100</span></span>
+      <span class="chip" style="background:#fce4ec;border-color:#c62828;color:#c62828;">🍯 Honeypot<br><span style="font-weight:400;font-size:9px;">Exfil → +100</span></span>
+      <span class="chip" style="background:#e8f5e9;border-color:#2e7d32;color:#2e7d32;">🔐 Integrity<br><span style="font-weight:400;font-size:9px;">SHA-256</span></span>
+    </div>
+  </div>
+
+  <div class="arch-arrow">⬇</div>
+
+  <!-- L4 Scorer -->
+  <div class="arch-layer" style="background:linear-gradient(90deg,#ffebee,#fff8f8);">
+    <div class="arch-icon" style="background:#b71c1c;">⚡</div>
+    <div class="arch-label" style="background:#c62828;color:white;">L4<br>Score</div>
+    <div class="arch-name" style="color:#b71c1c;">Threat Scorer</div>
+    <div class="arch-content">
+      <span style="font-size:13px;font-weight:800;color:#b71c1c;">Score: 0 – 200 pts</span>
+      <span style="font-size:20px;color:#ccc;margin:0 8px;">|</span>
+      <span class="chip" style="background:#ffebee;border-color:#b71c1c;color:#b71c1c;font-size:11px;">🚨 Threshold: 70 pts → AUTO RESPONSE</span>
+      <span class="chip" style="background:#e8f5e9;border-color:#2e7d32;color:#2e7d32;font-size:11px;">✅ &lt; 70 pts → Continue monitoring</span>
+    </div>
+  </div>
+
+  <div class="arch-arrow">⬇</div>
+
+  <!-- L5 Response + Recovery -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px;">
+    <div class="arch-layer" style="background:linear-gradient(90deg,#ffebee,#fff5f5);margin-bottom:0;">
+      <div class="arch-icon" style="background:#b71c1c;font-size:20px;">🛑</div>
+      <div class="arch-label" style="background:#c62828;color:white;width:52px;">L5A<br>Contain</div>
+      <div class="arch-content" style="flex-direction:column;align-items:flex-start;gap:2px;">
+        <div style="font-size:11px;font-weight:700;color:#b71c1c;margin-bottom:3px;">Auto Response Engine</div>
+        <div style="font-size:10px;color:#333;">① Kill process (psutil)</div>
+        <div style="font-size:10px;color:#333;">② Lock sandbox (chmod)</div>
+        <div style="font-size:10px;color:#333;">③ Email admin (SMTP)</div>
+        <div style="font-size:10px;color:#333;">④ OT Assets → 🔴 Compromised</div>
+        <div style="font-size:10px;font-weight:700;color:#b71c1c;margin-top:3px;">⏱ &lt; 3 seconds</div>
+      </div>
+    </div>
+    <div class="arch-layer" style="background:linear-gradient(90deg,#e8f5e9,#f5fff7);margin-bottom:0;">
+      <div class="arch-icon" style="background:#1b5e20;font-size:20px;">💾</div>
+      <div class="arch-label" style="background:#2e7d32;color:white;width:52px;">L5B<br>Recover</div>
+      <div class="arch-content" style="flex-direction:column;align-items:flex-start;gap:2px;">
+        <div style="font-size:11px;font-weight:700;color:#1b5e20;margin-bottom:3px;">Snapshot Recovery Engine</div>
+        <div style="font-size:10px;color:#333;">① Delete .locked files</div>
+        <div style="font-size:10px;color:#333;">② Restore from snapshot</div>
+        <div style="font-size:10px;color:#333;">③ Redeploy canary + honeypot</div>
+        <div style="font-size:10px;color:#333;">④ OT Assets → 🟢 Online</div>
+        <div style="font-size:10px;font-weight:700;color:#1b5e20;margin-top:3px;">⏱ RTO &lt; 30 seconds</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arch-arrow">⬇</div>
+
+  <!-- L6 Dashboard -->
+  <div class="arch-layer" style="background:linear-gradient(90deg,#f3e5f5,#fdf5ff);">
+    <div class="arch-icon" style="background:#4a148c;">📊</div>
+    <div class="arch-label" style="background:#6a1b9a;color:white;">L6<br>UI</div>
+    <div class="arch-name" style="color:#4a148c;">React Dashboard</div>
+    <div class="arch-content">
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">📈 Live Threat Score</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">🏭 OT Asset Status</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">🧠 ML Prediction</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">🤖 AI Chatbot</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">💾 Snapshots</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">🔒 Quarantine</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">📋 Audit Logs</span>
+      <span class="chip" style="background:#f3e5f5;border-color:#6a1b9a;color:#4a148c;">👥 5 Roles</span>
+    </div>
+  </div>
+
+  <!-- Tech stack -->
+  <div style="margin-top:16px;background:#f8f9fa;border-radius:8px;padding:12px 16px;border:1px solid #e0e0e0;display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+    <span style="font-size:10px;font-weight:700;color:#333;">🔧 Tech Stack:</span>
+    <span style="font-size:10px;color:#555;">🐍 Python 3.14 · FastAPI · Uvicorn · watchdog · psutil</span>
+    <span style="font-size:10px;color:#555;">⚛️ React 18 · Vite · Tailwind CSS · Recharts</span>
+    <span style="font-size:10px;color:#555;">🗄️ Supabase PostgreSQL</span>
+    <span style="font-size:10px;color:#555;">🔐 PBKDF2-SHA256 · HMAC tokens · Rate limiting</span>
+  </div>
+
+  <div style="font-size:10px;font-style:italic;color:#888;text-align:center;margin-top:12px;">Fig 1: SentinelShield AI 6-layer system architecture — from OT file monitoring to automated recovery and role-based dashboard</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     DIAGRAM 2 — FLOWCHART
+══════════════════════════════════════════════════════ -->
+<div class="diagram">
+  <div class="diagram-title">⚡ SentinelShield AI — System Flowchart</div>
+  <div class="diagram-subtitle">Complete Attack Detection & Response Pipeline · Detection &lt;3s · Recovery &lt;30s</div>
+
+  <div style="display:flex;gap:20px;">
+
+    <!-- MAIN PIPELINE -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+
+      <!-- START -->
+      <div style="background:#0d1b4b;color:white;border-radius:30px;padding:11px 40px;font-size:13px;font-weight:800;letter-spacing:1px;box-shadow:0 3px 10px rgba(13,27,75,0.3);">🚀 START</div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Init -->
+      <div style="width:100%;background:linear-gradient(135deg,#e8eaf6,#f5f5ff);border:2px solid #3949ab;border-radius:10px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <div style="font-size:12px;font-weight:700;color:#1a237e;margin-bottom:5px;">⚙️ System Initialization</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;">
+          <span style="font-size:10px;background:white;border:1px solid #3949ab;border-radius:4px;padding:2px 7px;color:#1a237e;">Seed OT files</span>
+          <span style="font-size:10px;background:white;border:1px solid #3949ab;border-radius:4px;padding:2px 7px;color:#1a237e;">Deploy canary</span>
+          <span style="font-size:10px;background:white;border:1px solid #3949ab;border-radius:4px;padding:2px 7px;color:#1a237e;">Deploy honeypots</span>
+          <span style="font-size:10px;background:white;border:1px solid #3949ab;border-radius:4px;padding:2px 7px;color:#1a237e;">Take snapshot</span>
+          <span style="font-size:10px;background:white;border:1px solid #3949ab;border-radius:4px;padding:2px 7px;color:#1a237e;">Start watchdog</span>
+        </div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Monitoring -->
+      <div style="width:100%;background:linear-gradient(135deg,#e3f2fd,#f0f8ff);border:2px solid #1565c0;border-radius:10px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <div style="font-size:12px;font-weight:700;color:#0d47a1;margin-bottom:4px;">👁️ File System Monitoring Active</div>
+        <div style="font-size:10px;color:#333;">Watchdog running · 3s refresh · All OT assets 🟢 Online · Threat Score = 0</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Diamond 1 -->
+      <div style="position:relative;width:240px;height:68px;margin:0 auto;">
+        <svg viewBox="0 0 240 68" width="240" height="68">
+          <defs><linearGradient id="d1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#fff8e1"/><stop offset="100%" style="stop-color:#fff3cd"/></linearGradient></defs>
+          <polygon points="120,4 236,34 120,64 4,34" fill="url(#d1)" stroke="#f57f17" stroke-width="2.5"/>
+          <text x="120" y="30" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">📁 File Event</text>
+          <text x="120" y="47" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">Detected?</text>
+        </svg>
+        <div style="position:absolute;left:-40px;top:24px;font-size:10px;font-weight:800;color:#2e7d32;">NO ←</div>
+        <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:#e65100;">↓ YES</div>
+      </div>
+      <div style="width:100%;display:flex;align-items:center;margin:6px 0 2px 0;">
+        <div style="flex:1;height:1.5px;background:repeating-linear-gradient(90deg,#2e7d32 0,#2e7d32 6px,transparent 6px,transparent 12px);"></div>
+        <span style="font-size:9px;color:#2e7d32;white-space:nowrap;margin-left:6px;font-weight:700;">↩ Continue monitoring</span>
+      </div>
+      <div class="fc-arrow" style="color:#e65100;">↓</div>
+
+      <!-- Detection engines -->
+      <div style="width:100%;background:linear-gradient(135deg,#fff3e0,#fffaf5);border:2px solid #e65100;border-radius:10px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <div style="font-size:12px;font-weight:700;color:#bf360c;margin-bottom:8px;">🔍 Run Detection Engines</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div style="background:white;border:1.5px solid #f57f17;border-radius:6px;padding:5px 8px;">
+            <div style="font-size:10px;font-weight:700;color:#e65100;">📈 Behavioral</div>
+            <div style="font-size:9px;color:#555;">4+ writes in 5s → <span style="color:#e65100;font-weight:700;">+30 pts</span></div>
+          </div>
+          <div style="background:white;border:1.5px solid #f57f17;border-radius:6px;padding:5px 8px;">
+            <div style="font-size:10px;font-weight:700;color:#e65100;">📊 Entropy</div>
+            <div style="font-size:9px;color:#555;">H &gt; 7.0 bits → <span style="color:#e65100;font-weight:700;">+40 pts</span></div>
+          </div>
+          <div style="background:white;border:1.5px solid #c62828;border-radius:6px;padding:5px 8px;">
+            <div style="font-size:10px;font-weight:700;color:#c62828;">🪤 Canary Hit</div>
+            <div style="font-size:9px;color:#555;">Trap accessed → <span style="color:#c62828;font-weight:700;">+100 pts</span></div>
+          </div>
+          <div style="background:white;border:1.5px solid #c62828;border-radius:6px;padding:5px 8px;">
+            <div style="font-size:10px;font-weight:700;color:#c62828;">🍯 Honeypot</div>
+            <div style="font-size:9px;color:#555;">Exfil detected → <span style="color:#c62828;font-weight:700;">+100 pts</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Diamond 2 -->
+      <div style="position:relative;width:240px;height:68px;margin:0 auto;">
+        <svg viewBox="0 0 240 68" width="240" height="68">
+          <defs><linearGradient id="d2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ffebee"/><stop offset="100%" style="stop-color:#fce4ec"/></linearGradient></defs>
+          <polygon points="120,4 236,34 120,64 4,34" fill="url(#d2)" stroke="#b71c1c" stroke-width="2.5"/>
+          <text x="120" y="28" text-anchor="middle" font-size="11" font-weight="bold" fill="#b71c1c">⚡ Score &gt; 70?</text>
+          <text x="120" y="46" text-anchor="middle" font-size="10" fill="#b71c1c">Threshold reached?</text>
+        </svg>
+        <div style="position:absolute;left:-40px;top:24px;font-size:10px;font-weight:800;color:#2e7d32;">NO ←</div>
+        <div style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:#b71c1c;">↓ YES</div>
+      </div>
+      <div style="width:100%;display:flex;align-items:center;margin:6px 0 2px 0;">
+        <div style="flex:1;height:1.5px;background:repeating-linear-gradient(90deg,#2e7d32 0,#2e7d32 6px,transparent 6px,transparent 12px);"></div>
+        <span style="font-size:9px;color:#2e7d32;white-space:nowrap;margin-left:6px;font-weight:700;">↩ Continue monitoring</span>
+      </div>
+      <div class="fc-arrow" style="color:#b71c1c;">↓</div>
+
+      <!-- Containment -->
+      <div style="width:100%;background:linear-gradient(135deg,#ffebee,#fff0f0);border:2px solid #b71c1c;border-radius:10px;padding:12px 16px;box-shadow:0 3px 12px rgba(183,28,28,0.15);">
+        <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">🛑 Automated Containment</div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#b71c1c;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">1</span>Terminate suspicious process (psutil)</div>
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#b71c1c;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">2</span>Lock sandbox → read-only (chmod)</div>
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#b71c1c;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">3</span>Email alert → Admin (Gmail SMTP)</div>
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#b71c1c;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">4</span>OT Assets → 🔴 Compromised</div>
+        </div>
+        <div style="margin-top:6px;font-size:10px;font-weight:700;color:#b71c1c;">⏱ Time: &lt; 3 seconds</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Recovery -->
+      <div style="width:100%;background:linear-gradient(135deg,#e8f5e9,#f0fff4);border:2px solid #2e7d32;border-radius:10px;padding:12px 16px;box-shadow:0 3px 12px rgba(46,125,50,0.15);">
+        <div style="font-size:12px;font-weight:700;color:#1b5e20;margin-bottom:6px;">💾 Snapshot Recovery</div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#2e7d32;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">1</span>Delete all .locked encrypted files</div>
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#2e7d32;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">2</span>Copy clean originals from snapshot</div>
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#2e7d32;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">3</span>Redeploy canary + honeypot files</div>
+          <div style="font-size:10px;color:#333;display:flex;align-items:center;gap:6px;"><span style="background:#2e7d32;color:white;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">4</span>OT Assets → 🟢 Online</div>
+        </div>
+        <div style="margin-top:6px;font-size:10px;font-weight:700;color:#1b5e20;">⏱ RTO: &lt; 30 seconds</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Restored -->
+      <div style="width:100%;background:linear-gradient(135deg,#e3f2fd,#f0f8ff);border:2px solid #1565c0;border-radius:10px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <div style="font-size:12px;font-weight:700;color:#0d47a1;margin-bottom:4px;">✅ System Restored</div>
+        <div style="font-size:10px;color:#333;">Score → 0 · Status → 🟢 PROTECTED · Recovery email sent · Resume monitoring</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- END -->
+      <div style="background:#0d1b4b;color:white;border-radius:30px;padding:11px 40px;font-size:13px;font-weight:800;letter-spacing:1px;box-shadow:0 3px 10px rgba(13,27,75,0.3);">🔄 CONTINUE MONITORING</div>
+
+    </div>
+
+    <!-- PARALLEL PROCESSES -->
+    <div style="width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:8px;">
+
+      <div style="background:#fff3e0;border-radius:8px;padding:8px;border:1px solid #e0e0e0;text-align:center;font-size:10px;font-weight:700;color:#555;letter-spacing:1px;">PARALLEL PROCESSES</div>
+
+      <div class="parallel-box">
+        <div class="parallel-header" style="background:#b71c1c;">🍯 Exfil Detection</div>
+        <div class="parallel-body" style="background:#fff5f5;">
+          File read detected<br>↓<br>
+          Honeypot accessed?<br>
+          <span style="color:#b71c1c;font-weight:700;">→ YES: +100 pts · Email</span><br>
+          ↓<br>
+          5+ reads / 10s?<br>
+          <span style="color:#e65100;font-weight:700;">→ YES: +35 pts · Warn</span><br>
+          ↓<br>
+          Log to Supabase
+        </div>
+      </div>
+
+      <div class="parallel-box">
+        <div class="parallel-header" style="background:#4a148c;">🧠 ML Prediction</div>
+        <div class="parallel-body" style="background:#f9f0ff;">
+          Every 3 seconds<br>↓<br>
+          Compute 5 signals<br>↓<br>
+          P = Σ wᵢ × sᵢ<br>
+          w = [0.25, 0.30, 0.20, 0.15, 0.10]<br>↓<br>
+          Update gauge + radar<br>↓<br>
+          <span style="color:#4a148c;font-weight:700;">P &gt; 70% → Classify family</span>
+        </div>
+      </div>
+
+      <div class="parallel-box">
+        <div class="parallel-header" style="background:#1b5e20;">💾 Auto Snapshot</div>
+        <div class="parallel-body" style="background:#f0fff4;">
+          Every 30 minutes<br>↓<br>
+          Copy all sandbox files<br>↓<br>
+          Mark read-only (WORM)<br>↓<br>
+          Log to Supabase<br>↓<br>
+          <span style="color:#1b5e20;font-weight:700;">RPO: max 30 minutes</span>
+        </div>
+      </div>
+
+      <div class="parallel-box">
+        <div class="parallel-header" style="background:#37474f;">🔐 Auth Guard</div>
+        <div class="parallel-body" style="background:#f5f5f5;">
+          Login attempt<br>↓<br>
+          Rate limit: 5/60s per IP<br>↓<br>
+          PBKDF2-SHA256 verify<br>↓<br>
+          Unknown email?<br>
+          <span style="color:#b71c1c;font-weight:700;">→ Email admin alert</span><br>↓<br>
+          Issue HMAC token
+        </div>
+      </div>
+
+      <!-- Stats box -->
+      <div style="background:linear-gradient(135deg,#0d1b4b,#1a2d6b);border-radius:10px;padding:14px;color:white;">
+        <div style="font-size:10px;font-weight:700;color:#c8a84b;margin-bottom:8px;text-align:center;letter-spacing:1px;">KEY METRICS</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div style="text-align:center;background:rgba(255,255,255,0.08);border-radius:6px;padding:6px;">
+            <div style="font-size:16px;font-weight:800;color:#c8a84b;">2.4s</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.7);">Detection</div>
+          </div>
+          <div style="text-align:center;background:rgba(255,255,255,0.08);border-radius:6px;padding:6px;">
+            <div style="font-size:16px;font-weight:800;color:#c8a84b;">17s</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.7);">Recovery</div>
+          </div>
+          <div style="text-align:center;background:rgba(255,255,255,0.08);border-radius:6px;padding:6px;">
+            <div style="font-size:16px;font-weight:800;color:#c8a84b;">98%</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.7);">Accuracy</div>
+          </div>
+          <div style="text-align:center;background:rgba(255,255,255,0.08);border-radius:6px;padding:6px;">
+            <div style="font-size:16px;font-weight:800;color:#c8a84b;">&lt;2%</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.7);">False +ve</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="font-size:10px;font-style:italic;color:#888;text-align:center;margin-top:16px;">Fig 2: SentinelShield AI complete system flowchart — main detection/response pipeline with four parallel processes and key performance metrics</div>
+</div>
+
+</div>
+</body>
+</html>
+""

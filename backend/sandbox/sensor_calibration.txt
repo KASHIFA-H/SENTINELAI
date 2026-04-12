@@ -1,0 +1,36 @@
+INSTRUMENT CALIBRATION RECORD
+NexaCore Industrial — Facility A
+Calibration Date: 2025-03-15   Next Due: 2025-09-15
+=====================================================
+
+TAG: TEMP_REACTOR_01
+Type: Type-K Thermocouple
+Range: 0 - 200 degC
+As-Found: +0.8 degC deviation at 100 degC reference
+As-Left: +0.1 degC (within tolerance ±0.5 degC)
+Status: PASS   Calibrated by: Priya Nair
+
+TAG: PRESSURE_PT01
+Type: Rosemount 3051 4-20mA
+Range: 0 - 300 PSI
+As-Found: +1.2 PSI deviation at 150 PSI reference
+As-Left: +0.2 PSI (within tolerance ±0.5 PSI)
+Status: PASS   Calibrated by: Priya Nair
+
+TAG: FLOW_FT01
+Type: Endress+Hauser Coriolis
+Range: 0 - 100 L/min
+As-Found: -0.3% deviation
+As-Left: -0.05% (within tolerance ±0.1%)
+Status: PASS   Calibrated by: Priya Nair
+
+TAG: LEVEL_LT_TANK_B
+Type: Guided Wave Radar
+Range: 0 - 100%
+As-Found: +2.1% deviation
+As-Left: +0.3% (within tolerance ±1.0%)
+Status: PASS   Calibrated by: Priya Nair
+
+Next calibration scheduled: 2025-09-15
+Calibration equipment: Fluke 754 Documenting Calibrator
+Certificate No: CAL-2025-0312

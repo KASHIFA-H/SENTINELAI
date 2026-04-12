@@ -1,0 +1,55 @@
+OT SECURITY INCIDENT REPORT
+============================
+Incident ID:    OT-INC-2025-0847
+Classification: CRITICAL — Ransomware Attack on OT Network
+Status:         RESOLVED
+Detected:       2025-03-28 09:47:22 UTC
+Resolved:       2025-03-28 09:47:39 UTC
+RTO Achieved:   17 seconds  (Target: 4 hours)  ✓ EXCEEDED TARGET
+
+AFFECTED SYSTEMS
+----------------
+PLC-01 (Production Line A)    — Files encrypted, operations halted
+SCADA Historian Server        — Database files targeted
+HMI Terminal 01               — Configuration files encrypted
+Batch Recipe Database         — Recipe files locked
+
+ATTACK VECTOR
+-------------
+Initial Access: Phishing email to engineering workstation
+Lateral Movement: IT/OT DMZ traversal via unpatched vulnerability
+Payload: XOR-based ransomware targeting .cfg, .csv, .txt files
+Propagation: SMB shares across control network
+
+DETECTION METHOD
+----------------
+SentinelShield AI detected via:
+1. Rapid file modification rate (4 files in 1.8 seconds)
+2. Shannon entropy spike to 7.82 bits (encryption confirmed)
+3. Canary file access in SCADA directory
+4. Threat score reached 170/200 — CRITICAL threshold
+
+AUTOMATED RESPONSE
+------------------
+09:47:22  Threat score threshold breached
+09:47:23  Suspicious process terminated (PID 4821)
+09:47:24  OT network segment isolated
+09:47:25  Admin + CISO alert dispatched
+09:47:39  Clean snapshot restored — all systems operational
+
+IMPACT
+------
+Production downtime: 17 seconds
+Data loss: NONE (snapshot recovery)
+Financial impact: $0
+Safety systems: NOT AFFECTED (air-gapped SIS)
+
+RECOMMENDATIONS
+---------------
+1. Patch IT/OT DMZ firewall (CVE-2025-2891)
+2. Implement application whitelisting on HMI terminals
+3. Increase canary file density in SCADA directories
+4. Conduct OT security awareness training
+
+Prepared by: Alex Morgan (IT Security Administrator)
+Reviewed by: David Reeves (CISO)

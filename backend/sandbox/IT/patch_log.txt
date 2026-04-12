@@ -1,0 +1,20 @@
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched
+2025-03-01: KB5034441 applied
+2025-03-10: OpenSSL 3.2.1 patched

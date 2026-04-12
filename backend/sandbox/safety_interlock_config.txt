@@ -1,0 +1,36 @@
+SAFETY INSTRUMENTED SYSTEM — INTERLOCK CONFIGURATION
+NexaCore Industrial Facility A
+SIS Platform: Triconex Tricon CX
+SIL Rating: SIL-2   Last Review: 2025-01-15
+=====================================================
+
+SIF-001: Reactor High Temperature Shutdown
+  Initiator:  TEMP_REACTOR_01 > 90 degC (2oo3 voting)
+  Final Element: FEED_VALVE_01 CLOSE + COOLING_VALVE_01 OPEN
+  Action: Controlled shutdown of reactor feed
+  Response Time: < 2 seconds
+  SIL: 2   PFD: 1.2E-3
+
+SIF-002: High Pressure Relief
+  Initiator:  PRESSURE_PT01 > 160 PSI (1oo2 voting)
+  Final Element: RELIEF_VALVE_01 OPEN + FEED_PUMP_01 STOP
+  Action: Emergency pressure relief
+  Response Time: < 1 second
+  SIL: 2   PFD: 8.4E-4
+
+SIF-003: Conveyor Overload Protection
+  Initiator:  MOTOR_CURRENT > 45A for > 5 seconds
+  Final Element: CONVEYOR_CONTACTOR_01 OPEN
+  Action: Motor trip and lockout
+  Response Time: < 5 seconds
+  SIL: 1   PFD: 4.1E-2
+
+SIF-004: Emergency Stop
+  Initiator:  E_STOP_PB (any of 4 stations)
+  Final Element: ALL MOTORS STOP + ALL FEED VALVES CLOSE
+  Action: Full plant emergency shutdown
+  Response Time: < 0.5 seconds
+  SIL: 3   PFD: 1.1E-4
+
+PROOF TEST INTERVAL: 12 months
+Next Proof Test: 2026-01-15

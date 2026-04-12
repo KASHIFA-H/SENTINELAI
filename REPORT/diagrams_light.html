@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>SentinelShield AI — Architecture & Flowchart (Light Theme)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 40px; }
+
+.diagram {
+  width: 1100px;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 32px 40px;
+  margin: 0 auto 50px auto;
+}
+
+.diagram-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0d1b4b;
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #0d1b4b;
+  letter-spacing: 0.5px;
+}
+
+.caption {
+  font-size: 10px;
+  font-style: italic;
+  color: #555;
+  text-align: center;
+  margin-top: 18px;
+}
+
+/* ── ARCHITECTURE ── */
+.layer {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 6px;
+  border: 1.5px solid;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.layer-num {
+  width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1.3;
+}
+.layer-name {
+  width: 170px;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  flex-shrink: 0;
+  border-left: 1.5px solid;
+  border-right: 1.5px solid;
+}
+.layer-content {
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 11px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid;
+}
+.arrow-down {
+  text-align: center;
+  font-size: 20px;
+  color: #333;
+  margin: 2px 0;
+  line-height: 1;
+}
+
+/* ── FLOWCHART ── */
+.fc-box {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+.fc-diamond {
+  width: 200px;
+  height: 60px;
+  position: relative;
+  margin: 0 auto;
+}
+.fc-diamond svg { width: 100%; height: 100%; }
+.fc-arrow { text-align: center; font-size: 18px; color: #333; margin: 3px 0; }
+.fc-label { font-size: 10px; font-weight: bold; color: #333; }
+.fc-row { display: flex; align-items: flex-start; gap: 0; }
+.fc-col { display: flex; flex-direction: column; align-items: center; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     DIAGRAM 1 — SYSTEM ARCHITECTURE
+══════════════════════════════════════════════════════════════ -->
+<div class="diagram">
+  <div class="diagram-title">SentinelShield AI — System Architecture</div>
+
+  <!-- Layer 1 -->
+  <div class="layer" style="border-color:#1565c0;">
+    <div class="layer-num" style="background:#e3f2fd;color:#1565c0;">LAYER 1<br>OT Files</div>
+    <div class="layer-name" style="border-color:#1565c0;color:#1565c0;background:#e8f4fd;">OT File System</div>
+    <div class="layer-content">
+      <span class="tag" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">plc_ladder_logic.txt</span>
+      <span class="tag" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">scada_historian.csv</span>
+      <span class="tag" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">hmi_screen_config.cfg</span>
+      <span class="tag" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">batch_recipe_v4.txt</span>
+      <span class="tag" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">asset_register.csv</span>
+      <span class="tag" style="background:#fff8e1;border-color:#f57f17;color:#e65100;">🪤 Canary File</span>
+      <span class="tag" style="background:#fce4ec;border-color:#c62828;color:#c62828;">🍯 Honeypot ×4</span>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- Layer 2 -->
+  <div class="layer" style="border-color:#37474f;">
+    <div class="layer-num" style="background:#eceff1;color:#37474f;">LAYER 2<br>Monitor</div>
+    <div class="layer-name" style="border-color:#37474f;color:#37474f;background:#f5f5f5;">Watchdog Monitor</div>
+    <div class="layer-content" style="color:#222;">
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">Python watchdog</span>
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">CREATE events</span>
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">MODIFY events</span>
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">DELETE events</span>
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">RENAME events</span>
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">3-second polling</span>
+      <span class="tag" style="background:#eceff1;border-color:#37474f;color:#37474f;">Recursive monitoring</span>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- Layer 3 -->
+  <div class="layer" style="border-color:#e65100;">
+    <div class="layer-num" style="background:#fff3e0;color:#e65100;">LAYER 3<br>Detection</div>
+    <div class="layer-name" style="border-color:#e65100;color:#e65100;background:#fff8f0;">Detection Engines</div>
+    <div class="layer-content">
+      <span class="tag" style="background:#fff3e0;border-color:#f57f17;color:#e65100;">Behavioral +30<br><span style="font-weight:normal;font-size:9px;">4+ writes/5s</span></span>
+      <span class="tag" style="background:#fff3e0;border-color:#f57f17;color:#e65100;">Entropy +40<br><span style="font-weight:normal;font-size:9px;">H &gt; 7.0 bits</span></span>
+      <span class="tag" style="background:#fce4ec;border-color:#c62828;color:#c62828;">Canary +100<br><span style="font-weight:normal;font-size:9px;">Trap file hit</span></span>
+      <span class="tag" style="background:#fce4ec;border-color:#c62828;color:#c62828;">Honeypot +100<br><span style="font-weight:normal;font-size:9px;">Exfil detected</span></span>
+      <span class="tag" style="background:#e8f5e9;border-color:#2e7d32;color:#2e7d32;">Integrity<br><span style="font-weight:normal;font-size:9px;">SHA-256</span></span>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- Layer 4 -->
+  <div class="layer" style="border-color:#b71c1c;">
+    <div class="layer-num" style="background:#ffebee;color:#b71c1c;">LAYER 4<br>Scoring</div>
+    <div class="layer-name" style="border-color:#b71c1c;color:#b71c1c;background:#fff5f5;">Threat Scorer</div>
+    <div class="layer-content">
+      <span style="font-size:12px;font-weight:bold;color:#b71c1c;">Score: 0 – 200 pts</span>
+      <span style="font-size:11px;color:#333;margin-left:8px;">|</span>
+      <span style="font-size:12px;font-weight:bold;color:#b71c1c;margin-left:8px;">Threshold: 70 pts → AUTO RESPONSE TRIGGERED</span>
+      <span style="font-size:11px;color:#555;margin-left:8px;">Score &lt; 70 → continue monitoring</span>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- Layer 5 — two columns -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div class="layer" style="border-color:#b71c1c;margin-bottom:0;">
+      <div class="layer-num" style="background:#ffebee;color:#b71c1c;width:60px;">LAYER 5A<br>Response</div>
+      <div class="layer-content" style="flex-direction:column;align-items:flex-start;gap:3px;">
+        <div style="font-size:11px;font-weight:bold;color:#b71c1c;margin-bottom:4px;">Auto Response Engine</div>
+        <div style="font-size:10px;color:#333;">① Kill suspicious process (psutil)</div>
+        <div style="font-size:10px;color:#333;">② Lock sandbox → read-only (chmod)</div>
+        <div style="font-size:10px;color:#333;">③ Email alert → Admin (Gmail SMTP)</div>
+        <div style="font-size:10px;color:#333;">④ Restore from snapshot → RTO &lt;30s</div>
+        <div style="font-size:10px;font-weight:bold;color:#b71c1c;margin-top:4px;">Time: &lt; 3 seconds</div>
+      </div>
+    </div>
+    <div class="layer" style="border-color:#1b5e20;margin-bottom:0;">
+      <div class="layer-num" style="background:#e8f5e9;color:#1b5e20;width:60px;">LAYER 5B<br>Recovery</div>
+      <div class="layer-content" style="flex-direction:column;align-items:flex-start;gap:3px;">
+        <div style="font-size:11px;font-weight:bold;color:#1b5e20;margin-bottom:4px;">Snapshot Recovery Engine</div>
+        <div style="font-size:10px;color:#333;">① Delete all .locked encrypted files</div>
+        <div style="font-size:10px;color:#333;">② Copy clean files from snapshot</div>
+        <div style="font-size:10px;color:#333;">③ Redeploy canary + honeypot files</div>
+        <div style="font-size:10px;color:#333;">④ Reset threat score → 0</div>
+        <div style="font-size:10px;font-weight:bold;color:#1b5e20;margin-top:4px;">RTO: &lt; 30 seconds</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down" style="margin-top:6px;">↓</div>
+
+  <!-- Layer 6 -->
+  <div class="layer" style="border-color:#4a148c;">
+    <div class="layer-num" style="background:#f3e5f5;color:#4a148c;">LAYER 6<br>Interface</div>
+    <div class="layer-name" style="border-color:#4a148c;color:#4a148c;background:#f9f0ff;">React Dashboard</div>
+    <div class="layer-content">
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">Live Threat Score</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">OT Asset Status</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">ML Prediction</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">AI Chatbot</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">Backup Snapshots</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">Quarantine</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">System Logs</span>
+      <span class="tag" style="background:#f3e5f5;border-color:#4a148c;color:#4a148c;">Role-Based Access</span>
+    </div>
+  </div>
+
+  <!-- Tech stack bar -->
+  <div style="margin-top:16px;padding:10px 14px;background:#f5f5f5;border-radius:6px;border:1px solid #ddd;display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+    <span style="font-size:10px;font-weight:bold;color:#333;">Tech Stack:</span>
+    <span style="font-size:10px;color:#555;">Backend: Python 3.14 · FastAPI · Uvicorn · watchdog · psutil</span>
+    <span style="font-size:10px;color:#555;">Frontend: React 18 · Vite · Tailwind CSS · Recharts</span>
+    <span style="font-size:10px;color:#555;">DB: Supabase (PostgreSQL)</span>
+    <span style="font-size:10px;color:#555;">Auth: PBKDF2-SHA256 · HMAC tokens</span>
+  </div>
+
+  <div class="caption">Fig 1: SentinelShield AI 6-layer system architecture — OT file monitoring through automated recovery to role-based dashboard</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     DIAGRAM 2 — SYSTEM FLOWCHART
+══════════════════════════════════════════════════════════════ -->
+<div class="diagram">
+  <div class="diagram-title">SentinelShield AI — System Flowchart</div>
+
+  <div style="display:flex;gap:24px;">
+
+    <!-- MAIN FLOW (left) -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0;">
+
+      <!-- START -->
+      <div style="background:#0d1b4b;color:white;border-radius:30px;padding:10px 32px;font-size:12px;font-weight:bold;letter-spacing:1px;">START</div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Init -->
+      <div style="width:100%;border:2px solid #37474f;border-radius:8px;padding:10px 14px;background:#f5f5f5;">
+        <div style="font-size:12px;font-weight:bold;color:#37474f;margin-bottom:4px;">System Initialization</div>
+        <div style="font-size:10px;color:#444;line-height:1.6;">Seed OT files · Deploy canary files · Deploy honeypots · Take clean snapshot · Start watchdog observer</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Monitoring -->
+      <div style="width:100%;border:2px solid #1565c0;border-radius:8px;padding:10px 14px;background:#e3f2fd;">
+        <div style="font-size:12px;font-weight:bold;color:#1565c0;margin-bottom:4px;">File System Monitoring Active</div>
+        <div style="font-size:10px;color:#333;">Watchdog observer running · 3-second refresh · All OT assets Online · Score = 0</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Diamond: File event? -->
+      <div style="position:relative;width:220px;height:64px;margin:0 auto;">
+        <svg viewBox="0 0 220 64" width="220" height="64">
+          <polygon points="110,4 216,32 110,60 4,32" fill="#fff8e1" stroke="#f57f17" stroke-width="2"/>
+          <text x="110" y="28" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">File Event</text>
+          <text x="110" y="44" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">Detected?</text>
+        </svg>
+        <!-- NO label left -->
+        <div style="position:absolute;left:-36px;top:22px;font-size:10px;font-weight:bold;color:#2e7d32;">NO</div>
+        <!-- YES label below -->
+        <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:bold;color:#c62828;">YES</div>
+      </div>
+      <!-- NO arrow loops back (shown as text) -->
+      <div style="width:100%;display:flex;align-items:center;margin:4px 0;">
+        <div style="flex:1;border-top:1.5px dashed #2e7d32;margin-right:4px;"></div>
+        <span style="font-size:9px;color:#2e7d32;white-space:nowrap;">← Continue monitoring</span>
+      </div>
+      <div class="fc-arrow" style="color:#c62828;">↓</div>
+
+      <!-- Run engines -->
+      <div style="width:100%;border:2px solid #e65100;border-radius:8px;padding:10px 14px;background:#fff3e0;">
+        <div style="font-size:12px;font-weight:bold;color:#e65100;margin-bottom:6px;">Run Detection Engines</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <div style="font-size:10px;color:#333;background:#fff;border:1px solid #f57f17;border-radius:4px;padding:3px 6px;">Behavioral: 4+ writes/5s → +30</div>
+          <div style="font-size:10px;color:#333;background:#fff;border:1px solid #f57f17;border-radius:4px;padding:3px 6px;">Entropy: H &gt; 7.0 bits → +40</div>
+          <div style="font-size:10px;color:#c62828;background:#fff;border:1px solid #c62828;border-radius:4px;padding:3px 6px;">Canary hit → +100 CRITICAL</div>
+          <div style="font-size:10px;color:#c62828;background:#fff;border:1px solid #c62828;border-radius:4px;padding:3px 6px;">Honeypot read → +100 EXFIL</div>
+        </div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Diamond: Score > 70? -->
+      <div style="position:relative;width:220px;height:64px;margin:0 auto;">
+        <svg viewBox="0 0 220 64" width="220" height="64">
+          <polygon points="110,4 216,32 110,60 4,32" fill="#ffebee" stroke="#b71c1c" stroke-width="2"/>
+          <text x="110" y="28" text-anchor="middle" font-size="11" font-weight="bold" fill="#b71c1c">Threat Score</text>
+          <text x="110" y="44" text-anchor="middle" font-size="11" font-weight="bold" fill="#b71c1c">&gt; 70 pts?</text>
+        </svg>
+        <div style="position:absolute;left:-36px;top:22px;font-size:10px;font-weight:bold;color:#2e7d32;">NO</div>
+        <div style="position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:bold;color:#b71c1c;">YES</div>
+      </div>
+      <div style="width:100%;display:flex;align-items:center;margin:4px 0;">
+        <div style="flex:1;border-top:1.5px dashed #2e7d32;margin-right:4px;"></div>
+        <span style="font-size:9px;color:#2e7d32;white-space:nowrap;">← Continue monitoring</span>
+      </div>
+      <div class="fc-arrow" style="color:#b71c1c;">↓</div>
+
+      <!-- Containment -->
+      <div style="width:100%;border:2px solid #b71c1c;border-radius:8px;padding:10px 14px;background:#ffebee;">
+        <div style="font-size:12px;font-weight:bold;color:#b71c1c;margin-bottom:6px;">⚡ Automated Containment</div>
+        <div style="font-size:10px;color:#333;line-height:1.7;">
+          ① Terminate suspicious process (psutil)<br>
+          ② Lock sandbox → read-only (chmod)<br>
+          ③ Dispatch email alert → Admin (SMTP)<br>
+          ④ OT Assets → COMPROMISED (red)
+        </div>
+        <div style="font-size:10px;font-weight:bold;color:#b71c1c;margin-top:4px;">Time: &lt; 3 seconds</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Recovery -->
+      <div style="width:100%;border:2px solid #1b5e20;border-radius:8px;padding:10px 14px;background:#e8f5e9;">
+        <div style="font-size:12px;font-weight:bold;color:#1b5e20;margin-bottom:6px;">💾 Snapshot Recovery</div>
+        <div style="font-size:10px;color:#333;line-height:1.7;">
+          ① Delete all .locked encrypted files<br>
+          ② Copy clean originals from snapshot<br>
+          ③ Verify file integrity (SHA-256)<br>
+          ④ Redeploy canary + honeypot files
+        </div>
+        <div style="font-size:10px;font-weight:bold;color:#1b5e20;margin-top:4px;">RTO: &lt; 30 seconds</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- Reset -->
+      <div style="width:100%;border:2px solid #1565c0;border-radius:8px;padding:10px 14px;background:#e3f2fd;">
+        <div style="font-size:12px;font-weight:bold;color:#1565c0;margin-bottom:4px;">✅ System Restored</div>
+        <div style="font-size:10px;color:#333;">Score reset → 0 · Status → PROTECTED · OT Assets → Online · Recovery email sent · Resume monitoring</div>
+      </div>
+      <div class="fc-arrow">↓</div>
+
+      <!-- END -->
+      <div style="background:#0d1b4b;color:white;border-radius:30px;padding:10px 32px;font-size:12px;font-weight:bold;letter-spacing:1px;">CONTINUE MONITORING</div>
+
+    </div>
+
+    <!-- PARALLEL PROCESSES (right) -->
+    <div style="width:240px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+
+      <div style="border:2px solid #b71c1c;border-radius:8px;overflow:hidden;">
+        <div style="background:#b71c1c;color:white;padding:8px 12px;font-size:11px;font-weight:bold;">PARALLEL: Exfil Detection</div>
+        <div style="padding:10px 12px;background:#fff5f5;font-size:10px;color:#333;line-height:1.8;">
+          File read detected<br>
+          ↓<br>
+          Honeypot file accessed?<br>
+          → YES: +100 pts · Email alert<br>
+          ↓<br>
+          5+ reads in 10 seconds?<br>
+          → YES: +35 pts · Warning<br>
+          ↓<br>
+          Log to Supabase
+        </div>
+      </div>
+
+      <div style="border:2px solid #4a148c;border-radius:8px;overflow:hidden;">
+        <div style="background:#4a148c;color:white;padding:8px 12px;font-size:11px;font-weight:bold;">PARALLEL: ML Prediction</div>
+        <div style="padding:10px 12px;background:#f9f0ff;font-size:10px;color:#333;line-height:1.8;">
+          Every 3 seconds<br>
+          ↓<br>
+          Compute 5 signals<br>
+          ↓<br>
+          Apply weights (0.25–0.30)<br>
+          ↓<br>
+          P = Σ wᵢ × sᵢ<br>
+          ↓<br>
+          Update gauge + radar<br>
+          ↓<br>
+          Classify family if P &gt; 70%
+        </div>
+      </div>
+
+      <div style="border:2px solid #1b5e20;border-radius:8px;overflow:hidden;">
+        <div style="background:#1b5e20;color:white;padding:8px 12px;font-size:11px;font-weight:bold;">PARALLEL: Auto Snapshot</div>
+        <div style="padding:10px 12px;background:#f0fff4;font-size:10px;color:#333;line-height:1.8;">
+          Every 30 minutes<br>
+          ↓<br>
+          Copy all sandbox files<br>
+          ↓<br>
+          Mark read-only (WORM)<br>
+          ↓<br>
+          Log to Supabase<br>
+          ↓<br>
+          RPO: max 30 minutes
+        </div>
+      </div>
+
+      <div style="border:2px solid #37474f;border-radius:8px;overflow:hidden;">
+        <div style="background:#37474f;color:white;padding:8px 12px;font-size:11px;font-weight:bold;">PARALLEL: Auth Guard</div>
+        <div style="padding:10px 12px;background:#f5f5f5;font-size:10px;color:#333;line-height:1.8;">
+          Login attempt<br>
+          ↓<br>
+          Rate limit: 5/60s per IP<br>
+          ↓<br>
+          PBKDF2-SHA256 verify<br>
+          ↓<br>
+          Unknown email?<br>
+          → Email admin alert<br>
+          ↓<br>
+          Issue HMAC token
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="caption">Fig 2: SentinelShield AI complete system flowchart — main detection/response pipeline with four parallel processes</div>
+</div>
+
+</body>
+</html>

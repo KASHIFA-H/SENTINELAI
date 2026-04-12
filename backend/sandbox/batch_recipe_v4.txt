@@ -1,0 +1,37 @@
+BATCH RECIPE — Product: RX-4400 Series
+NexaCore Industrial   Recipe Version: 4.2
+Approved: 2025-02-10   Approved by: Quality Manager
+=====================================================
+
+RECIPE HEADER
+Product Code:    RX-4421
+Description:     Industrial Polymer Compound Grade A
+Batch Size:      500 kg
+Expected Yield:  497-503 kg (99.4-100.6%)
+
+PHASE 1 — CHARGE (Duration: 45 min)
+Step 1.1: Add Component A to Reactor    200 kg  ± 0.5 kg
+Step 1.2: Add Component B to Reactor    150 kg  ± 0.5 kg
+Step 1.3: Add Catalyst C                  2 kg  ± 0.05 kg
+Step 1.4: Verify total charge weight    352 kg  ± 1.0 kg
+
+PHASE 2 — HEAT UP (Duration: 30 min)
+Step 2.1: Start agitator at 120 RPM
+Step 2.2: Ramp temperature to 75 degC at 2 degC/min
+Step 2.3: Hold at 75 degC ± 2 degC
+
+PHASE 3 — REACTION (Duration: 120 min)
+Step 3.1: Maintain 75 degC ± 2 degC
+Step 3.2: Maintain pressure 140-150 PSI
+Step 3.3: Monitor viscosity every 15 min
+Step 3.4: Reaction complete when viscosity > 850 cP
+
+PHASE 4 — DISCHARGE (Duration: 20 min)
+Step 4.1: Cool to 40 degC
+Step 4.2: Transfer to storage tank via FV-101
+Step 4.3: Record final batch weight
+
+CRITICAL QUALITY PARAMETERS
+Viscosity:    850-950 cP
+pH:           6.8-7.2
+Moisture:     < 0.5%

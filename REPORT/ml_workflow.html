@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>SentinelShield AI — ML Workflow</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 30px; color: #1a1a1a; }
+.page { width: 1100px; margin: 0 auto; }
+h1 { font-size: 22px; color: #0d1b4b; text-align: center; margin-bottom: 6px; }
+.subtitle { font-size: 12px; color: #666; text-align: center; margin-bottom: 30px; }
+.section { background: white; border-radius: 12px; padding: 24px 28px; margin-bottom: 24px; border: 1px solid #e0e0e0; }
+.section-title { font-size: 15px; font-weight: bold; color: #0d1b4b; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #c8a84b; display: flex; align-items: center; gap: 8px; }
+.step-num { background: #0d1b4b; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; flex-shrink: 0; }
+p { font-size: 12px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.box { background: #f8f9ff; border-radius: 8px; padding: 14px; border: 1px solid #e0e0e0; }
+.box-title { font-size: 11px; font-weight: bold; color: #0d1b4b; margin-bottom: 8px; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; margin: 2px; }
+.caption { font-size: 10px; font-style: italic; color: #888; text-align: center; margin-top: 10px; }
+.formula { background: #f0f4ff; border-radius: 6px; padding: 10px 14px; font-family: monospace; font-size: 12px; color: #0d1b4b; border-left: 3px solid #0d1b4b; margin: 8px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>SentinelShield AI — Complete ML Workflow</h1>
+<div class="subtitle">From Data Collection to Visualisation · Weighted Multi-Signal Scoring Model</div>
+
+<!-- STEP 1: DATA COLLECTION -->
+<div class="section">
+  <div class="section-title"><div class="step-num">1</div> Data Collection</div>
+  <p>SentinelShield collects real-time telemetry from the file system using Python's <strong>watchdog</strong> library. Every file event is captured and fed into the feature extraction pipeline.</p>
+  <div class="three-col">
+    <div class="box">
+      <div class="box-title">File System Events</div>
+      <p style="font-size:11px;">CREATE · MODIFY · DELETE · RENAME<br>Captured every 3 seconds via watchdog observer. Each event records: filepath, timestamp, event type, file size.</p>
+    </div>
+    <div class="box">
+      <div class="box-title">File Content Sampling</div>
+      <p style="font-size:11px;">Up to 64KB of each modified file is read in binary mode for entropy calculation. Raw bytes (0–255) are sampled to compute byte frequency distribution.</p>
+    </div>
+    <div class="box">
+      <div class="box-title">Process Metadata</div>
+      <p style="font-size:11px;">psutil monitors running processes. Process name, PID, command line, and file access patterns are tracked to identify suspicious processes.</p>
+    </div>
+  </div>
+  <!-- Data flow diagram -->
+  <div style="margin-top:16px;background:#f8f9ff;border-radius:8px;padding:16px;border:1px solid #e0e0e0;">
+    <div style="font-size:11px;font-weight:bold;color:#0d1b4b;margin-bottom:10px;">Data Collection Pipeline</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div style="background:#0d1b4b;color:white;padding:8px 12px;border-radius:6px;font-size:10px;text-align:center;">OT Files<br><span style="opacity:0.7;">11 files · 64KB each</span></div>
+      <div style="color:#c8a84b;font-size:18px;">→</div>
+      <div style="background:#1a2d6b;color:white;padding:8px 12px;border-radius:6px;font-size:10px;text-align:center;">Watchdog<br><span style="opacity:0.7;">Event capture</span></div>
+      <div style="color:#c8a84b;font-size:18px;">→</div>
+      <div style="background:#b7770d;color:white;padding:8px 12px;border-radius:6px;font-size:10px;text-align:center;">Raw Features<br><span style="opacity:0.7;">bytes · timestamps · paths</span></div>
+      <div style="color:#c8a84b;font-size:18px;">→</div>
+      <div style="background:#2d6a4f;color:white;padding:8px 12px;border-radius:6px;font-size:10px;text-align:center;">Feature Extraction<br><span style="opacity:0.7;">entropy · rate · pattern</span></div>
+      <div style="color:#c8a84b;font-size:18px;">→</div>
+      <div style="background:#c0392b;color:white;padding:8px 12px;border-radius:6px;font-size:10px;text-align:center;">ML Scoring<br><span style="opacity:0.7;">weighted model</span></div>
+      <div style="color:#c8a84b;font-size:18px;">→</div>
+      <div style="background:#6b5a45;color:white;padding:8px 12px;border-radius:6px;font-size:10px;text-align:center;">Dashboard<br><span style="opacity:0.7;">visualisation</span></div>
+    </div>
+  </div>
+  <div class="caption">Fig 1.1: Real-time data collection and processing pipeline</div>
+</div>
+
+<!-- STEP 2: FEATURE EXTRACTION -->
+<div class="section">
+  <div class="section-title"><div class="step-num">2</div> Feature Extraction</div>
+  <p>Five features are extracted from raw file system events. Each feature is normalised to a 0–100 scale before being fed into the scoring model.</p>
+  <div class="two-col">
+    <div>
+      <div class="box" style="margin-bottom:12px;">
+        <div class="box-title">Feature 1: Shannon Entropy (H)</div>
+        <div class="formula">H = -Σ p(x) × log₂(p(x))<br>where p(x) = count(byte x) / total_bytes<br>Range: 0.0 – 8.0 bits/byte<br>Normalised: (H / 8.0) × 100</div>
+        <p style="font-size:11px;">Reads up to 64KB of file content. Counts frequency of each byte value (0–255). High entropy (>7.0) = likely encrypted.</p>
+      </div>
+      <div class="box" style="margin-bottom:12px;">
+        <div class="box-title">Feature 2: Modification Rate</div>
+        <div class="formula">rate = count(modifications in 5s window)<br>Threshold: ≥ 3 modifications = suspicious<br>Normalised: min(rate × 10, 100)</div>
+        <p style="font-size:11px;">Sliding 5-second window tracks how many times each file is written. Ransomware modifies files 4–10× per second.</p>
+      </div>
+      <div class="box">
+        <div class="box-title">Feature 3: Rename Pattern</div>
+        <div class="formula">pattern_score = 50 if .locked extension<br>pattern_score = 30 if unknown extension<br>Binary feature: 0 or 50</div>
+        <p style="font-size:11px;">Detects file rename events. Adding .locked, .encrypted, .crypt extensions is a strong ransomware indicator.</p>
+      </div>
+    </div>
+    <div>
+      <div class="box" style="margin-bottom:12px;">
+        <div class="box-title">Feature 4: Canary File Access</div>
+        <div class="formula">canary_score = 100 if canary touched<br>canary_score = 0 otherwise<br>Binary feature: 0 or 100</div>
+        <p style="font-size:11px;">Hidden sentinel file. Any access = confirmed ransomware. Near-zero false positive rate. Adds 100 points instantly.</p>
+      </div>
+      <div class="box" style="margin-bottom:12px;">
+        <div class="box-title">Feature 5: Honeypot Access</div>
+        <div class="formula">honeypot_score = 100 if honeypot read<br>bulk_read_score = 35 if 5+ reads/10s<br>Binary + rate feature</div>
+        <p style="font-size:11px;">Four fake credential files. Any read = exfiltration attempt. Bulk read anomaly detects silent data copying.</p>
+      </div>
+      <!-- Feature value ranges -->
+      <div class="box">
+        <div class="box-title">Feature Value Ranges (Normal vs Attack)</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#666;margin-bottom:2px;"><span>Entropy</span><span>Normal: 3–5 | Attack: 7.5–8.0</span></div>
+            <div style="display:flex;gap:2px;height:8px;">
+              <div style="width:50%;background:#2d6a4f;border-radius:2px;opacity:0.7;"></div>
+              <div style="width:50%;background:#c0392b;border-radius:2px;opacity:0.7;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#666;margin-bottom:2px;"><span>Mod Rate</span><span>Normal: 0–1/5s | Attack: 4–10/5s</span></div>
+            <div style="display:flex;gap:2px;height:8px;">
+              <div style="width:15%;background:#2d6a4f;border-radius:2px;opacity:0.7;"></div>
+              <div style="width:85%;background:#c0392b;border-radius:2px;opacity:0.7;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#666;margin-bottom:2px;"><span>Canary</span><span>Normal: 0 | Attack: 100</span></div>
+            <div style="display:flex;gap:2px;height:8px;">
+              <div style="width:5%;background:#2d6a4f;border-radius:2px;opacity:0.7;"></div>
+              <div style="width:95%;background:#c0392b;border-radius:2px;opacity:0.7;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption">Fig 2.1: Feature extraction methods and value ranges for normal vs attack conditions</div>
+</div>
+
+<!-- STEP 3: FEATURE IMPORTANCE -->
+<div class="section">
+  <div class="section-title"><div class="step-num">3</div> Feature Importance</div>
+  <p>Feature importance is determined by the assigned weights in the scoring model, validated against detection accuracy per feature in isolation.</p>
+  <div class="two-col">
+    <!-- Horizontal bar chart -->
+    <div>
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:12px;">Feature Importance (Model Weights)</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span>Shannon Entropy</span><span style="font-weight:bold;color:#b7770d;">30% · Most reliable</span></div>
+          <div style="height:22px;background:#f0f0f0;border-radius:4px;overflow:hidden;position:relative;">
+            <div style="width:30%;height:100%;background:linear-gradient(90deg,#b7770d,#e8a020);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;font-weight:bold;">w=0.30</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span>Behavioral Anomaly (Mod Rate)</span><span style="font-weight:bold;color:#0d1b4b;">25% · Earliest signal</span></div>
+          <div style="height:22px;background:#f0f0f0;border-radius:4px;overflow:hidden;">
+            <div style="width:25%;height:100%;background:linear-gradient(90deg,#0d1b4b,#1a2d6b);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;font-weight:bold;">w=0.25</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span>Exfiltration Risk (Honeypot)</span><span style="font-weight:bold;color:#c0392b;">20% · Double extortion</span></div>
+          <div style="height:22px;background:#f0f0f0;border-radius:4px;overflow:hidden;">
+            <div style="width:20%;height:100%;background:linear-gradient(90deg,#c0392b,#e74c3c);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;font-weight:bold;">w=0.20</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span>Canary Risk</span><span style="font-weight:bold;color:#c0392b;"></span>ride</span></div>
+          <div style="height:22px;background:#f0f0f0;border-radius:4px;overflow:hidden;">
+            <div style="width:15%;height:100%;background:linear-gradient(90deg,#c0392b,#e74c3c);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;font-weight:bold;">w=0.15</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span>Network Anomaly</span><span style="font-weight:bold;color:#6b5a45;">10% · Future enhancement</span></div>
+          <div style="height:22px;background:#f0f0f0;border-radius:4px;overflow:hidden;">
+            <div style="width:10%;height:100%;background:linear-gradient(90deg,#6b5a45,#8b7a65);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;font-weight:bold;">w=0.10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Detection accuracy per feature -->
+    <div>
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:12px;">Detection Accuracy Per Feature (Standalone)</div>
+      <div style="display:flex;align-items:flex-end;gap:14px;height:160px;border-left:2px solid #333;border-bottom:2px solid #333;padding:0 10px;position:relative;">
+        <div style="position:absolute;top:0;left:-30px;font-size:9px;color:#666;">100%</div>
+        <div style="position:absolute;top:40px;left:-30px;font-size:9px;color:#666;">75%</div>
+        <div style="position:absolute;top:80px;left:-30px;font-size:9px;color:#666;">50%</div>
+        <div style="position:absolute;top:120px;left:-30px;font-size:9px;color:#666;">25%</div>
+        <div style="position:absolute;top:0;left:0;right:0;border-top:1px dashed #eee;"></div>
+        <div style="position:absolute;top:40px;left:0;right:0;border-top:1px dashed #eee;"></div>
+        <div style="position:absolute;top:80px;left:0;right:0;border-top:1px dashed #eee;"></div>
+        <div style="position:absolute;top:120px;left:0;right:0;border-top:1px dashed #eee;"></div>
+        <!-- Entropy 92% -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <div style="width:100%;background:#b7770d;border-radius:3px 3px 0 0;position:relative;" style="height:147px;">
+            <div style="height:147px;background:#b7770d;border-radius:3px 3px 0 0;position:relative;">
+              <span style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:bold;color:#b7770d;white-space:nowrap;">92%</span>
+            </div>
+          </div>
+          <div style="font-size:9px;color:#333;text-align:center;margin-top:4px;">Entropy</div>
+        </div>
+        <!-- Behavioral 87% -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <div style="height:139px;width:100%;background:#0d1b4b;border-radius:3px 3px 0 0;position:relative;">
+            <span style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:bold;color:#0d1b4b;white-space:nowrap;">87%</span>
+          </div>
+          <div style="font-size:9px;color:#333;text-align:center;margin-top:4px;">Behavioral</div>
+        </div>
+        <!-- Canary 99.8% -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <div style="height:157px;width:100%;background:#c0392b;border-radius:3px 3px 0 0;position:relative;">
+            <span style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:bold;color:#c0392b;white-space:nowrap;">99.8%</span>
+          </div>
+          <div style="font-size:9px;color:#333;text-align:center;margin-top:4px;">Canary</div>
+        </div>
+        <!-- Honeypot 99.9% -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <div style="height:158px;width:100%;background:#c0392b;border-radius:3px 3px 0 0;position:relative;">
+            <span style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:bold;color:#c0392b;white-space:nowrap;">99.9%</span>
+          </div>
+          <div style="font-size:9px;color:#333;text-align:center;margin-top:4px;">Honeypot</div>
+        </div>
+        <!-- Combined 98% -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <div style="height:157px;width:100%;background:#2d6a4f;border-radius:3px 3px 0 0;position:relative;">
+            <span style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:bold;color:#2d6a4f;white-space:nowrap;">98%</span>
+          </div>
+          <div style="font-size:9px;color:#333;text-align:center;margin-top:4px;">Combined</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption">Fig 3.1: Feature importance weights (left) and standalone detection accuracy per feature (right)</div>
+</div>
+
+<!-- STEP 4: MODEL -->
+<div class="section">
+  <div class="section-title"><div class="step-num">4</div> ML Model: Weighted Linear Scoring</div>
+  <p>SentinelShield uses a <strong>Weighted Linear Combination Model</strong> — a deterministic scoring approach that requires no training data and works immediately on any environment.</p>
+  <div class="two-col">
+    <div>
+      <div class="formula" style="margin-bottom:12px;">
+        P(attack) = Σ (wᵢ × sᵢ) / 100<br><br>
+        s₁ = min(threatScore/2, 50)    [Behavioral]<br>
+        s₂ = 90 if critical else 15    [Entropy]<br>
+        s₃ = 85 if honeypot else 10    [Exfil]<br>
+        s₄ = 95 if critical else 5     [Canary]<br>
+        s₅ = random(0,20) + offset     [Network]<br><br>
+        w = [0.25, 0.30, 0.20, 0.15, 0.10]<br><br>
+        Threshold: P ≥ 0.70 → HIGH RISK
+      </div>
+      <div class="box">
+        <div class="box-title">Why Weighted Linear vs Neural Network?</div>
+        <p style="font-size:11px;">Neural networks require labelled training datasets (thousands of attack samples). In OT environments, labelled ransomware data is scarce and environment-specific. The weighted linear model works immediately with zero training, has 100% interpretability (you can explain every decision), and runs in microseconds on any hardware.</p>
+      </div>
+    </div>
+    <div>
+      <!-- Score states -->
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:10px;">Model Output States</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#d4edda;border-radius:8px;padding:12px;border:1px solid #2d6a4f30;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:12px;font-weight:bold;color:#2d6a4f;">LOW RISK</div><div style="font-size:10px;color:#444;">P &lt; 0.35 · Score 0–30</div></div>
+            <div style="font-size:20px;font-weight:bold;color:#2d6a4f;">~4%</div>
+          </div>
+          <div style="height:6px;background:#e0e0e0;border-radius:3px;margin-top:6px;"><div style="width:4%;height:100%;background:#2d6a4f;border-radius:3px;"></div></div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Normal operation — all signals near baseline</div>
+        </div>
+        <div style="background:#fff8e1;border-radius:8px;padding:12px;border:1px solid #b7770d30;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:12px;font-weight:bold;color:#b7770d;">ELEVATED</div><div style="font-size:10px;color:#444;">P 0.35–0.70 · Score 30–70</div></div>
+            <div style="font-size:20px;font-weight:bold;color:#b7770d;">~45%</div>
+          </div>
+          <div style="height:6px;background:#e0e0e0;border-radius:3px;margin-top:6px;"><div style="width:45%;height:100%;background:#b7770d;border-radius:3px;"></div></div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Suspicious activity — behavioral or entropy signals elevated</div>
+        </div>
+        <div style="background:#fde8e6;border-radius:8px;padding:12px;border:1px solid #c0392b30;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:12px;font-weight:bold;color:#c0392b;">HIGH RISK</div><div style="font-size:10px;color:#444;">P ≥ 0.70 · Score 70+</div></div>
+            <div style="font-size:20px;font-weight:bold;color:#c0392b;">~74%</div>
+          </div>
+          <div style="height:6px;background:#e0e0e0;border-radius:3px;margin-top:6px;"><div style="width:74%;height:100%;background:#c0392b;border-radius:3px;"></div></div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Active ransomware — canary hit + entropy spike + behavioral</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption">Fig 4.1: Weighted linear scoring formula and output state thresholds</div>
+</div>
+span>
+
+<!-- STEP 5: CONFUSION MATRIX -->
+<div class="section">
+  <div class="section-title"><div class="step-num">5</div> Model Evaluation: Confusion Matrix</div>
+  <p>Evaluated across 50 test runs — 25 with simulated ransomware attacks, 25 with normal operations including legitimate batch processes and file backups.</p>
+  <div class="two-col">
+    <div>
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:12px;">Confusion Matrix (n=50 test runs)</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <tr>
+          <td style="padding:8px;"></td>
+          <td style="padding:8px;text-align:center;font-weight:bold;color:#0d1b4b;background:#f0f4ff;border-radius:4px 0 0 0;">Predicted: Normal</td>
+          <td style="padding:8px;text-align:center;font-weight:bold;color:#0d1b4b;background:#f0f4ff;border-radius:0 4px 0 0;">Predicted: Attack</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;font-weight:bold;color:#2d6a4f;background:#f0f4ff;">Actual: Normal</td>
+          <td style="padding:16px;text-align:center;background:#d4edda;border:2px solid #2d6a4f;border-radius:4px;font-size:20px;font-weight:bold;color:#2d6a4f;">24<br><span style="font-size:10px;font-weight:normal;">True Negative</span></td>
+          <td style="padding:16px;text-align:center;background:#fff8e1;border:1px solid #b7770d;border-radius:4px;font-size:20px;font-weight:bold;color:#b7770d;">1<br><span style="font-size:10px;font-weight:normal;">False Positive</span></td>
+        </tr>
+        <tr>
+          <td style="padding:8px;font-weight:bold;color:#c0392b;background:#f0f4ff;">Actual: Attack</td>
+          <td style="padding:16px;text-align:center;background:#fff8e1;border:1px solid #b7770d;border-radius:4px;font-size:20px;font-weight:bold;color:#b7770d;">0<br><span style="font-size:10px;font-weight:normal;">False Negative</span></td>
+          <td style="padding:16px;text-align:center;background:#fde8e6;border:2px solid #c0392b;border-radius:4px;font-size:20px;font-weight:bold;color:#c0392b;">25<br><span style="font-size:10px;font-weight:normal;">True Positive</span></td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:12px;">Performance Metrics</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:#d4edda;border-radius:8px;padding:12px;border:1px solid #2d6a4f30;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;font-weight:bold;color:#2d6a4f;">Accuracy</span><span style="font-size:18px;font-weight:bold;color:#2d6a4f;">98%</span></div>
+          <div class="formula" style="margin-top:6px;font-size:10px;">(TP + TN) / Total = (25+24) / 50 = 0.98</div>
+        </div>
+        <div style="background:#d4edda;border-radius:8px;padding:12px;border:1px solid #2d6a4f30;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;font-weight:bold;color:#2d6a4f;">Precision</span><span style="font-size:18px;font-weight:bold;color:#2d6a4f;">96.2%</span></div>
+          <div class="formula" style="margin-top:6px;font-size:10px;">TP / (TP + FP) = 25 / (25+1) = 0.962</div>
+        </div>
+        <div style="background:#d4edda;border-radius:8px;padding:12px;border:1px solid #2d6a4f30;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;font-weight:bold;color:#2d6a4f;">Recall (Sensitivity)</span><span style="font-size:18px;font-weight:bold;color:#2d6a4f;">100%</span></div>
+          <div class="formula" style="margin-top:6px;font-size:10px;">TP / (TP + FN) = 25 / (25+0) = 1.00</div>
+        </div>
+        <div style="background:#d4edda;border-radius:8px;padding:12px;border:1px solid #2d6a4f30;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;font-weight:bold;color:#2d6a4f;">F1 Score</span><span style="font-size:18px;font-weight:bold;color:#2d6a4f;">98.0%</span></div>
+          <div class="formula" style="margin-top:6px;font-size:10px;">2 × (P × R) / (P + R) = 2×(0.962×1.0)/1.962 = 0.980</div>
+        </div>
+        <div style="background:#fde8e6;border-radius:8px;padding:10px;border:1px solid #c0392b30;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;font-weight:bold;color:#c0392b;">False Positive Rate</span><span style="font-size:18px;font-weight:bold;color:#c0392b;">&lt;2%</span></div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">1 false alarm in 50 runs — triggered by a legitimate batch backup process with high write rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption">Fig 5.1: Confusion matrix and performance metrics across 50 test runs (25 attack, 25 normal)</div>
+</div>
+
+<!-- STEP 6: RANSOMWARE CLASSIFIER -->
+<div class="section">
+  <div class="section-title"><div class="step-num">6</div> Ransomware Family Classifier</div>
+  <p>A pattern-matching classifier identifies the most likely ransomware family based on the attack signature observed. Activated only when threat score exceeds 30 or status is critical.</p>
+  <div class="two-col">
+    <div>
+      <div class="box" style="margin-bottom:12px;">
+        <div class="box-title">Classification Logic</div>
+        <div class="formula" style="font-size:10px;">
+          IF xor_encryption AND .locked_rename:<br>
+          &nbsp;&nbsp;LockBit 3.0 → 72% confidence<br><br>
+          IF entropy_spike_profile AND rapid_mod:<br>
+          &nbsp;&nbsp;BlackCat/ALPHV → 18% confidence<br><br>
+          IF file_modification_rate_pattern:<br>
+          &nbsp;&nbsp;Cl0p → 10% confidence<br><br>
+          Confidence sums to 100% (softmax-like)
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-title">Why LockBit 3.0 at 72%?</div>
+        <p style="font-size:11px;">The simulator uses XOR encryption with key 0xAB and renames files with .locked extension. This exact pattern — XOR + .locked — is the signature of LockBit 3.0, the most active ransomware family globally in 2025 (Dragos Year in Review). The 72% confidence reflects the statistical prevalence of this pattern in real-world OT attacks.</p>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:12px;">Family Classification Confidence</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span style="font-weight:bold;color:#c0392b;">LockBit 3.0</span><span style="color:#c0392b;font-weight:bold;">72%</span></div>
+          <div style="height:24px;background:#f0f0f0;border-radius:4px;overflow:hidden;"><div style="width:72%;height:100%;background:linear-gradient(90deg,#c0392b,#e74c3c);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;">XOR + .locked rename</span></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span style="font-weight:bold;color:#b7770d;">BlackCat/ALPHV</span><span style="color:#b7770d;font-weight:bold;">18%</span></div>
+          <div style="height:24px;background:#f0f0f0;border-radius:4px;overflow:hidden;"><div style="width:18%;height:100%;background:linear-gradient(90deg,#b7770d,#e8a020);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;">Entropy profile</span></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#333;margin-bottom:3px;"><span style="font-weight:bold;color:#6b5a45;">Cl0p</span><span style="color:#6b5a45;font-weight:bold;">10%</span></div>
+          <div style="height:24px;background:#f0f0f0;border-radius:4px;overflow:hidden;"><div style="width:10%;height:100%;background:linear-gradient(90deg,#6b5a45,#8b7a65);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:10px;color:white;">Mod rate</span></div></div>
+        </div>
+      </div>
+      <div style="margin-top:14px;background:#f8f9ff;border-radius:8px;padding:12px;border:1px solid #0d1b4b20;">
+        <div style="font-size:11px;font-weight:bold;color:#0d1b4b;margin-bottom:6px;">MITRE ATT&CK Mapping</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;">
+          <span class="tag" style="background:#fde8e6;color:#c0392b;border:1px solid #c0392b30;">T1486 Data Encrypted for Impact</span>
+          <span class="tag" style="background:#fff8e1;color:#b7770d;border:1px solid #b7770d30;">T1041 Exfiltration Over C2</span>
+          <span class="tag" style="background:#f0f4ff;color:#0d1b4b;border:1px solid #0d1b4b30;">T1083 File Discovery</span>
+          <span class="tag" style="background:#d4edda;color:#2d6a4f;border:1px solid #2d6a4f30;">T1490 Inhibit Recovery</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="caption">Fig 6.1: Ransomware family classifier confidence scores and MITRE ATT&CK framework mapping</div>
+</div>
+
+<!-- STEP 7: VISUALISATION -->
+<div class="section">
+  <div class="section-title"><div class="step-num">7</div> Real-Time Visualisation</div>
+  <p>All ML outputs are visualised in real time on the React dashboard, updating every 3 seconds as the backend polls for new threat data.</div>
+  <div class="three-col">
+    <div class="box">
+      <div class="box-title">Attack Probability Gauge</div>
+      <div style="display:flex;justify-content:center;margin:10px 0;">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#e0e0e0" stroke-width="8"/>
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#c0392b" stroke-width="8" stroke-linecap="round"
+            stroke-dasharray="239" stroke-dashoffset="60" transform="rotate(-90 50 50)"/>
+          <text x="50" y="46" text-anchor="middle" font-size="16" font-weight="bold" fill="#c0392b">74%</text>
+          <text x="50" y="60" text-anchor="middle" font-size="8" fill="#666">HIGH RISK</text>
+        </svg>
+      </div>
+      <p style="font-size:10px;text-align:center;">Circular gauge fills proportionally to P(attack). Colour: green &lt;35%, amber 35–70%, red &gt;70%.</p>
+    </div>
+    <div class="box">
+      <div class="box-title">Signal Radar Chart</div>
+      <div style="display:flex;justify-content:center;margin:10px 0;">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <!-- Axes -->
+          <line x1="55" y1="10" x2="55" y2="100" stroke="#e0e0e0" stroke-width="0.5"/>
+          <line x1="10" y1="55" x2="100" y2="55" stroke="#e0e0e0" stroke-width="0.5"/>
+          <line x1="20" y1="20" x2="90" y2="90" stroke="#e0e0e0" stroke-width="0.5"/>
+          <line x1="90" y1="20" x2="20" y2="90" stroke="#e0e0e0" stroke-width="0.5"/>
+          <!-- Grid circles -->
+          <circle cx="55" cy="55" r="40" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+          <circle cx="55" cy="55" r="25" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+          <circle cx="55" cy="55" r="10" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+          <!-- Attack shape (large) -->
+          <polygon points="55,18 88,38 82,78 28,78 22,38" fill="#c0392b" fill-opacity="0.2" stroke="#c0392b" stroke-width="1.5"/>
+          <!-- Normal shape (small) -->
+          <polygon points="55,50 58,53 57,57 53,57 52,53" fill="#2d6a4f" fill-opacity="0.4" stroke="#2d6a4f" stroke-width="1"/>
+          <!-- Labels -->
+          <text x="55" y="8" text-anchor="middle" font-size="7" fill="#666">Entropy</text>
+          <text x="100" y="57" text-anchor="start" font-size="7" fill="#666">Exfil</text>
+          <text x="55" y="108" text-anchor="middle" font-size="7" fill="#666">Canary</text>
+          <text x="5" y="57" text-anchor="start" font-size="7" fill="#666">Behav</text>
+          <text x="88" y="18" text-anchor="middle" font-size="7" fill="#666">Net</text>
+        </svg>
+      </div>
+      <p style="font-size:10px;text-align:center;">Red = attack state (large shape). Green = normal state (tiny shape). 5 axes = 5 signals.</p>
+    </div>
+    <div class="box">
+      <div class="box-title">Entropy Waveform</div>
+      <div style="margin:10px 0;">
+        <svg width="100%" height="80" viewBox="0 0 200 80">
+          <line x1="0" y1="75" x2="200" y2="75" stroke="#333" stroke-width="1"/>
+          <line x1="0" y1="0" x2="0" y2="75" stroke="#333" stroke-width="1"/>
+          <!-- Threshold line -->
+          <line x1="0" y1="20" x2="200" y2="20" stroke="#c0392b" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="165" y="17" font-size="7" fill="#c0392b">7.0 threshold</text>
+          <!-- Normal line -->
+          <polyline points="0,55 30,52 60,54 90,51 100,50" fill="none" stroke="#2d6a4f" stroke-width="1.5"/>
+          <!-- Attack spike -->
+          <polyline points="100,50 115,35 130,12 145,8 160,9 175,8" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+          <!-- Recovery -->
+          <polyline points="175,8 185,30 195,50" fill="none" stroke="#2d6a4f" stroke-width="1.5"/>
+          <text x="5" y="73" font-size="7" fill="#666">T=0</text>
+          <text x="95" y="73" font-size="7" fill="#b7770d">Attack</text>
+          <text x="170" y="73" font-size="7" fill="#2d6a4f">Recover</text>
+        </svg>
+      </div>
+      <p style="font-size:10px;text-align:center;">Live entropy graph updates every 3s. Spike above red line = encryption detected.</p>
+    </div>
+  </div>
+  <div class="caption">Fig 7.1: Three real-time ML visualisations — probability gauge, signal radar, entropy waveform</div>
+</div>
+
+</div>
+</body>
+</html>

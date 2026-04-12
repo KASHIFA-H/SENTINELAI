@@ -1,0 +1,32 @@
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%
+Model: RandomForest v3.2
+Features: entropy, mod_rate, rename_pattern, process_count
+Accuracy: 97.4%
+False Positive Rate: 0.8%

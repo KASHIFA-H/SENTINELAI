@@ -1,0 +1,40 @@
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A
+GDPR: ✓
+ISO 27001: ✓
+SOC 2: In Progress
+HIPAA: N/A

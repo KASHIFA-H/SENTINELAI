@@ -9,9 +9,9 @@ const tips = [
 ]
 
 const levelStyle = {
-  tip:       { color: '#C2A68D', bg: '#F5F5DC',  border: '#D1BFA2' },
-  important: { color: '#2d6a4f', bg: '#d4edda',  border: '#a8d5b5' },
-  warning:   { color: '#b7770d', bg: '#fef3cd',  border: '#fde68a' },
+  tip:       { color: '#C2A68D', bg: '#F5F5DC', border: '#D1BFA2' },
+  important: { color: '#2d6a4f', bg: '#d4edda', border: '#a8d5b5' },
+  warning:   { color: '#b7770d', bg: '#fef3cd', border: '#fde68a' },
 }
 
 export default function HumanDefensePanel() {
@@ -25,11 +25,8 @@ export default function HumanDefensePanel() {
         {tips.map((t, i) => {
           const s = levelStyle[t.level]
           return (
-            <div
-              key={i}
-              className="flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all hover:scale-[1.01]"
-              style={{ background: s.bg, border: `1px solid ${s.border}`, borderLeft: `3px solid ${s.color}` }}
-            >
+            <div key={i} className="flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all hover:scale-[1.01]"
+              style={{ background: s.bg, border: `1px solid ${s.border}`, borderLeft: `3px solid ${s.color}` }}>
               <t.icon size={15} style={{ color: s.color }} className="mt-0.5 shrink-0" />
               <p className="text-sm leading-relaxed" style={{ color: '#3d3020' }}>{t.text}</p>
             </div>

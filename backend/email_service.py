@@ -13,9 +13,7 @@ from datetime import datetime
 
 SMTP_HOST     = "smtp.gmail.com"
 SMTP_PORT     = 587
-SENDER_EMAIL  = "sahackathon123@gmail.com"
-SENDER_PASS   = "aiihsjzdoewunpjo"   # App password (spaces removed)
-ADMIN_EMAIL   = "sahackathon123@gmail.com"
+from config import SMTP_SENDER_EMAIL as SENDER_EMAIL, SMTP_SENDER_PASS as SENDER_PASS, ADMIN_EMAIL
 
 def _send(to: list, subject: str, html: str):
     """Send email in a background thread so it never blocks the API."""

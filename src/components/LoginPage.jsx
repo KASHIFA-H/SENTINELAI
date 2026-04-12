@@ -1,6 +1,29 @@
 import { useState } from 'react'
-import { Shield, Eye, EyeOff, Lock, Mail, AlertTriangle, Loader } from 'lucide-react'
-import { api } from '../lib/api'
+import { Eye, EyeOff, Lock, Mail, AlertTriangle, Loader, Shield } from 'lucide-react'
+import { api, setToken } from '../lib/api'
+
+function LogoMark({ size = 64 }) {
+  return (
+    <svg width={size} height={size * 90 / 80} viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 4 L74 18 L74 52 C74 68 58 80 40 86 C22 80 6 68 6 52 L6 18 Z" fill="#1a3a5c" />
+      <path d="M40 10 L68 22 L68 52 C68 65 54 76 40 81 C26 76 12 65 12 52 L12 22 Z" fill="#1e4976" />
+      <line x1="20" y1="35" x2="28" y2="35" stroke="#00c8e0" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="52" y1="55" x2="60" y2="55" stroke="#00c8e0" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="28" y1="35" x2="28" y2="28" stroke="#00c8e0" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="52" y1="55" x2="52" y2="62" stroke="#00c8e0" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="20" cy="35" r="2" fill="#00c8e0" />
+      <circle cx="60" cy="55" r="2" fill="#00c8e0" />
+      <circle cx="28" cy="28" r="1.5" fill="#00c8e0" opacity="0.7" />
+      <circle cx="52" cy="62" r="1.5" fill="#00c8e0" opacity="0.7" />
+      <path d="M50 30 C50 30 46 27 41 28 C36 29 33 32 33 35 C33 38 35 40 39 41 L43 42 C47 43 49 45 49 48 C49 51 46 54 41 55 C36 56 33 53 33 53"
+        stroke="#e8eef4" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+      <path d="M50 30 C50 30 46 27 41 28 C36 29 33 32 33 35"
+        stroke="#a0b8cc" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6" />
+      <circle cx="58" cy="22" r="4" fill="#00c8e0" opacity="0.9" />
+      <circle cx="58" cy="22" r="2" fill="#ffffff" opacity="0.8" />
+    </svg>
+  )
+}
 
 export default function LoginPage({ onLogin }) {
   const [email, setEmail]       = useState('')
@@ -13,16 +36,16 @@ export default function LoginPage({ onLogin }) {
     e.preventDefault()
     setError('')
     setLoading(true)
-
     const timeout = new Promise(r => setTimeout(() => r(null), 8000))
-    const res = await Promise.race([
-      api.login(email.trim().toLowerCase(), password),
-      timeout
-    ])
-
+    const res = await Promise.race([api.login(email.trim().toLowerCase(), password), timeout])
     if (res === null) {
       setError('Cannot connect to server. Make sure the backend is running.')
     } else if (res?.success && res.user) {
+      if (res.token) setToken(res.token)
+      // Request notification permission on login
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission()
+      }
       await api.setSession(res.user)
       onLogin(res.user)
     } else {
@@ -37,11 +60,12 @@ export default function LoginPage({ onLogin }) {
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
-          <div className="p-4 rounded-2xl mb-4"
-            style={{ background: '#d4edda', border: '1px solid #2d6a4f' }}>
-            <Shield size={32} style={{ color: '#2d6a4f' }} strokeWidth={1.5} />
-          </div>
-          <h1 className="text-2xl font-bold" style={{ color: '#1a1a1a' }}>SentinelShield AI</h1>
+          <LogoMark size={68} />
+          <h1 className="text-2xl font-bold mt-3" style={{ color: '#1a1a1a' }}>
+            <span style={{ color: '#1a3a5c' }}>Sentinel</span><span style={{ color: '#00a8c0' }}>Shield</span>
+            <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded align-middle"
+              style={{ background: '#00a8c0', color: '#fff' }}>AI</span>
+          </h1>
           <p className="text-sm mt-1" style={{ color: '#6b5a45' }}>Ransomware Defense Platform</p>
         </div>
 
@@ -51,8 +75,10 @@ export default function LoginPage({ onLogin }) {
           <p className="text-xs text-center mb-6" style={{ color: '#6b5a45' }}>Sign in with your company credentials</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Email */}
             <div className="relative">
-              <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: '#C2A68D' }} />
+              <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: '#C2A68D' }} />
               <input
                 type="email"
                 value={email}
@@ -67,8 +93,10 @@ export default function LoginPage({ onLogin }) {
               />
             </div>
 
+            {/* Password */}
             <div className="relative">
-              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: '#C2A68D' }} />
+              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: '#C2A68D' }} />
               <input
                 type={showPw ? 'text' : 'password'}
                 value={password}
@@ -85,12 +113,12 @@ export default function LoginPage({ onLogin }) {
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors"
                 style={{ color: '#C2A68D' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#6b5a45'}
-                onMouseLeave={e => e.currentTarget.style.color = '#C2A68D'}
-              >
+                onMouseLeave={e => e.currentTarget.style.color = '#C2A68D'}>
                 {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
             </div>
 
+            {/* Error */}
             {error && (
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
                 style={{ background: '#fde8e6', border: '1px solid #c0392b', color: '#c0392b' }}>
@@ -98,18 +126,19 @@ export default function LoginPage({ onLogin }) {
               </div>
             )}
 
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
               className="w-full py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90 disabled:opacity-50 mt-1"
-              style={{ background: '#C2A68D', border: '1px solid #BFAF8D', color: '#1a1a1a' }}
-            >
+              style={{ background: '#C2A68D', border: '1px solid #BFAF8D', color: '#1a1a1a' }}>
               {loading
                 ? <><Loader size={14} className="animate-spin" /> Authenticating...</>
                 : <><Shield size={14} /> Sign In</>
               }
             </button>
           </form>
+
         </div>
 
         <p className="text-xs mt-6" style={{ color: '#6b5a45' }}>© 2026 SentinelShield Technologies · v2.4.1-beta</p>

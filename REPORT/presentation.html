@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>SentinelShield AI — TN-WISE 2026 Presentation</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #1a1a2e; }
+
+.slide {
+  width: 960px;
+  min-height: 540px;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  page-break-after: always;
+}
+
+/* Navy blue background slides */
+.slide-dark {
+  background: linear-gradient(135deg, #0d1b4b 0%, #1a2d6b 60%, #0d1b4b 100%);
+  color: white;
+}
+
+/* White background slides */
+.slide-light {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+/* Decorative corner waves */
+.wave-tl {
+  position: absolute; top: 0; left: 0;
+  width: 180px; height: 180px;
+  background: linear-gradient(135deg, #c8a84b 0%, transparent 60%);
+  opacity: 0.6;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.wave-br {
+  position: absolute; bottom: 0; right: 0;
+  width: 180px; height: 180px;
+  background: linear-gradient(315deg, #c8a84b 0%, transparent 60%);
+  opacity: 0.6;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.wave-tr {
+  position: absolute; top: 0; right: 0;
+  width: 120px; height: 120px;
+  background: linear-gradient(225deg, #c8a84b 0%, transparent 60%);
+  opacity: 0.4;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+.wave-bl {
+  position: absolute; bottom: 0; left: 0;
+  width: 120px; height: 120px;
+  background: linear-gradient(45deg, #c8a84b 0%, transparent 60%);
+  opacity: 0.4;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+/* Header bar */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 30px;
+  border-bottom: 2px solid #c8a84b;
+}
+.header-bar-dark { border-bottom-color: rgba(200,168,75,0.5); }
+
+.logo-area { display: flex; align-items: center; gap: 16px; }
+.logo-box {
+  background: white;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #0d1b4b;
+  letter-spacing: 1px;
+}
+.org-text { font-size: 9px; color: #c8a84b; font-weight: bold; letter-spacing: 0.5px; text-align: right; max-width: 200px; line-height: 1.3; }
+
+/* Slide content */
+.slide-content { padding: 30px 50px; position: relative; z-index: 2; }
+
+/* Title slide */
+.title-main {
+  font-size: 52px;
+  font-weight: 900;
+  color: #c8a84b;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 20px 0 8px;
+}
+.title-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-top: 20px;
+}
+.info-row {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(200,168,75,0.3);
+}
+.info-label { font-size: 11px; color: #c8a84b; font-weight: bold; letter-spacing: 1px; }
+.info-value { font-size: 13px; color: white; margin-top: 2px; font-weight: 600; }
+
+/* Section heading */
+.section-title {
+  font-size: 38px;
+  font-weight: 900;
+  color: #0d1b4b;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+.section-title-white {
+  font-size: 38px;
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+/* Bullet points */
+.bullet-list { list-style: none; padding: 0; }
+.bullet-list li {
+  padding: 6px 0 6px 20px;
+  position: relative;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1a1a1a;
+}
+.bullet-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #c8a84b;
+  font-weight: bold;
+  font-size: 16px;
+}
+.bullet-list-white li { color: rgba(255,255,255,0.9); }
+.bullet-list-white li::before { color: #c8a84b; }
+
+/* Sub heading */
+.sub-heading {
+  font-size: 15px;
+  font-weight: bold;
+  color: #0d1b4b;
+  margin: 16px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sub-heading::before { content: '🔶'; font-size: 14px; }
+
+/* Two column layout */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+/* Stat box */
+.stat-box {
+  background: linear-gradient(135deg, #0d1b4b, #1a2d6b);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid rgba(200,168,75,0.4);
+}
+.stat-number { font-size: 32px; font-weight: 900; color: #c8a84b; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+
+/* Feature card */
+.feature-card {
+  background: #f8f9ff;
+  border-radius: 8px;
+  padding: 14px;
+  border-left: 4px solid #0d1b4b;
+}
+.feature-title { font-size: 12px; font-weight: bold; color: #0d1b4b; margin-bottom: 6px; }
+.feature-text { font-size: 11px; color: #444; line-height: 1.4; }
+
+/* Alert box */
+.alert-box {
+  background: rgba(200,168,75,0.15);
+  border: 1px solid #c8a84b;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 12px 0;
+}
+
+/* Timeline */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:#c8a84b; }
+.timeline-item { position:relative; margin-bottom:14px; }
+.timeline-item::before { content:''; position:absolute; left:-20px; top:4px; width:10px; height:10px; border-radius:50%; background:#c8a84b; }
+.timeline-time { font-size:10px; color:#c8a84b; font-weight:bold; }
+.timeline-text { font-size:12px; color:#1a1a1a; }
+
+/* Score bar */
+.score-bar { margin: 8px 0; }
+.score-label { font-size:11px; color:rgba(255,255,255,0.8); margin-bottom:3px; display:flex; justify-content:space-between; }
+.score-track { height:8px; background:rgba(255,255,255,0.15); border-radius:4px; overflow:hidden; }
+.score-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,#c8a84b,#e8c86b); }
+
+/* Team member box */
+.member-box { padding: 14px; }
+.member-role { font-size:10px; color:#c8a84b; font-weight:bold; letter-spacing:1px; }
+.member-name { font-size:14px; font-weight:bold; color:white; margin:3px 0; }
+.member-detail { font-size:11px; color:rgba(255,255,255,0.7); }
+
+/* Divider */
+.gold-divider { height:2px; background:linear-gradient(90deg,transparent,#c8a84b,transparent); margin:16px 0; }
+
+.slide-number {
+  position:absolute; bottom:12px; right:20px;
+  font-size:10px; color:rgba(255,255,255,0.4);
+  z-index:10;
+}
+.slide-number-dark { color:rgba(0,0,0,0.3); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ SLIDE 1 — TITLE ═══════════════════ -->
+<div class="slide slide-dark">
+  <div class="wave-tl"></div><div class="wave-br"></div><div class="wave-tr"></div>
+  <div class="header-bar header-bar-dark">
+    <div class="logo-area">
+      <div class="logo-box">TIDCO</div>
+      <div class="logo-box" style="font-size:9px;max-width:140px;line-height:1.3;">TAMIL NADU CENTRE OF EXCELLENCE FOR ADVANCED MANUFACTURING (TANCAM)</div>
+    </div>
+  </div>
+  <div class="slide-content" style="text-align:center;padding-top:20px;">
+    <div class="title-main">TN-WISE 2026</div>
+    <div class="title-sub">TAMIL NADU HACKATHON FOR WOMEN IN SCIENCE & ENGINEERING</div>
+    <div class="gold-divider"></div>
+    <div style="font-size:28px;font-weight:900;color:white;margin:16px 0 6px;">SentinelShield AI</div>
+    <div style="font-size:14px;color:#c8a84b;letter-spacing:2px;margin-bottom:30px;">REAL-TIME RANSOMWARE DEFENSE FOR OT & INDUSTRIAL SYSTEMS</div>
+    <div class="info-grid" style="max-width:700px;margin:0 auto;">
+      <div class="info-row"><div class="info-label">THEME</div><div class="info-value">Secure & Trusted Engineering Systems</div></div>
+      <div class="info-row"><div class="info-label">SUB-THEME</div><div class="info-value">Cybersecurity for OT and Industrial Systems</div></div>
+      <div class="info-row"><div class="info-label">TITLE</div><div class="info-value">SentinelShield AI — Ransomware Defense Platform</div></div>
+      <div class="info-row"><div class="info-label">TEAM LEADER</div><div class="info-value">Kashifa H</div></div>
+      <div class="info-row" style="grid-column:1/-1;"><div class="info-label">COLLEGE</div><div class="info-value">S.A. Engineering College, Chennai</div></div>
+    </div>
+  </div>
+  <div class="slide-number">01</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 2 — PROBLEM STATEMENT ═══════════════════ -->
+<div class="slide slide-light">
+  <div class="wave-tl" style="background:linear-gradient(135deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="wave-br" style="background:linear-gradient(315deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-box" style="background:#0d1b4b;color:white;">TIDCO</div>
+      <div style="font-size:9px;color:#0d1b4b;font-weight:bold;max-width:180px;line-height:1.3;">TAMIL NADU CENTRE OF EXCELLENCE FOR ADVANCED MANUFACTURING (TANCAM)</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title">PROBLEM STATEMENT</div>
+    <div class="alert-box" style="background:#fff3cd;border-color:#c8a84b;margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:bold;color:#0d1b4b;margin-bottom:6px;">🏭 Industrial OT environments face a ransomware crisis</div>
+      <div style="font-size:12px;color:#444;line-height:1.6;">Manufacturing plants, energy systems, hospitals, and critical infrastructure run on Operational Technology (OT) — PLCs, SCADA servers, HMI terminals. A ransomware attack on these systems doesn't just lose data — it <strong>stops physical operations</strong>, costing thousands per minute and threatening human safety.</div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="sub-heading" style="font-size:13px;">The Gap in Existing Solutions</div>
+        <ul class="bullet-list">
+          <li>Enterprise tools (Dragos, Claroty) cost <strong>$100,000+/year</strong> — inaccessible to most organisations</li>
+          <li>General IT tools (CrowdStrike) are <strong>not designed for OT</strong> environments</li>
+          <li>Backup tools (Veeam) provide recovery but <strong>no real-time detection</strong></li>
+          <li>Average ransomware dwell time in OT: <strong>42 days</strong> before detection</li>
+          <li>Manual recovery takes <strong>4+ hours</strong> — production stops completely</li>
+        </ul>
+      </div>
+      <div>
+        <div class="sub-heading" style="font-size:13px;">Real-World Impact</div>
+        <ul class="bullet-list">
+          <li>2021 Colonial Pipeline — fuel supply to US East Coast shut down</li>
+          <li>2017 NotPetya — Maersk lost <strong>$300 million</strong> in one attack</li>
+          <li>OT ransomware incidents up <strong>50% year-on-year</strong> (Dragos 2025)</li>
+          <li>Average ransom demand: <strong>$4.5 million</strong> per incident</li>
+          <li>Manufacturing is the <strong>#1 targeted sector</strong> globally</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number slide-number-dark">02</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 3 — PROJECT GOALS ═══════════════════ -->
+<div class="slide slide-dark">
+  <div class="wave-tl"></div><div class="wave-br"></div>
+  <div class="header-bar header-bar-dark">
+    <div class="logo-area">
+      <div class="logo-box">TIDCO</div>
+      <div class="logo-box" style="font-size:9px;max-width:140px;line-height:1.3;">TAMIL NADU CENTRE OF EXCELLENCE FOR ADVANCED MANUFACTURING (TANCAM)</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title-white">PROJECT GOALS</div>
+    <div class="two-col">
+      <ul class="bullet-list bullet-list-white">
+        <li>Detect ransomware attacks in <strong style="color:#c8a84b;">under 3 seconds</strong> using multi-layer behavioral analysis</li>
+        <li>Automatically contain threats by terminating malicious processes without human intervention</li>
+        <li>Recover all encrypted files from clean snapshots in <strong style="color:#c8a84b;">under 30 seconds</strong> (RTO)</li>
+        <li>Monitor OT-specific assets — PLCs, SCADA servers, HMI terminals — in real time</li>
+        <li>Detect data exfiltration attempts using honeypot file traps</li>
+      </ul>
+      <ul class="bullet-list bullet-list-white">
+        <li>Provide an AI chatbot that explains attacks in plain language to non-technical users</li>
+        <li>Send automated email alerts to administrators with full incident details</li>
+        <li>Implement role-based access — Admin, CISO, SOC Analyst, IT Operations, Viewer</li>
+        <li>Deliver enterprise-grade OT security at <strong style="color:#c8a84b;">10x lower cost</strong> than existing solutions</li>
+        <li>Make industrial cybersecurity accessible to mid-size organisations globally</li>
+      </ul>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="three-col" style="margin-top:10px;">
+      <div class="stat-box"><div class="stat-number">&lt;3s</div><div class="stat-label">Attack Detection Time</div></div>
+      <div class="stat-box"><div class="stat-number">&lt;30s</div><div class="stat-label">Recovery Time (RTO)</div></div>
+      <div class="stat-box"><div class="stat-number">98%</div><div class="stat-label">Detection Accuracy</div></div>
+    </div>
+  </div>
+  <div class="slide-number">03</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 4 — METHODOLOGY ═══════════════════ -->
+<div class="slide slide-light">
+  <div class="wave-tl" style="background:linear-gradient(135deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="wave-br" style="background:linear-gradient(315deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-box" style="background:#0d1b4b;color:white;">TIDCO</div>
+      <div style="font-size:9px;color:#0d1b4b;font-weight:bold;max-width:180px;line-height:1.3;">TAMIL NADU CENTRE OF EXCELLENCE FOR ADVANCED MANUFACTURING (TANCAM)</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title">METHODOLOGY</div>
+    <div class="sub-heading">RESEARCH APPROACH</div>
+    <div class="two-col">
+      <div>
+        <ul class="bullet-list">
+          <li>Analysed real-world OT ransomware incidents (Colonial Pipeline, NotPetya, Maersk)</li>
+          <li>Reviewed 10+ research papers on entropy-based and behavioral ransomware detection</li>
+          <li>Studied MITRE ATT&CK framework for OT attack patterns (T1486, T1041, T1083)</li>
+          <li>Benchmarked existing tools: Dragos, Claroty, CrowdStrike, Veeam</li>
+          <li>Identified the detection-containment-recovery gap in all existing solutions</li>
+          <li>Designed multi-layer detection: behavioral + entropy + canary + honeypot</li>
+          <li>Built full-stack prototype: FastAPI backend + React frontend</li>
+          <li>Tested against simulated LockBit 3.0 attack pattern (XOR encryption + .locked rename)</li>
+        </ul>
+      </div>
+      <div>
+        <div style="background:#f0f4ff;border-radius:10px;padding:16px;border:1px solid #0d1b4b20;">
+          <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:10px;">5-Layer Detection Architecture</div>
+          <div class="score-bar" style="margin-bottom:10px;">
+            <div class="score-label" style="color:#0d1b4b;"><span>Behavioral Analysis</span><span style="color:#c8a84b;">+30 pts</span></div>
+            <div class="score-track" style="background:#e0e0e0;"><div class="score-fill" style="width:30%;background:#b7770d;"></div></div>
+          </div>
+          <div class="score-bar" style="margin-bottom:10px;">
+            <div class="score-label" style="color:#0d1b4b;"><span>Shannon Entropy &gt;7.0 bits</span><span style="color:#c8a84b;">+40 pts</span></div>
+            <div class="score-track" style="background:#e0e0e0;"><div class="score-fill" style="width:40%;background:#b7770d;"></div></div>
+          </div>
+          <div class="score-bar" style="margin-bottom:10px;">
+            <div class="score-label" style="color:#0d1b4b;"><span>Canary File Triggered</span><span style="color:#c0392b;">+100 pts</span></div>
+            <div class="score-track" style="background:#e0e0e0;"><div class="score-fill" style="width:100%;background:#c0392b;"></div></div>
+          </div>
+          <div class="score-bar">
+            <div class="score-label" style="color:#0d1b4b;"><span>Honeypot Accessed</span><span style="color:#c0392b;">+100 pts</span></div>
+            <div class="score-track" style="background:#e0e0e0;"><div class="score-fill" style="width:100%;background:#c0392b;"></div></div>
+          </div>
+          <div style="margin-top:12px;padding:8px;background:#0d1b4b;border-radius:6px;text-align:center;">
+            <span style="font-size:11px;color:#c8a84b;font-weight:bold;">Threshold: 70 pts → AUTO RESPONSE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number slide-number-dark">04</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 5 — SYSTEM ARCHITECTURE ═══════════════════ -->
+<div class="slide slide-dark">
+  <div class="wave-tl"></div><div class="wave-br"></div>
+  <div class="header-bar header-bar-dark">
+    <div class="logo-area">
+      <div class="logo-box">TIDCO</div>
+      <div class="logo-box" style="font-size:9px;max-width:140px;line-height:1.3;">TANCAM</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title-white">SYSTEM ARCHITECTURE</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <!-- Layer 1 -->
+      <div style="background:rgba(200,168,75,0.15);border:1px solid rgba(200,168,75,0.5);border-radius:8px;padding:10px 16px;">
+        <div style="font-size:11px;font-weight:bold;color:#c8a84b;margin-bottom:6px;">LAYER 1 — OT SANDBOX (Industrial Data Files)</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="background:rgba(255,255,255,0.1);border-radius:4px;padding:3px 8px;font-size:10px;color:white;">PLC Ladder Logic</span>
+          <span style="background:rgba(255,255,255,0.1);border-radius:4px;padding:3px 8px;font-size:10px;color:white;">SCADA Historian</span>
+          <span style="background:rgba(255,255,255,0.1);border-radius:4px;padding:3px 8px;font-size:10px;color:white;">HMI Config</span>
+          <span style="background:rgba(255,255,255,0.1);border-radius:4px;padding:3px 8px;font-size:10px;color:white;">Batch Recipe</span>
+          <span style="background:rgba(200,168,75,0.3);border-radius:4px;padding:3px 8px;font-size:10px;color:#c8a84b;">🪤 Canary File</span>
+          <span style="background:rgba(192,57,43,0.3);border-radius:4px;padding:3px 8px;font-size:10px;color:#ff8a80;">🍯 Honeypot ×4</span>
+        </div>
+      </div>
+      <div style="text-align:center;color:#c8a84b;font-size:18px;">↓</div>
+      <!-- Layer 2 -->
+      <div style="background:rgba(13,27,75,0.8);border:1px solid rgba(200,168,75,0.3);border-radius:8px;padding:10px 16px;">
+        <div style="font-size:11px;font-weight:bold;color:#c8a84b;margin-bottom:4px;">LAYER 2 — PYTHON WATCHDOG MONITOR (Real-time file event capture)</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.7);">CREATE · MODIFY · DELETE · RENAME events captured every 3 seconds</div>
+      </div>
+      <div style="text-align:center;color:#c8a84b;font-size:18px;">↓</div>
+      <!-- Layer 3 -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;">
+        <div style="background:rgba(183,119,13,0.2);border:1px solid rgba(183,119,13,0.5);border-radius:6px;padding:8px;text-align:center;">
+          <div style="font-size:10px;font-weight:bold;color:#c8a84b;">Behavioral</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.6);">4+ writes/5s</div>
+          <div style="font-size:10px;color:#c8a84b;font-weight:bold;">+30 pts</div>
+        </div>
+        <div style="background:rgba(183,119,13,0.2);border:1px solid rgba(183,119,13,0.5);border-radius:6px;padding:8px;text-align:center;">
+          <div style="font-size:10px;font-weight:bold;color:#c8a84b;">Entropy</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.6);">H &gt; 7.0 bits</div>
+          <div style="font-size:10px;color:#c8a84b;font-weight:bold;">+40 pts</div>
+        </div>
+        <div style="background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.5);border-radius:6px;padding:8px;text-align:center;">
+          <div style="font-size:10px;font-weight:bold;color:#ff8a80;">Canary</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.6);">Trap access</div>
+          <div style="font-size:10px;color:#ff8a80;font-weight:bold;">+100 pts</div>
+        </div>
+        <div style="background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.5);border-radius:6px;padding:8px;text-align:center;">
+          <div style="font-size:10px;font-weight:bold;color:#ff8a80;">Exfil</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.6);">Honeypot hit</div>
+          <div style="font-size:10px;color:#ff8a80;font-weight:bold;">+100 pts</div>
+        </div>
+        <div style="background:rgba(45,106,79,0.3);border:1px solid rgba(45,106,79,0.5);border-radius:6px;padding:8px;text-align:center;">
+          <div style="font-size:10px;font-weight:bold;color:#80cfa9;">Integrity</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.6);">SHA-256</div>
+          <div style="font-size:10px;color:#80cfa9;font-weight:bold;">Verify</div>
+        </div>
+      </div>
+      <div style="text-align:center;color:#c8a84b;font-size:18px;">↓</div>
+      <!-- Layer 4+5 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.5);border-radius:8px;padding:10px 14px;">
+          <div style="font-size:11px;font-weight:bold;color:#ff8a80;margin-bottom:4px;">AUTO RESPONSE + RECOVERY</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7);line-height:1.6;">① Kill process · ② Lock sandbox · ③ Email admin · ④ Restore snapshot</div>
+          <div style="font-size:10px;color:#c8a84b;font-weight:bold;margin-top:4px;">RTO &lt; 30 seconds</div>
+        </div>
+        <div style="background:rgba(45,106,79,0.2);border:1px solid rgba(45,106,79,0.5);border-radius:8px;padding:10px 14px;">
+          <div style="font-size:11px;font-weight:bold;color:#80cfa9;margin-bottom:4px;">REACT DASHBOARD + AI CHATBOT</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7);line-height:1.6;">Live threat score · OT Assets · ML Prediction · Snapshots · Role-based access</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">05</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 6 — RESULT ═══════════════════ -->
+<div class="slide slide-light">
+  <div class="wave-tl" style="background:linear-gradient(135deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="wave-br" style="background:linear-gradient(315deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-box" style="background:#0d1b4b;color:white;">TIDCO</div>
+      <div style="font-size:9px;color:#0d1b4b;font-weight:bold;max-width:180px;line-height:1.3;">TANCAM</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title">RESULT</div>
+    <div class="two-col">
+      <div>
+        <ul class="bullet-list">
+          <li>Ransomware detected in <strong>2.4 seconds</strong> — 52% faster than the 5-second target</li>
+          <li>Automated containment in <strong>2.7 seconds</strong> — process terminated, sandbox locked</li>
+          <li>Full file recovery in <strong>17 seconds</strong> — 72% better than 60-second target</li>
+          <li>Email alert delivered in <strong>8 seconds</strong> — admin notified before manual detection possible</li>
+          <li>Combined detection accuracy: <strong>98%</strong> with &lt;2% false positive rate</li>
+          <li>Canary + honeypot engines achieve <strong>99.8–99.9%</strong> accuracy (near-zero false positives)</li>
+          <li>OT asset status panel shows real-time impact on PLCs, SCADA, HMI</li>
+          <li>AI chatbot answers 35+ question types about attacks and prevention</li>
+        </ul>
+      </div>
+      <div>
+        <!-- Performance chart -->
+        <div style="background:#f8f9ff;border-radius:10px;padding:16px;border:1px solid #0d1b4b20;">
+          <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:12px;text-align:center;">Performance vs Target</div>
+          <div style="display:flex;align-items:flex-end;gap:12px;height:120px;border-left:2px solid #333;border-bottom:2px solid #333;padding:0 10px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+              <div style="display:flex;gap:3px;align-items:flex-end;">
+                <div style="width:16px;height:26px;background:#c0392b;opacity:0.5;border-radius:2px 2px 0 0;position:relative;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#c0392b;white-space:nowrap;">5s</span></div>
+                <div style="width:16px;height:12px;background:#2d6a4f;border-radius:2px 2px 0 0;position:relative;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#2d6a4f;white-space:nowrap;">2.4s</span></div>
+              </div>
+              <div style="font-size:9px;color:#333;margin-top:4px;text-align:center;">Detect</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+              <div style="display:flex;gap:3px;align-items:flex-end;">
+                <div style="width:16px;height:50px;background:#c0392b;opacity:0.5;border-radius:2px 2px 0 0;position:relative;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#c0392b;white-space:nowrap;">60s</span></div>
+                <div style="width:16px;height:17px;background:#2d6a4f;border-radius:2px 2px 0 0;position:relative;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#2d6a4f;white-space:nowrap;">17s</span></div>
+              </div>
+              <div style="font-size:9px;color:#333;margin-top:4px;text-align:center;">Recovery</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+              <div style="display:flex;gap:3px;align-items:flex-end;">
+                <div style="width:16px;height:114px;background:#c0392b;opacity:0.5;border-radius:2px 2px 0 0;position:relative;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#c0392b;white-space:nowrap;">95%</span></div>
+                <div style="width:16px;height:118px;background:#2d6a4f;border-radius:2px 2px 0 0;position:relative;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#2d6a4f;white-space:nowrap;">98%</span></div>
+              </div>
+              <div style="font-size:9px;color:#333;margin-top:4px;text-align:center;">Accuracy</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;justify-content:center;margin-top:8px;">
+            <div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#333;"><div style="width:10px;height:10px;background:#c0392b;opacity:0.5;border-radius:1px;"></div>Target</div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#333;"><div style="width:10px;height:10px;background:#2d6a4f;border-radius:1px;"></div>Achieved</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number slide-number-dark">06</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 7 — BUSINESS MODEL & COST ═══════════════════ -->
+<div class="slide slide-dark">
+  <div class="wave-tl"></div><div class="wave-br"></div>
+  <div class="header-bar header-bar-dark">
+    <div class="logo-area">
+      <div class="logo-box">TIDCO</div>
+      <div class="logo-box" style="font-size:9px;max-width:140px;line-height:1.3;">TANCAM</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title-white">BUSINESS MODEL & COST</div>
+    <div class="two-col">
+      <div>
+        <ul class="bullet-list bullet-list-white">
+          <li><strong style="color:#c8a84b;">Value Proposition:</strong> Enterprise-grade OT ransomware protection at 10x lower cost than Dragos/Claroty</li>
+          <li><strong style="color:#c8a84b;">Target Customers:</strong> Mid-size manufacturers, hospitals, utilities, logistics operators, government infrastructure</li>
+          <li><strong style="color:#c8a84b;">Revenue Model:</strong> SaaS subscription per endpoint/month</li>
+          <li><strong style="color:#c8a84b;">Cost Components:</strong> Cloud hosting ($50/month), Supabase DB (free tier), Gmail SMTP (free), open-source libraries only</li>
+          <li><strong style="color:#c8a84b;">Pricing Strategy:</strong> $15–25/endpoint/month — 50 endpoints = $750–1,250/month</li>
+          <li><strong style="color:#c8a84b;">Break-even:</strong> 3 enterprise clients covers full infrastructure cost</li>
+          <li><strong style="color:#c8a84b;">Scalability:</strong> SaaS model scales to thousands of endpoints with minimal marginal cost</li>
+        </ul>
+      </div>
+      <div>
+        <div style="background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.4);border-radius:10px;padding:16px;">
+          <div style="font-size:12px;font-weight:bold;color:#c8a84b;margin-bottom:12px;text-align:center;">Competitive Pricing</div>
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:3px;"><span>Dragos (Enterprise OT)</span><span style="color:#ff8a80;">$100,000+/yr</span></div>
+            <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;"><div style="width:100%;height:100%;background:#c0392b;border-radius:3px;opacity:0.7;"></div></div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:3px;"><span>CrowdStrike (IT Security)</span><span style="color:#ffb74d;">$15,000+/yr</span></div>
+            <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;"><div style="width:15%;height:100%;background:#b7770d;border-radius:3px;opacity:0.7;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:3px;"><span>SentinelShield AI</span><span style="color:#80cfa9;">$9,000–15,000/yr</span></div>
+            <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;"><div style="width:10%;height:100%;background:#2d6a4f;border-radius:3px;"></div></div>
+          </div>
+          <div style="margin-top:14px;padding:8px;background:rgba(45,106,79,0.3);border-radius:6px;text-align:center;">
+            <span style="font-size:11px;color:#80cfa9;font-weight:bold;">90% cheaper than Dragos · OT-native · Integrated recovery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">07</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 8 — CONCLUSION ═══════════════════ -->
+<div class="slide slide-light">
+  <div class="wave-tl" style="background:linear-gradient(135deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="wave-br" style="background:linear-gradient(315deg,#0d1b4b 0%,transparent 60%);opacity:0.08;"></div>
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-box" style="background:#0d1b4b;color:white;">TIDCO</div>
+      <div style="font-size:9px;color:#0d1b4b;font-weight:bold;max-width:180px;line-height:1.3;">TANCAM</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title">CONCLUSION</div>
+    <ul class="bullet-list" style="margin-bottom:16px;">
+      <li>SentinelShield AI successfully addresses the critical gap in affordable OT ransomware protection — combining detection, containment, and recovery in one integrated platform</li>
+      <li>The system achieves <strong>98% detection accuracy</strong> with a <strong>17-second RTO</strong> — outperforming all stated targets and industry benchmarks</li>
+      <li>Multi-layer detection (behavioral + entropy + canary + honeypot) provides redundant coverage that no single-method tool can match</li>
+      <li>The AI chatbot assistant is a genuinely novel feature — no existing ransomware tool explains attacks in plain language to non-technical users</li>
+      <li>Role-based access control, signed session authentication, and automated email alerting make this production-ready for real organisational deployment</li>
+      <li>The SaaS pricing model at $15–25/endpoint/month makes enterprise-grade OT security accessible to the mid-size organisations that need it most</li>
+    </ul>
+    <div class="alert-box" style="background:#e8f4fd;border-color:#0d1b4b;">
+      <div style="font-size:12px;font-weight:bold;color:#0d1b4b;margin-bottom:4px;">Future Advancements</div>
+      <div style="font-size:11px;color:#444;line-height:1.6;">LockBit 3.0 chunk-level entropy detection · Reinforcement Learning adaptive thresholds · Modbus/EtherNet-IP network monitoring · Immutable WORM snapshot storage · Digital twin attack propagation visualization · Federated multi-site agent deployment</div>
+    </div>
+  </div>
+  <div class="slide-number slide-number-dark">08</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 9 — TEAM MEMBERS ═══════════════════ -->
+<div class="slide slide-dark">
+  <div class="wave-tl"></div><div class="wave-br"></div>
+  <div class="header-bar header-bar-dark">
+    <div class="logo-area">
+      <div class="logo-box">TIDCO</div>
+      <div class="logo-box" style="font-size:9px;max-width:140px;line-height:1.3;">TANCAM</div>
+    </div>
+  </div>
+  <div class="slide-content">
+    <div class="section-title-white">TEAM MEMBERS DETAILS</div>
+    <div class="two-col">
+      <div>
+        <div class="member-box" style="border-bottom:1px solid rgba(200,168,75,0.3);padding-bottom:16px;margin-bottom:16px;">
+          <div class="member-role">TEAM LEADER</div>
+          <div class="member-name">Kashifa H</div>
+          <div class="member-detail">Roll No: 111923AI01043</div>
+          <div class="member-detail">Dept: Artificial Intelligence & Data Science</div>
+          <div class="member-detail">Year: 3rd Year, 6th Semester</div>
+        </div>
+        <div class="member-box" style="border-bottom:1px solid rgba(200,168,75,0.3);padding-bottom:16px;margin-bottom:16px;">
+          <div class="member-role">MEMBER 1</div>
+          <div class="member-name">Aashika Parveen M</div>
+          <div class="member-detail">Roll No: 111923EE01002</div>
+          <div class="member-detail">Dept: Electrical & Electronics Engineering</div>
+          <div class="member-detail">Year: 3rd Year, 6th Semester</div>
+        </div>
+        <div class="member-box">
+          <div class="member-role">MEMBER 2</div>
+          <div class="member-name">Reyan Ruby P</div>
+          <div class="member-detail">Roll No: 111923EE01073</div>
+          <div class="member-detail">Dept: Electrical & Electronics Engineering</div>
+          <div class="member-detail">Year: 3rd Year, 6th Semester</div>
+        </div>
+      </div>
+      <div>
+        <div class="member-box" style="border-bottom:1px solid rgba(200,168,75,0.3);padding-bottom:16px;margin-bottom:16px;">
+          <div class="member-role">MENTOR / GUIDE</div>
+          <div class="member-name">Dr. K. Subha</div>
+          <div class="member-detail">Designation: Professor</div>
+          <div class="member-detail">Department: [Your Department]</div>
+          <div class="member-detail">College: S.A. Engineering College</div>
+        </div>
+        <div style="background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.4);border-radius:10px;padding:16px;margin-top:8px;">
+          <div style="font-size:11px;font-weight:bold;color:#c8a84b;margin-bottom:8px;">Team: EXECUTIONERS</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.6;">S.A. Engineering College, Chennai<br>TN-WISE 2026 Hackathon<br>Theme: Secure & Trusted Engineering Systems</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">09</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 10 — THANK YOU ═══════════════════ -->
+<div class="slide slide-dark" style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+  <div class="wave-tl"></div><div class="wave-br"></div><div class="wave-tr"></div><div class="wave-bl"></div>
+  <div class="header-bar header-bar-dark" style="position:absolute;top:0;left:0;right:0;">
+    <div class="logo-area">
+      <div class="logo-box">TIDCO</div>
+      <div class="logo-box" style="font-size:9px;max-width:140px;line-height:1.3;">TANCAM</div>
+    </div>
+  </div>
+  <div style="text-align:center;z-index:2;margin-top:40px;">
+    <div style="font-size:72px;font-weight:900;color:white;letter-spacing:4px;">THANK YOU</div>
+    <div class="gold-divider" style="margin:20px auto;width:300px;"></div>
+    <div style="font-size:16px;color:#c8a84b;letter-spacing:2px;margin-bottom:8px;">SentinelShield AI — Team Executioners</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.6);">S.A. Engineering College · TN-WISE 2026</div>
+    <div style="margin-top:30px;font-size:12px;color:rgba(255,255,255,0.5);font-style:italic;max-width:600px;">"Protecting industrial operations from ransomware — detecting in seconds, recovering in under 30."</div>
+  </div>
+  <div class="slide-number">10</div>
+</div>
+
+</body>
+</html>

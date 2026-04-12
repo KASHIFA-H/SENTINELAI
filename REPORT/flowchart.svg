@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 1100" width="700" height="1100" font-family="Arial, sans-serif">
+  <rect width="700" height="1100" fill="#F5F5DC"/>
+  <text x="350" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a3a5c">SentinelShield AI — Threat Detection Flowchart</text>
+
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#1a3a5c"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#c0392b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2d6a4f"/>
+    </marker>
+  </defs>
+
+  <!-- START -->
+  <ellipse cx="350" cy="65" rx="90" ry="28" fill="#1a3a5c"/>
+  <text x="350" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="white">START</text>
+  <line x1="350" y1="93" x2="350" y2="118" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- System Init -->
+  <rect x="175" y="118" width="350" height="50" rx="10" fill="#1e4976"/>
+  <text x="350" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="white">System Initialization</text>
+  <text x="350" y="156" text-anchor="middle" font-size="10" fill="#00c8e0">Seed OT files · Deploy canary · Take snapshot · Start watchdog</text>
+  <line x1="350" y1="168" x2="350" y2="193" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Monitoring Active -->
+  <rect x="200" y="193" width="300" height="40" rx="10" fill="#2d6a4f"/>
+  <text x="350" y="208" text-anchor="middle" font-size="12" font-weight="bold" fill="white">File System Monitoring Active</text>
+  <text x="350" y="224" text-anchor="middle" font-size="10" fill="#d4edda">Watchdog observer running continuously</text>
+  <line x1="350" y1="233" x2="350" y2="258" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- File Event? -->
+  <polygon points="350,258 500,293 350,328 200,293" fill="#FFFFFF" stroke="#1a3a5c" stroke-width="2"/>
+  <text x="350" y="288" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a3a5c">File Event</text>
+  <text x="350" y="305" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a3a5c">Detected?</text>
+  <!-- NO → loop back -->
+  <line x1="200" y1="293" x2="100" y2="293" stroke="#2d6a4f" stroke-width="1.5"/>
+  <line x1="100" y1="293" x2="100" y2="213" stroke="#2d6a4f" stroke-width="1.5"/>
+  <line x1="100" y1="213" x2="200" y2="213" stroke="#2d6a4f" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <text x="145" y="285" text-anchor="middle" font-size="11" fill="#2d6a4f">NO</text>
+  <!-- YES -->
+  <line x1="350" y1="328" x2="350" y2="353" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="365" y="345" font-size="11" fill="#1a3a5c">YES</text>
+
+  <!-- Canary? -->
+  <polygon points="350,353 500,388 350,423 200,388" fill="#fde8e6" stroke="#c0392b" stroke-width="2"/>
+  <text x="350" y="383" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Canary File</text>
+  <text x="350" y="400" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Accessed?</text>
+  <!-- YES → Critical -->
+  <line x1="500" y1="388" x2="580" y2="388" stroke="#c0392b" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="537" y="382" font-size="11" fill="#c0392b">YES</text>
+  <rect x="580" y="368" width="100" height="40" rx="8" fill="#c0392b"/>
+  <text x="630" y="384" text-anchor="middle" font-size="10" font-weight="bold" fill="white">+100 pts</text>
+  <text x="630" y="400" text-anchor="middle" font-size="10" fill="white">CRITICAL</text>
+  <!-- NO -->
+  <line x1="350" y1="423" x2="350" y2="448" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="365" y="440" font-size="11" fill="#1a3a5c">NO</text>
+
+  <!-- Honeypot? -->
+  <polygon points="350,448 500,483 350,518 200,483" fill="#fde8e6" stroke="#c0392b" stroke-width="2"/>
+  <text x="350" y="478" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Honeypot File</text>
+  <text x="350" y="495" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Accessed?</text>
+  <!-- YES -->
+  <line x1="500" y1="483" x2="580" y2="483" stroke="#c0392b" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="537" y="477" font-size="11" fill="#c0392b">YES</text>
+  <rect x="580" y="463" width="100" height="40" rx="8" fill="#c0392b"/>
+  <text x="630" y="479" text-anchor="middle" font-size="10" font-weight="bold" fill="white">+100 pts</text>
+  <text x="630" y="495" text-anchor="middle" font-size="10" fill="white">EXFIL ALERT</text>
+  <!-- NO -->
+  <line x1="350" y1="518" x2="350" y2="543" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="365" y="535" font-size="11" fill="#1a3a5c">NO</text>
+
+  <!-- Rapid Modification? -->
+  <polygon points="350,543 500,578 350,613 200,578" fill="#fef3cd" stroke="#b7770d" stroke-width="2"/>
+  <text x="350" y="573" text-anchor="middle" font-size="12" font-weight="bold" fill="#b7770d">Rapid File</text>
+  <text x="350" y="590" text-anchor="middle" font-size="12" font-weight="bold" fill="#b7770d">Modification?</text>
+  <!-- YES -->
+  <line x1="200" y1="578" x2="120" y2="578" stroke="#b7770d" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="157" y="572" font-size="11" fill="#b7770d">YES</text>
+  <rect x="20" y="558" width="100" height="40" rx="8" fill="#b7770d"/>
+  <text x="70" y="574" text-anchor="middle" font-size="10" font-weight="bold" fill="white">+30 pts</text>
+  <text x="70" y="590" text-anchor="middle" font-size="10" fill="white">BEHAVIORAL</text>
+  <!-- NO -->
+  <line x1="350" y1="613" x2="350" y2="638" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="365" y="630" font-size="11" fill="#1a3a5c">NO</text>
+
+  <!-- High Entropy? -->
+  <polygon points="350,638 500,673 350,708 200,673" fill="#fef3cd" stroke="#b7770d" stroke-width="2"/>
+  <text x="350" y="668" text-anchor="middle" font-size="12" font-weight="bold" fill="#b7770d">High Entropy</text>
+  <text x="350" y="685" text-anchor="middle" font-size="12" font-weight="bold" fill="#b7770d">&gt; 7.0 bits?</text>
+  <!-- YES -->
+  <line x1="200" y1="673" x2="120" y2="673" stroke="#b7770d" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="157" y="667" font-size="11" fill="#b7770d">YES</text>
+  <rect x="20" y="653" width="100" height="40" rx="8" fill="#b7770d"/>
+  <text x="70" y="669" text-anchor="middle" font-size="10" font-weight="bold" fill="white">+40 pts</text>
+  <text x="70" y="685" text-anchor="middle" font-size="10" fill="white">ENTROPY</text>
+  <!-- NO → back to monitoring -->
+  <line x1="350" y1="708" x2="350" y2="728" stroke="#2d6a4f" stroke-width="1.5"/>
+  <line x1="350" y1="728" x2="620" y2="728" stroke="#2d6a4f" stroke-width="1.5"/>
+  <line x1="620" y1="728" x2="620" y2="213" stroke="#2d6a4f" stroke-width="1.5"/>
+  <line x1="620" y1="213" x2="500" y2="213" stroke="#2d6a4f" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <text x="490" y="722" font-size="11" fill="#2d6a4f">NO — Continue monitoring</text>
+
+  <!-- Threshold check -->
+  <line x1="120" y1="578" x2="120" y2="750" stroke="#1a3a5c" stroke-width="1.5"/>
+  <line x1="120" y1="750" x2="200" y2="750" stroke="#1a3a5c" stroke-width="1.5"/>
+  <line x1="120" y1="673" x2="120" y2="750" stroke="#1a3a5c" stroke-width="1.5"/>
+  <line x1="630" y1="408" x2="630" y2="750" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="630" y1="503" x2="630" y2="750" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="630" y1="750" x2="500" y2="750" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="200" y1="750" x2="500" y2="750" stroke="#1a3a5c" stroke-width="1.5"/>
+  <line x1="350" y1="750" x2="350" y2="770" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Threshold exceeded? -->
+  <polygon points="350,770 500,805 350,840 200,805" fill="#FFFFFF" stroke="#c0392b" stroke-width="2.5"/>
+  <text x="350" y="800" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">Threat Score</text>
+  <text x="350" y="817" text-anchor="middle" font-size="12" font-weight="bold" fill="#c0392b">&gt; 70 pts?</text>
+  <!-- NO → back -->
+  <line x1="200" y1="805" x2="100" y2="805" stroke="#2d6a4f" stroke-width="1.5"/>
+  <line x1="100" y1="805" x2="100" y2="213" stroke="#2d6a4f" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <text x="145" y="797" font-size="11" fill="#2d6a4f">NO</text>
+  <!-- YES -->
+  <line x1="350" y1="840" x2="350" y2="865" stroke="#c0392b" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="365" y="857" font-size="11" fill="#c0392b">YES</text>
+
+  <!-- Auto Response -->
+  <rect x="150" y="865" width="400" height="100" rx="10" fill="#c0392b"/>
+  <text x="350" y="885" text-anchor="middle" font-size="13" font-weight="bold" fill="white">AUTOMATED CONTAINMENT</text>
+  <text x="350" y="903" text-anchor="middle" font-size="11" fill="white">① Terminate suspicious process</text>
+  <text x="350" y="919" text-anchor="middle" font-size="11" fill="white">② Lock sandbox (read-only)</text>
+  <text x="350" y="935" text-anchor="middle" font-size="11" fill="white">③ Email alert → Admin (SMTP)</text>
+  <text x="350" y="951" text-anchor="middle" font-size="11" fill="white">④ Restore from clean snapshot</text>
+  <line x1="350" y1="965" x2="350" y2="990" stroke="#2d6a4f" stroke-width="2" marker-end="url(#arrGreen)"/>
+
+  <!-- Recovery -->
+  <rect x="175" y="990" width="350" height="50" rx="10" fill="#2d6a4f"/>
+  <text x="350" y="1010" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Recovery Complete — RTO &lt; 30 seconds</text>
+  <text x="350" y="1028" text-anchor="middle" font-size="10" fill="#d4edda">Reset score · Redeploy canary · Send confirmation email</text>
+  <line x1="350" y1="1040" x2="350" y2="1060" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- END -->
+  <ellipse cx="350" cy="1080" rx="90" ry="25" fill="#1a3a5c"/>
+  <text x="350" y="1086" text-anchor="middle" font-size="13" font-weight="bold" fill="white">CONTINUE MONITORING</text>
+</svg>

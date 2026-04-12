@@ -33,8 +33,6 @@ def _push_event(msg: str):
         state["recent_events"] = state["recent_events"][:100]
 
 def _update_status():
-    """Status is driven by BOTH threat_score AND canary_hit together.
-    They must be consistent — if score is 0, status must be secure."""
     score = state["threat_score"]
     canary = state["canary_hit"]
     if score >= THREAT_SCORE_THRESHOLD or (canary and score > 0):
@@ -42,9 +40,8 @@ def _update_status():
     elif score >= 30:
         state["status"] = "warning"
     else:
-        # Score is 0 — always secure regardless of stale canary flag
         state["status"] = "secure"
-        state["canary_hit"] = False  # auto-clear stale canary flag when score is 0
+        state["canary_hit"] = False
 
 class SentinelHandler(FileSystemEventHandler):
     def on_modified(self, event):

@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .env
+backend/.env
 
 # Backend
 backend/__pycache__/
@@ -12,3 +13,4 @@ backend/backups/
 backend/quarantine/
 backend/quarantine_manifest.json
 backend/.sentinel_key
+backend/reseed_sandbox.py

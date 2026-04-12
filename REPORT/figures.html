@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>SentinelShield AI — Report Figures</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 30px; }
+  .fig { background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 24px; margin-bottom: 40px; max-width: 900px; margin-left: auto; margin-right: auto; page-break-after: always; }
+  .fig-title { font-size: 14px; font-weight: bold; text-align: center; margin-bottom: 20px; color: #1a1a1a; }
+  .fig-caption { font-size: 11px; font-style: italic; text-align: center; color: #555; margin-top: 16px; }
+
+  /* FIG 1 — Phase boxes */
+  .phases { display: flex; gap: 0; align-items: stretch; }
+  .phase { flex: 1; border: 2px solid; border-radius: 6px; overflow: hidden; }
+  .phase-header { padding: 8px 4px; text-align: center; font-size: 12px; font-weight: bold; color: #fff; }
+  .phase-items { padding: 8px; }
+  .phase-item { font-size: 11px; padding: 5px 6px; border-bottom: 1px dashed rgba(0,0,0,0.15); text-align: center; }
+  .phase-item:last-child { border-bottom: none; }
+  .phase-time { font-size: 10px; font-style: italic; text-align: center; padding: 6px; background: rgba(0,0,0,0.04); }
+  .arrow-row { display: flex; align-items: center; justify-content: center; font-size: 22px; color: #1a3a5c; padding: 0 4px; }
+
+  /* FIG 2 — Architecture layers */
+  .layer { border: 2px solid; border-radius: 6px; margin-bottom: 8px; overflow: hidden; }
+  .layer-title { padding: 7px 14px; font-size: 12px; font-weight: bold; color: #fff; }
+  .layer-body { padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .layer-box { border-radius: 4px; padding: 6px 10px; font-size: 11px; font-weight: bold; }
+  .layer-arrow { text-align: center; font-size: 20px; color: #1a3a5c; margin: 2px 0; }
+
+  /* FIG 3,4 — Charts */
+  .chart-wrap { position: relative; height: 260px; border-left: 2px solid #333; border-bottom: 2px solid #333; margin: 10px 40px 30px 60px; }
+  .y-label { position: absolute; left: -55px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-size: 11px; color: #333; white-space: nowrap; }
+  .x-label { text-align: center; font-size: 11px; color: #333; margin-top: 6px; }
+  .y-tick { position: absolute; left: -28px; font-size: 9px; color: #555; }
+  .y-grid { position: absolute; left: 0; right: 0; border-top: 1px solid #eee; }
+  .threshold { position: absolute; left: 0; right: 0; border-top: 2px dashed #b7770d; }
+  .threshold-label { position: absolute; right: 4px; font-size: 9px; color: #b7770d; }
+
+  /* FIG 5 — Bar chart */
+  .bar-chart { display: flex; align-items: flex-end; gap: 18px; height: 220px; border-left: 2px solid #333; border-bottom: 2px solid #333; padding: 0 20px; margin: 10px 20px 40px 60px; }
+  .bar-group { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .bar-pair { display: flex; gap: 4px; align-items: flex-end; }
+  .bar { width: 28px; border-radius: 3px 3px 0 0; position: relative; }
+  .bar-val { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: bold; white-space: nowrap; }
+  .bar-label { font-size: 10px; color: #333; text-align: center; margin-top: 4px; max-width: 80px; }
+
+  /* FIG 6 — Accuracy bars */
+  .acc-chart { display: flex; align-items: flex-end; gap: 24px; height: 220px; border-left: 2px solid #333; border-bottom: 2px solid #333; padding: 0 30px; margin: 10px 20px 40px 60px; }
+  .acc-bar-wrap { display: flex; flex-direction: column; align-items: center; }
+  .acc-bar { width: 60px; border-radius: 3px 3px 0 0; position: relative; }
+  .acc-val { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: bold; }
+  .acc-label { font-size: 10px; color: #333; text-align: center; margin-top: 6px; }
+
+  .legend { display: flex; gap: 20px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #333; }
+  .legend-box { width: 14px; height: 14px; border-radius: 2px; }
+  .legend-line { width: 24px; height: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ FIG 1 ═══ -->
+<div class="fig">
+  <div class="fig-title">Fig. 1 — Threat Detection and Response Strategy</div>
+  <div class="phases">
+    <!-- Phase 1 -->
+    <div class="phase" style="border-color:#1a3a5c;">
+      <div class="phase-header" style="background:#1a3a5c;">PHASE 1<br><small>Monitoring</small></div>
+      <div class="phase-items">
+        <div class="phase-item" style="color:#1a3a5c;">File System Watchdog</div>
+        <div class="phase-item" style="color:#1a3a5c;">Real-time Event Capture</div>
+        <div class="phase-item" style="color:#1a3a5c;">3-second Refresh Cycle</div>
+        <div class="phase-item" style="color:#1a3a5c;">Multi-directory Coverage</div>
+        <div class="phase-item" style="color:#1a3a5c;">OT Asset Status Tracking</div>
+      </div>
+      <div class="phase-time">Continuous</div>
+    </div>
+    <div class="arrow-row">→</div>
+    <!-- Phase 2 -->
+    <div class="phase" style="border-color:#b7770d;">
+      <div class="phase-header" style="background:#b7770d;">PHASE 2<br><small>Detection</small></div>
+      <div class="phase-items">
+        <div class="phase-item" style="color:#b7770d;">Behavioral Analysis (+30)</div>
+        <div class="phase-item" style="color:#b7770d;">Shannon Entropy &gt;7.0 (+40)</div>
+        <div class="phase-item" style="color:#b7770d;">Canary File Trap (+100)</div>
+        <div class="phase-item" style="color:#b7770d;">Honeypot Exfil (+100)</div>
+        <div class="phase-item" style="color:#b7770d;">ML Threat Scoring</div>
+      </div>
+      <div class="phase-time">&lt; 2.4 seconds</div>
+    </div>
+    <div class="arrow-row">→</div>
+    <!-- Phase 3 -->
+    <div class="phase" style="border-color:#c0392b;">
+      <div class="phase-header" style="background:#c0392b;">PHASE 3<br><small>Containment</small></div>
+      <div class="phase-items">
+        <div class="phase-item" style="color:#c0392b;">Process Termination</div>
+        <div class="phase-item" style="color:#c0392b;">Sandbox Lock (Read-only)</div>
+        <div class="phase-item" style="color:#c0392b;">Admin Email Alert</div>
+        <div class="phase-item" style="color:#c0392b;">Quarantine Attacked Files</div>
+        <div class="phase-item" style="color:#c0392b;">OT Assets → Compromised</div>
+      </div>
+      <div class="phase-time">&lt; 3 seconds</div>
+    </div>
+    <div class="arrow-row">→</div>
+    <!-- Phase 4 -->
+    <div class="phase" style="border-color:#2d6a4f;">
+      <div class="phase-header" style="background:#2d6a4f;">PHASE 4<br><small>Recovery</small></div>
+      <div class="phase-items">
+        <div class="phase-item" style="color:#2d6a4f;">Snapshot Restoration</div>
+        <div class="phase-item" style="color:#2d6a4f;">File Integrity Verification</div>
+        <div class="phase-item" style="color:#2d6a4f;">Canary Redeployment</div>
+        <div class="phase-item" style="color:#2d6a4f;">Threat Score Reset → 0</div>
+        <div class="phase-item" style="color:#2d6a4f;">Recovery Email Sent</div>
+      </div>
+      <div class="phase-time">RTO &lt; 30 seconds</div>
+    </div>
+    <div class="arrow-row">→</div>
+    <!-- Phase 5 -->
+    <div class="phase" style="border-color:#6b5a45;">
+      <div class="phase-header" style="background:#6b5a45;">PHASE 5<br><small>Intelligence</small></div>
+      <div class="phase-items">
+        <div class="phase-item" style="color:#6b5a45;">AI Chatbot Explanation</div>
+        <div class="phase-item" style="color:#6b5a45;">Dashboard Reporting</div>
+        <div class="phase-item" style="color:#6b5a45;">ML Family Classifier</div>
+        <div class="phase-item" style="color:#6b5a45;">Audit Trail Logging</div>
+        <div class="phase-item" style="color:#6b5a45;">Resume Monitoring</div>
+      </div>
+      <div class="phase-time">Continuous</div>
+    </div>
+  </div>
+  <div class="fig-caption">Fig. 1: Five-phase ransomware defense strategy — Monitor → Detect → Contain → Recover → Intelligence</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FIG 2 ═══ -->
+<div class="fig">
+  <div class="fig-title">Fig. 2 — SentinelShield AI System Architecture</div>
+
+  <div class="layer" style="border-color:#1a3a5c;">
+    <div class="layer-title" style="background:#1a3a5c;">LAYER 1 — OT SANDBOX (Industrial Data Files)</div>
+    <div class="layer-body">
+      <div class="layer-box" style="background:#e8f4fd;color:#1a3a5c;">PLC Ladder Logic</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1a3a5c;">SCADA Historian CSV</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1a3a5c;">HMI Screen Config</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1a3a5c;">Production Schedule</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1a3a5c;">Batch Recipe</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1a3a5c;">Asset Register</div>
+      <div class="layer-box" style="background:#fff3cd;color:#b7770d;">🪤 Canary File</div>
+      <div class="layer-box" style="background:#fde8e6;color:#c0392b;">🍯 Honeypot Files (×4)</div>
+    </div>
+  </div>
+
+  <div class="layer-arrow">↓</div>
+
+  <div class="layer" style="border-color:#1e4976;">
+    <div class="layer-title" style="background:#1e4976;">LAYER 2 — PYTHON WATCHDOG MONITOR (Real-time file event capture)</div>
+    <div class="layer-body">
+      <div class="layer-box" style="background:#e8f4fd;color:#1e4976;">CREATE events</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1e4976;">MODIFY events</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1e4976;">DELETE events</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1e4976;">RENAME events</div>
+      <div class="layer-box" style="background:#e8f4fd;color:#1e4976;">3-second polling cycle</div>
+    </div>
+  </div>
+
+  <div class="layer-arrow">↓</div>
+
+  <div class="layer" style="border-color:#b7770d;">
+    <div class="layer-title" style="background:#b7770d;">LAYER 3 — DETECTION ENGINES</div>
+    <div class="layer-body">
+      <div class="layer-box" style="background:#fff8e1;color:#b7770d;flex:1;">Behavioral Engine<br><small>4+ writes/5s → +30 pts</small></div>
+      <div class="layer-box" style="background:#fff8e1;color:#b7770d;flex:1;">Entropy Engine<br><small>Shannon H &gt;7.0 bits → +40 pts</small></div>
+      <div class="layer-box" style="background:#fde8e6;color:#c0392b;flex:1;">Canary Engine<br><small>Trap file access → +100 pts</small></div>
+      <div class="layer-box" style="background:#fde8e6;color:#c0392b;flex:1;">Exfil Engine<br><small>Honeypot access → +100 pts</small></div>
+      <div class="layer-box" style="background:#d4edda;color:#2d6a4f;flex:1;">Integrity Engine<br><small>SHA-256 quarantine verify</small></div>
+    </div>
+  </div>
+
+  <div class="layer-arrow">↓</div>
+
+  <div class="layer" style="border-color:#c0392b;">
+    <div class="layer-title" style="background:#c0392b;">LAYER 4 — THREAT SCORER (0–200 pts | Threshold: 70 pts → Auto Response)</div>
+    <div class="layer-body" style="justify-content:center;">
+      <div class="layer-box" style="background:#fde8e6;color:#c0392b;">Score &lt; 70 → Continue monitoring</div>
+      <div class="layer-box" style="background:#c0392b;color:#fff;">Score ≥ 70 → AUTOMATED RESPONSE TRIGGERED</div>
+    </div>
+  </div>
+
+  <div class="layer-arrow">↓</div>
+
+  <div style="display:flex;gap:12px;">
+    <div class="layer" style="border-color:#c0392b;flex:1;">
+      <div class="layer-title" style="background:#c0392b;">AUTO RESPONSE ENGINE</div>
+      <div class="layer-body" style="flex-direction:column;">
+        <div style="font-size:11px;padding:3px 0;color:#c0392b;">① Kill suspicious process (psutil)</div>
+        <div style="font-size:11px;padding:3px 0;color:#c0392b;">② Lock sandbox (read-only chmod)</div>
+        <div style="font-size:11px;padding:3px 0;color:#c0392b;">③ Email alert → Admin (Gmail SMTP)</div>
+        <div style="font-size:11px;padding:3px 0;color:#c0392b;">④ Restore from snapshot → RTO &lt;30s</div>
+      </div>
+    </div>
+    <div class="layer" style="border-color:#2d6a4f;flex:1;">
+      <div class="layer-title" style="background:#2d6a4f;">REACT DASHBOARD + AI CHATBOT</div>
+      <div class="layer-body" style="flex-direction:column;">
+        <div style="font-size:11px;padding:3px 0;color:#2d6a4f;">Live threat score · Entropy graph · OT Asset Status</div>
+        <div style="font-size:11px;padding:3px 0;color:#2d6a4f;">ML Prediction · Ransomware family classifier</div>
+        <div style="font-size:11px;padding:3px 0;color:#2d6a4f;">AI Chatbot · Backup Snapshots · System Logs</div>
+        <div style="font-size:11px;padding:3px 0;color:#2d6a4f;">FastAPI Backend · Supabase DB · HMAC Auth</div>
+      </div>
+    </div>
+    <div class="layer" style="border-color:#6b5a45;flex:1;">
+      <div class="layer-title" style="background:#6b5a45;">USERS (Role-Based Access)</div>
+      <div class="layer-body" style="flex-direction:column;">
+        <div style="font-size:11px;padding:3px 0;color:#6b5a45;">👤 Admin / CISO — Full dashboard</div>
+        <div style="font-size:11px;padding:3px 0;color:#6b5a45;">👤 SOC Analyst — Threat monitoring</div>
+        <div style="font-size:11px;padding:3px 0;color:#6b5a45;">👤 IT Operations — Infrastructure</div>
+        <div style="font-size:11px;padding:3px 0;color:#6b5a45;">👤 Employee — Personal file status</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fig-caption">Fig. 2: SentinelShield AI layered system architecture — from OT file monitoring to automated recovery and role-based dashboard</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FIG 3 ═══ -->
+<div class="fig">
+  <div class="fig-title">Fig. 3 — Shannon Entropy Analysis During Ransomware Attack</div>
+  <div style="position:relative;margin:10px 60px 10px 80px;height:260px;">
+    <!-- Y axis label -->
+    <div style="position:absolute;left:-70px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:11px;color:#333;white-space:nowrap;">Shannon Entropy (bits/byte)</div>
+    <!-- Y ticks -->
+    <div style="position:absolute;left:-30px;top:0px;font-size:9px;color:#555;">8.0</div>
+    <div style="position:absolute;left:-30px;top:32px;font-size:9px;color:#555;">7.5</div>
+    <div style="position:absolute;left:-30px;top:65px;font-size:9px;color:#555;">7.0</div>
+    <div style="position:absolute;left:-30px;top:130px;font-size:9px;color:#555;">5.0</div>
+    <div style="position:absolute;left:-30px;top:195px;font-size:9px;color:#555;">3.0</div>
+    <div style="position:absolute;left:-30px;top:245px;font-size:9px;color:#555;">1.0</div>
+    <!-- Grid lines -->
+    <div style="position:absolute;top:32px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <div style="position:absolute;top:65px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <div style="position:absolute;top:130px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <div style="position:absolute;top:195px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <!-- Threshold line at 7.0 = top:65px -->
+    <div style="position:absolute;top:65px;left:0;right:0;border-top:2px dashed #c0392b;"></div>
+    <div style="position:absolute;top:55px;right:4px;font-size:9px;color:#c0392b;font-weight:bold;">Detection threshold (7.0 bits)</div>
+    <!-- Attack zone shading -->
+    <div style="position:absolute;left:42%;right:20%;top:0;bottom:0;background:#c0392b;opacity:0.05;"></div>
+    <!-- SVG for the actual lines -->
+    <svg width="100%" height="100%" style="position:absolute;top:0;left:0;">
+      <!-- Normal line before attack: entropy ~3.5 bits = y≈195 -->
+      <polyline points="0,195 60,198 120,193 180,196 240,192 300,195" fill="none" stroke="#2d6a4f" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- Attack spike: T=6s≈300px, rises to 7.82 bits ≈ y=10 -->
+      <polyline points="300,195 330,170 360,120 390,40 420,12 450,10 480,11 510,10" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- Recovery: drops back after containment T=10s≈510px -->
+      <polyline points="510,10 540,60 570,130 600,185 630,193 660,195" fill="none" stroke="#2d6a4f" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- Dot at peak -->
+      <circle cx="450" cy="10" r="5" fill="#c0392b"/>
+      <text x="455" y="8" font-size="10" fill="#c0392b" font-weight="bold">7.82 bits</text>
+      <!-- Attack start marker -->
+      <line x1="300" y1="0" x2="300" y2="260" stroke="#b7770d" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="303" y="20" font-size="9" fill="#b7770d">Attack T=6s</text>
+      <!-- Containment marker -->
+      <line x1="510" y1="0" x2="510" y2="260" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="513" y="20" font-size="9" fill="#2d6a4f">Containment T=10s</text>
+    </svg>
+  </div>
+  <!-- X axis -->
+  <div style="display:flex;justify-content:space-between;margin:0 80px;font-size:9px;color:#555;">
+    <span>T=0s</span><span>T=2s</span><span>T=4s</span><span>T=6s</span><span>T=8s</span><span>T=10s</span><span>T=12s</span>
+  </div>
+  <div style="text-align:center;font-size:11px;color:#333;margin-top:4px;">Time (seconds)</div>
+  <div class="legend" style="margin-top:12px;">
+    <div class="legend-item"><div class="legend-line" style="background:#2d6a4f;height:3px;"></div> Normal file entropy</div>
+    <div class="legend-item"><div class="legend-line" style="background:#c0392b;height:3px;"></div> Encrypted file entropy</div>
+    <div class="legend-item"><div class="legend-line" style="background:#c0392b;height:2px;border-top:2px dashed #c0392b;"></div> Detection threshold (7.0 bits)</div>
+  </div>
+  <div class="fig-caption">Fig. 3: Shannon entropy waveform — normal files (3–5 bits), ransomware encryption spike to 7.82 bits, post-recovery restoration</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FIG 4 ═══ -->
+<div class="fig">
+  <div class="fig-title">Fig. 4 — Threat Score Timeline During Attack Simulation</div>
+  <div style="position:relative;margin:10px 60px 10px 80px;height:260px;">
+    <div style="position:absolute;left:-70px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:11px;color:#333;white-space:nowrap;">Threat Score (points)</div>
+    <div style="position:absolute;left:-30px;top:0px;font-size:9px;color:#555;">200</div>
+    <div style="position:absolute;left:-30px;top:65px;font-size:9px;color:#555;">150</div>
+    <div style="position:absolute;left:-30px;top:130px;font-size:9px;color:#555;">100</div>
+    <div style="position:absolute;left:-30px;top:195px;font-size:9px;color:#555;">50</div>
+    <div style="position:absolute;left:-30px;top:247px;font-size:9px;color:#555;">0</div>
+    <div style="position:absolute;top:65px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <div style="position:absolute;top:130px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <div style="position:absolute;top:195px;left:0;right:0;border-top:1px dashed #ddd;"></div>
+    <!-- Threshold at 70pts = top: 260-(70/200*260)=260-91=169 -->
+    <div style="position:absolute;top:169px;left:0;right:0;border-top:2px dashed #b7770d;"></div>
+    <div style="position:absolute;top:159px;right:4px;font-size:9px;color:#b7770d;font-weight:bold;">Threshold: 70 pts</div>
+    <svg width="100%" height="100%" style="position:absolute;top:0;left:0;">
+      <!-- Score: 0→30→70→100→140→240→0 -->
+      <!-- y = 260 - (score/200)*260 -->
+      <!-- 0→260, 30→221, 70→169, 100→130, 140→78, 240→-52(cap 5), 0→260 -->
+      <!-- x: 0s=0, 1.2s=80, 1.4s=93, 1.8s=120, 2.1s=140, 2.4s=160, 10s=530, 12s=660 -->
+      <polyline points="0,260 80,260 80,221 93,221 93,169 120,169 120,130 140,130 140,78 160,78 160,5 530,5 530,260 660,260"
+        fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linejoin="round"/>
+      <polygon points="0,260 80,260 80,221 93,221 93,169 120,169 120,130 140,130 140,78 160,78 160,5 530,5 530,260"
+        fill="#c0392b" opacity="0.08"/>
+      <!-- Dots with labels -->
+      <circle cx="80" cy="221" r="4" fill="#b7770d"/>
+      <text x="83" y="215" font-size="9" fill="#b7770d">+30 Behavioral</text>
+      <circle cx="93" cy="169" r="4" fill="#b7770d"/>
+      <text x="96" y="163" font-size="9" fill="#b7770d">+40 Entropy</text>
+      <circle cx="120" cy="130" r="4" fill="#b7770d"/>
+      <text x="123" y="124" font-size="9" fill="#b7770d">+30</text>
+      <circle cx="140" cy="78" r="4" fill="#b7770d"/>
+      <text x="143" y="72" font-size="9" fill="#b7770d">+40</text>
+      <circle cx="160" cy="5" r="5" fill="#c0392b"/>
+      <text x="163" y="18" font-size="9" fill="#c0392b" font-weight="bold">+100 CANARY → Score: 240</text>
+      <!-- Containment -->
+      <line x1="530" y1="0" x2="530" y2="260" stroke="#2d6a4f" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="533" y="20" font-size="9" fill="#2d6a4f">Containment + Recovery</text>
+      <text x="533" y="32" font-size="9" fill="#2d6a4f">T = 10s → Score = 0</text>
+    </svg>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin:0 80px;font-size:9px;color:#555;">
+    <span>0s</span><span>2s</span><span>4s</span><span>6s</span><span>8s</span><span>10s</span><span>12s</span>
+  </div>
+  <div style="text-align:center;font-size:11px;color:#333;margin-top:4px;">Time (seconds)</div>
+  <div class="fig-caption">Fig. 4: Threat score accumulation — detection at T=1.2s, canary trigger at T=2.4s (score=240), containment and recovery complete at T=10s</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FIG 5 ═══ -->
+<div class="fig">
+  <div class="fig-title">Fig. 5 — System Performance Evaluation</div>
+  <div style="display:flex;align-items:flex-end;gap:30px;height:240px;border-left:2px solid #333;border-bottom:2px solid #333;padding:0 30px;margin:10px 20px 10px 80px;position:relative;">
+    <div style="position:absolute;left:-70px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:11px;color:#333;white-space:nowrap;">Value (seconds / %)</div>
+    <!-- Bar group 1: Detection -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="display:flex;gap:4px;align-items:flex-end;">
+        <div style="position:relative;">
+          <div style="width:28px;height:26px;background:#c0392b;opacity:0.4;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c0392b;white-space:nowrap;">5s target</div>
+        </div>
+        <div style="position:relative;">
+          <div style="width:28px;height:12px;background:#2d6a4f;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#2d6a4f;white-space:nowrap;">2.4s ✓</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Detection<br>Time</div>
+    </div>
+    <!-- Bar group 2: Containment -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="display:flex;gap:4px;align-items:flex-end;">
+        <div style="position:relative;">
+          <div style="width:28px;height:50px;background:#c0392b;opacity:0.4;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c0392b;white-space:nowrap;">10s target</div>
+        </div>
+        <div style="position:relative;">
+          <div style="width:28px;height:14px;background:#2d6a4f;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#2d6a4f;white-space:nowrap;">2.7s ✓</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Containment<br>Time</div>
+    </div>
+    <!-- Bar group 3: Recovery RTO -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="display:flex;gap:4px;align-items:flex-end;">
+        <div style="position:relative;">
+          <div style="width:28px;height:200px;background:#c0392b;opacity:0.4;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c0392b;white-space:nowrap;">60s target</div>
+        </div>
+        <div style="position:relative;">
+          <div style="width:28px;height:57px;background:#2d6a4f;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#2d6a4f;white-space:nowrap;">17s ✓</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Recovery<br>RTO</div>
+    </div>
+    <!-- Bar group 4: Email Alert -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="display:flex;gap:4px;align-items:flex-end;">
+        <div style="position:relative;">
+          <div style="width:28px;height:100px;background:#c0392b;opacity:0.4;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c0392b;white-space:nowrap;">30s target</div>
+        </div>
+        <div style="position:relative;">
+          <div style="width:28px;height:27px;background:#2d6a4f;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#2d6a4f;white-space:nowrap;">8s ✓</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Email Alert<br>Delivery</div>
+    </div>
+    <!-- Bar group 5: Accuracy -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="display:flex;gap:4px;align-items:flex-end;">
+        <div style="position:relative;">
+          <div style="width:28px;height:228px;background:#c0392b;opacity:0.4;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c0392b;white-space:nowrap;">95% target</div>
+        </div>
+        <div style="position:relative;">
+          <div style="width:28px;height:235px;background:#2d6a4f;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#2d6a4f;white-space:nowrap;">98% ✓</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Detection<br>Accuracy (%)</div>
+    </div>
+    <!-- Bar group 6: False Positive -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="display:flex;gap:4px;align-items:flex-end;">
+        <div style="position:relative;">
+          <div style="width:28px;height:12px;background:#c0392b;opacity:0.4;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c0392b;white-space:nowrap;">&lt;5% target</div>
+        </div>
+        <div style="position:relative;">
+          <div style="width:28px;height:5px;background:#2d6a4f;border-radius:3px 3px 0 0;"></div>
+          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#2d6a4f;white-space:nowrap;">&lt;2% ✓</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">False<br>Positive Rate</div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-box" style="background:#c0392b;opacity:0.4;"></div> Target / Benchmark</div>
+    <div class="legend-item"><div class="legend-box" style="background:#2d6a4f;"></div> SentinelShield AI Achieved</div>
+  </div>
+  <div class="fig-caption">Fig. 5: Performance evaluation — SentinelShield AI meets or exceeds all targets. Recovery RTO of 17s vs 60s target (72% better). Detection accuracy 98% vs 95% target.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FIG 6 ═══ -->
+<div class="fig">
+  <div class="fig-title">Fig. 6 — Detection Accuracy by Engine Layer</div>
+  <div style="display:flex;align-items:flex-end;gap:20px;height:240px;border-left:2px solid #333;border-bottom:2px solid #333;padding:0 40px;margin:10px 20px 10px 80px;position:relative;">
+    <div style="position:absolute;left:-70px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:11px;color:#333;white-space:nowrap;">Detection Rate (%)</div>
+    <div style="position:absolute;top:0;left:0;right:0;border-top:1px dashed #eee;"></div>
+    <div style="position:absolute;top:60px;left:0;right:0;border-top:1px dashed #eee;"></div>
+    <div style="position:absolute;top:120px;left:0;right:0;border-top:1px dashed #eee;"></div>
+    <div style="position:absolute;top:180px;left:0;right:0;border-top:1px dashed #eee;"></div>
+    <div style="position:absolute;top:-4px;left:-30px;font-size:9px;color:#555;">100%</div>
+    <div style="position:absolute;top:56px;left:-30px;font-size:9px;color:#555;">75%</div>
+    <div style="position:absolute;top:116px;left:-30px;font-size:9px;color:#555;">50%</div>
+    <div style="position:absolute;top:176px;left:-30px;font-size:9px;color:#555;">25%</div>
+    <!-- Behavioral 87% -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="position:relative;width:60px;">
+        <div style="width:60px;height:209px;background:#b7770d;border-radius:4px 4px 0 0;opacity:0.85;"></div>
+        <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;color:#b7770d;">87%</div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Behavioral<br>Engine</div>
+    </div>
+    <!-- Entropy 92% -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="position:relative;width:60px;">
+        <div style="width:60px;height:221px;background:#b7770d;border-radius:4px 4px 0 0;opacity:0.85;"></div>
+        <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;color:#b7770d;">92%</div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Entropy<br>Engine</div>
+    </div>
+    <!-- Canary 99.8% -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="position:relative;width:60px;">
+        <div style="width:60px;height:239px;background:#c0392b;border-radius:4px 4px 0 0;opacity:0.85;"></div>
+        <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;color:#c0392b;">99.8%</div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Canary<br>Engine</div>
+    </div>
+    <!-- Honeypot 99.9% -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="position:relative;width:60px;">
+        <div style="width:60px;height:240px;background:#c0392b;border-radius:4px 4px 0 0;opacity:0.85;"></div>
+        <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;color:#c0392b;">99.9%</div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Honeypot<br>Engine</div>
+    </div>
+    <!-- Combined 98% -->
+    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+      <div style="position:relative;width:60px;">
+        <div style="width:60px;height:235px;background:#1a3a5c;border-radius:4px 4px 0 0;opacity:0.9;"></div>
+        <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;color:#1a3a5c;">98%</div>
+      </div>
+      <div style="font-size:10px;color:#333;text-align:center;margin-top:6px;">Combined<br>System</div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-box" style="background:#b7770d;opacity:0.85;"></div> Behavioral / Entropy engines</div>
+    <div class="legend-item"><div class="legend-box" style="background:#c0392b;opacity:0.85;"></div> Trap-based engines (Canary / Honeypot)</div>
+    <div class="legend-item"><div class="legend-box" style="background:#1a3a5c;opacity:0.9;"></div> Combined multi-layer system</div>
+  </div>
+  <div class="fig-caption">Fig. 6: Detection accuracy per engine — canary and honeypot traps achieve near-perfect detection. Combined system achieves 98% with &lt;2% false positive rate.</div>
+</div>
+
+</body>
+</html>

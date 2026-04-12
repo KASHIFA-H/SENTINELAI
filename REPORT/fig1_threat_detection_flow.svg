@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420" font-family="Arial, sans-serif">
+  <rect width="800" height="420" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="400" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a1a1a">Fig. 1 — Threat Detection and Response Strategy</text>
+
+  <!-- Phase boxes -->
+  <!-- Phase 1 -->
+  <rect x="30" y="50" width="140" height="320" rx="8" fill="#e8f4fd" stroke="#1a3a5c" stroke-width="1.5"/>
+  <rect x="30" y="50" width="140" height="30" rx="8" fill="#1a3a5c"/>
+  <text x="100" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="white">PHASE 1</text>
+  <text x="100" y="83" text-anchor="middle" font-size="9" fill="white">Monitoring</text>
+  <text x="100" y="110" text-anchor="middle" font-size="10" fill="#1a3a5c">File System</text>
+  <text x="100" y="125" text-anchor="middle" font-size="10" fill="#1a3a5c">Watchdog</text>
+  <line x1="60" y1="140" x2="140" y2="140" stroke="#1a3a5c" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="100" y="160" text-anchor="middle" font-size="10" fill="#1a3a5c">Real-time</text>
+  <text x="100" y="175" text-anchor="middle" font-size="10" fill="#1a3a5c">Event Capture</text>
+  <line x1="60" y1="190" x2="140" y2="190" stroke="#1a3a5c" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="100" y="210" text-anchor="middle" font-size="10" fill="#1a3a5c">3-second</text>
+  <text x="100" y="225" text-anchor="middle" font-size="10" fill="#1a3a5c">Refresh Cycle</text>
+  <line x1="60" y1="240" x2="140" y2="240" stroke="#1a3a5c" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="100" y="260" text-anchor="middle" font-size="10" fill="#1a3a5c">Multi-directory</text>
+  <text x="100" y="275" text-anchor="middle" font-size="10" fill="#1a3a5c">Coverage</text>
+  <line x1="60" y1="290" x2="140" y2="290" stroke="#1a3a5c" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="100" y="310" text-anchor="middle" font-size="10" fill="#1a3a5c">OT Asset</text>
+  <text x="100" y="325" text-anchor="middle" font-size="10" fill="#1a3a5c">Status Tracking</text>
+  <text x="100" y="355" text-anchor="middle" font-size="9" font-style="italic" fill="#6b5a45">Continuous</text>
+
+  <!-- Arrow -->
+  <line x1="170" y1="210" x2="195" y2="210" stroke="#1a3a5c" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- Phase 2 -->
+  <rect x="195" y="50" width="140" height="320" rx="8" fill="#fff8e1" stroke="#b7770d" stroke-width="1.5"/>
+  <rect x="195" y="50" width="140" height="30" rx="8" fill="#b7770d"/>
+  <text x="265" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="white">PHASE 2</text>
+  <text x="265" y="83" text-anchor="middle" font-size="9" fill="white">Detection</text>
+  <text x="265" y="110" text-anchor="middle" font-size="10" fill="#b7770d">Behavioral</text>
+  <text x="265" y="125" text-anchor="middle" font-size="10" fill="#b7770d">Analysis</text>
+  <line x1="215" y1="140" x2="315" y2="140" stroke="#b7770d" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="265" y="160" text-anchor="middle" font-size="10" fill="#b7770d">Shannon</text>
+  <text x="265" y="175" text-anchor="middle" font-size="10" fill="#b7770d">Entropy &gt; 7.0</text>
+  <line x1="215" y1="190" x2="315" y2="190" stroke="#b7770d" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="265" y="210" text-anchor="middle" font-size="10" fill="#b7770d">Canary File</text>
+  <text x="265" y="225" text-anchor="middle" font-size="10" fill="#b7770d">Trap Detection</text>
+  <line x1="215" y1="240" x2="315" y2="240" stroke="#b7770d" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="265" y="260" text-anchor="middle" font-size="10" fill="#b7770d">Honeypot</text>
+  <text x="265" y="275" text-anchor="middle" font-size="10" fill="#b7770d">Exfil Detection</text>
+  <line x1="215" y1="290" x2="315" y2="290" stroke="#b7770d" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="265" y="310" text-anchor="middle" font-size="10" fill="#b7770d">ML Threat</text>
+  <text x="265" y="325" text-anchor="middle" font-size="10" fill="#b7770d">Scoring</text>
+  <text x="265" y="355" text-anchor="middle" font-size="9" font-style="italic" fill="#6b5a45">&lt; 2.4 seconds</text>
+
+  <!-- Arrow -->
+  <line x1="335" y1="210" x2="360" y2="210" stroke="#1a3a5c" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- Phase 3 -->
+  <rect x="360" y="50" width="140" height="320" rx="8" fill="#fde8e6" stroke="#c0392b" stroke-width="1.5"/>
+  <rect x="360" y="50" width="140" height="30" rx="8" fill="#c0392b"/>
+  <text x="430" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="white">PHASE 3</text>
+  <text x="430" y="83" text-anchor="middle" font-size="9" fill="white">Containment</text>
+  <text x="430" y="110" text-anchor="middle" font-size="10" fill="#c0392b">Process</text>
+  <text x="430" y="125" text-anchor="middle" font-size="10" fill="#c0392b">Termination</text>
+  <line x1="380" y1="140" x2="480" y2="140" stroke="#c0392b" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="430" y="160" text-anchor="middle" font-size="10" fill="#c0392b">Sandbox</text>
+  <text x="430" y="175" text-anchor="middle" font-size="10" fill="#c0392b">Lock (Read-only)</text>
+  <line x1="380" y1="190" x2="480" y2="190" stroke="#c0392b" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="430" y="210" text-anchor="middle" font-size="10" fill="#c0392b">Admin Email</text>
+  <text x="430" y="225" text-anchor="middle" font-size="10" fill="#c0392b">Alert Dispatch</text>
+  <line x1="380" y1="240" x2="480" y2="240" stroke="#c0392b" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="430" y="260" text-anchor="middle" font-size="10" fill="#c0392b">Quarantine</text>
+  <text x="430" y="275" text-anchor="middle" font-size="10" fill="#c0392b">Attacked Files</text>
+  <line x1="380" y1="290" x2="480" y2="290" stroke="#c0392b" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="430" y="310" text-anchor="middle" font-size="10" fill="#c0392b">OT Assets</text>
+  <text x="430" y="325" text-anchor="middle" font-size="10" fill="#c0392b">Marked Compromised</text>
+  <text x="430" y="355" text-anchor="middle" font-size="9" font-style="italic" fill="#6b5a45">&lt; 3 seconds</text>
+
+  <!-- Arrow -->
+  <line x1="500" y1="210" x2="525" y2="210" stroke="#1a3a5c" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- Phase 4 -->
+  <rect x="525" y="50" width="140" height="320" rx="8" fill="#d4edda" stroke="#2d6a4f" stroke-width="1.5"/>
+  <rect x="525" y="50" width="140" height="30" rx="8" fill="#2d6a4f"/>
+  <text x="595" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="white">PHASE 4</text>
+  <text x="595" y="83" text-anchor="middle" font-size="9" fill="white">Recovery</text>
+  <text x="595" y="110" text-anchor="middle" font-size="10" fill="#2d6a4f">Snapshot</text>
+  <text x="595" y="125" text-anchor="middle" font-size="10" fill="#2d6a4f">Restoration</text>
+  <line x1="545" y1="140" x2="645" y2="140" stroke="#2d6a4f" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="595" y="160" text-anchor="middle" font-size="10" fill="#2d6a4f">File Integrity</text>
+  <text x="595" y="175" text-anchor="middle" font-size="10" fill="#2d6a4f">Verification</text>
+  <line x1="545" y1="190" x2="645" y2="190" stroke="#2d6a4f" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="595" y="210" text-anchor="middle" font-size="10" fill="#2d6a4f">Canary</text>
+  <text x="595" y="225" text-anchor="middle" font-size="10" fill="#2d6a4f">Redeployment</text>
+  <line x1="545" y1="240" x2="645" y2="240" stroke="#2d6a4f" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="595" y="260" text-anchor="middle" font-size="10" fill="#2d6a4f">Score Reset</text>
+  <text x="595" y="275" text-anchor="middle" font-size="10" fill="#2d6a4f">to Zero</text>
+  <line x1="545" y1="290" x2="645" y2="290" stroke="#2d6a4f" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="595" y="310" text-anchor="middle" font-size="10" fill="#2d6a4f">Recovery Email</text>
+  <text x="595" y="325" text-anchor="middle" font-size="10" fill="#2d6a4f">Confirmation</text>
+  <text x="595" y="355" text-anchor="middle" font-size="9" font-style="italic" fill="#6b5a45">RTO &lt; 30 seconds</text>
+
+  <!-- Arrow -->
+  <line x1="665" y1="210" x2="690" y2="210" stroke="#1a3a5c" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- Phase 5 -->
+  <rect x="690" y="130" width="90" height="160" rx="8" fill="#f0f0f0" stroke="#6b5a45" stroke-width="1.5"/>
+  <rect x="690" y="130" width="90" height="25" rx="8" fill="#6b5a45"/>
+  <text x="735" y="147" text-anchor="middle" font-size="10" font-weight="bold" fill="white">PHASE 5</text>
+  <text x="735" y="175" text-anchor="middle" font-size="9" fill="#6b5a45">AI Chatbot</text>
+  <text x="735" y="190" text-anchor="middle" font-size="9" fill="#6b5a45">Explanation</text>
+  <line x1="700" y1="200" x2="770" y2="200" stroke="#6b5a45" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="735" y="220" text-anchor="middle" font-size="9" fill="#6b5a45">Dashboard</text>
+  <text x="735" y="235" text-anchor="middle" font-size="9" fill="#6b5a45">Reporting</text>
+  <line x1="700" y1="248" x2="770" y2="248" stroke="#6b5a45" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="735" y="268" text-anchor="middle" font-size="9" fill="#6b5a45">Resume</text>
+  <text x="735" y="283" text-anchor="middle" font-size="9" fill="#6b5a45">Monitoring</text>
+
+  <!-- Bottom caption -->
+  <text x="400" y="400" text-anchor="middle" font-size="10" font-style="italic" fill="#6b5a45">Fig. 1: Four-phase ransomware defense strategy — Monitor → Detect → Contain → Recover</text>
+
+  <defs>
+    <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#1a3a5c"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" width="700" height="380" font-family="Arial, sans-serif">
+  <rect width="700" height="380" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="350" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">Fig. 3 — Shannon Entropy Analysis During Ransomware Attack</text>
+
+  <!-- Axes -->
+  <line x1="70" y1="300" x2="660" y2="300" stroke="#333" stroke-width="1.5"/>
+  <line x1="70" y1="50" x2="70" y2="300" stroke="#333" stroke-width="1.5"/>
+
+  <!-- Y axis labels -->
+  <text x="60" y="304" text-anchor="end" font-size="10" fill="#333">0</text>
+  <text x="60" y="264" text-anchor="end" font-size="10" fill="#333">2</text>
+  <text x="60" y="224" text-anchor="end" font-size="10" fill="#333">4</text>
+  <text x="60" y="184" text-anchor="end" font-size="10" fill="#333">6</text>
+  <text x="60" y="144" text-anchor="end" font-size="10" fill="#333">7</text>
+  <text x="60" y="104" text-anchor="end" font-size="10" fill="#333">7.5</text>
+  <text x="60" y="64" text-anchor="end" font-size="10" fill="#333">8</text>
+  <text x="20" y="180" text-anchor="middle" font-size="11" fill="#333" transform="rotate(-90,20,180)">Shannon Entropy (bits/byte)</text>
+
+  <!-- X axis labels -->
+  <text x="350" y="320" text-anchor="middle" font-size="11" fill="#333">Time (seconds)</text>
+  <text x="120" y="315" text-anchor="middle" font-size="9" fill="#333">T=0</text>
+  <text x="200" y="315" text-anchor="middle" font-size="9" fill="#333">T=2</text>
+  <text x="280" y="315" text-anchor="middle" font-size="9" fill="#333">T=4</text>
+  <text x="360" y="315" text-anchor="middle" font-size="9" fill="#333">T=6</text>
+  <text x="440" y="315" text-anchor="middle" font-size="9" fill="#333">T=8</text>
+  <text x="520" y="315" text-anchor="middle" font-size="9" fill="#333">T=10</text>
+  <text x="600" y="315" text-anchor="middle" font-size="9" fill="#333">T=12</text>
+
+  <!-- Grid lines -->
+  <line x1="70" y1="264" x2="660" y2="264" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="224" x2="660" y2="224" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="184" x2="660" y2="184" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="144" x2="660" y2="144" stroke="#eee" stroke-width="1"/>
+  <line x1="70" y1="104" x2="660" y2="104" stroke="#eee" stroke-width="1"/>
+
+  <!-- Danger threshold line -->
+  <line x1="70" y1="110" x2="660" y2="110" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="665" y="114" font-size="9" fill="#c0392b">7.0 threshold</text>
+
+  <!-- Normal entropy line (before attack) — low, stable ~2.5-3.5 bits -->
+  <polyline points="120,284 160,278 200,282 240,276 280,280 320,274" fill="none" stroke="#2d6a4f" stroke-width="2.5"/>
+
+  <!-- Attack starts at T=6 (x=360) — entropy spikes rapidly -->
+  <polyline points="320,274 340,268 360,240 380,180 400,108 420,98 440,96 460,97 480,96 500,97 520,96" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+
+  <!-- Containment at T=10 (x=520) — entropy drops back -->
+  <polyline points="520,96 540,130 560,200 580,260 600,278 620,280 640,282" fill="none" stroke="#2d6a4f" stroke-width="2.5"/>
+
+  <!-- Shaded attack zone -->
+  <rect x="360" y="50" width="160" height="250" fill="#c0392b" opacity="0.06"/>
+
+  <!-- Annotations -->
+  <line x1="360" y1="50" x2="360" y2="300" stroke="#b7770d" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="363" y="70" font-size="9" fill="#b7770d">Attack begins</text>
+  <text x="363" y="82" font-size="9" fill="#b7770d">T = 6s</text>
+
+  <line x1="520" y1="50" x2="520" y2="300" stroke="#2d6a4f" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="523" y="70" font-size="9" fill="#2d6a4f">Containment</text>
+  <text x="523" y="82" font-size="9" fill="#2d6a4f">T = 10s</text>
+
+  <!-- Data points -->
+  <circle cx="400" cy="108" r="4" fill="#c0392b"/>
+  <text x="405" y="104" font-size="9" fill="#c0392b">7.82 bits</text>
+
+  <!-- Legend -->
+  <line x1="90" y1="345" x2="120" y2="345" stroke="#2d6a4f" stroke-width="2.5"/>
+  <text x="125" y="349" font-size="10" fill="#333">Normal file entropy (pre/post attack)</text>
+  <line x1="320" y1="345" x2="350" y2="345" stroke="#c0392b" stroke-width="2.5"/>
+  <text x="355" y="349" font-size="10" fill="#333">Encrypted file entropy (during attack)</text>
+  <line x1="530" y1="345" x2="560" y2="345" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="565" y="349" font-size="10" fill="#333">Detection threshold</text>
+
+  <text x="350" y="368" text-anchor="middle" font-size="10" font-style="italic" fill="#6b5a45">Fig. 3: Shannon entropy waveform showing normal operation, ransomware encryption spike, and post-recovery restoration</text>
+</svg>

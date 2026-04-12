@@ -45,14 +45,27 @@ def restore_snapshot(snapshot_id: str, target_dir: str) -> dict:
     if not os.path.exists(src):
         return {"error": f"Snapshot {snapshot_id} not found"}
 
+    # First remove all .locked encrypted files from target
+    for fname in os.listdir(target_dir):
+        if fname.endswith(".locked"):
+            locked_path = os.path.join(target_dir, fname)
+            try:
+                _make_writable(locked_path)
+                os.remove(locked_path)
+            except Exception:
+                pass
+
     restored = []
     for fname in os.listdir(src):
         src_path = os.path.join(src, fname)
+        if not os.path.isfile(src_path):
+            continue
         dst_path = os.path.join(target_dir, fname)
-        # Make backup writable temporarily for copy
         _make_writable(src_path)
         shutil.copy2(src_path, dst_path)
-        _make_readonly(src_path)  # re-lock backup
+        # Make restored file writable so it can be read/modified normally
+        _make_writable(dst_path)
+        _make_readonly(src_path)  # re-lock backup copy
         restored.append(fname)
 
     update_snapshot_status(snapshot_id, "restored")

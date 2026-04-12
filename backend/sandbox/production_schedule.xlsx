@@ -1,0 +1,22 @@
+NEXACORE INDUSTRIAL — PRODUCTION SCHEDULE
+Week: 2025-03-24 to 2025-03-28   Plant: Facility A
+=======================================================
+Shift   Line    Product         Qty_Target  Qty_Actual  Status
+------  ------  --------------  ----------  ----------  --------
+MON-D   Line-1  Batch_RX_4421   500 units   498 units   Complete
+MON-D   Line-2  Batch_RX_4422   300 units   301 units   Complete
+MON-N   Line-1  Batch_RX_4423   500 units   495 units   Complete
+TUE-D   Line-1  Batch_RX_4424   500 units   500 units   Complete
+TUE-D   Line-2  Batch_RX_4425   300 units   298 units   Complete
+TUE-N   Line-1  Batch_RX_4426   500 units   502 units   Complete
+WED-D   Line-1  Batch_RX_4427   500 units   497 units   Complete
+WED-D   Line-2  Batch_RX_4428   300 units   300 units   Complete
+WED-N   Line-1  Batch_RX_4429   500 units   IN PROGRESS Running
+THU-D   Line-1  Batch_RX_4430   500 units   SCHEDULED   Pending
+THU-D   Line-2  Batch_RX_4431   300 units   SCHEDULED   Pending
+
+OEE SUMMARY (Week to Date)
+Availability: 97.2%   Performance: 94.8%   Quality: 99.1%
+Overall OEE: 91.3%   Target: 90.0%   STATUS: ON TARGET
+
+Approved: Plant Manager — James Wilson

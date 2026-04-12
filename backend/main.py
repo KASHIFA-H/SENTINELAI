@@ -1,15 +1,20 @@
 import os
 import sys
 import shutil
+import hashlib
+import hmac
+import time
+from collections import defaultdict
 sys.path.insert(0, os.path.dirname(__file__))
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 
-from config import SANDBOX_DIR, BACKUP_DIR, QUARANTINE_DIR
+from config import (SANDBOX_DIR, BACKUP_DIR, QUARANTINE_DIR,
+                    SECRET_KEY, ALLOWED_ORIGIN)
 from db import get_threat_events, get_snapshots, log_threat_event
 from engines.canary import deploy_canary
 from engines.backup import create_snapshot, restore_snapshot, list_snapshots, list_quarantine
@@ -22,18 +27,54 @@ from engines.integrity import register_quarantine, verify_integrity, get_manifes
 from engines.prevention import (prevention_state, run_exfil_response, lock_sandbox, unlock_sandbox,
                                  encrypt_sandbox, decrypt_sandbox, reset_prevention, kill_exfil_processes)
 from engines.url_scanner import scan_url
+from engines.rag_chatbot import rag_chat, compute_shap_explanation
 
 # Track which files were accessed during exfiltration
 _exfil_accessed_files: set = set()
 
 app = FastAPI(title="SentinelShield AI", version="2.4.1-beta")
 
+# ── CORS — only allow the configured frontend origin ─────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[ALLOWED_ORIGIN, "http://localhost:5173", "http://localhost:5174"],
+    allow_methods=["GET", "POST", "DELETE"],
+    allow_headers=["Content-Type", "Authorization", "X-Session-Token"],
 )
+
+# ── Simple signed session token ───────────────────────────────────────────────
+def _sign(user_id: str) -> str:
+    return hmac.new(SECRET_KEY.encode(), user_id.encode(), hashlib.sha256).hexdigest()
+
+def _make_token(user: dict) -> str:
+    uid = user.get("id", user.get("email", ""))
+    return f"{uid}:{_sign(uid)}"
+
+def _verify_token(token: str) -> bool:
+    try:
+        uid, sig = token.rsplit(":", 1)
+        return hmac.compare_digest(sig, _sign(uid))
+    except Exception:
+        return False
+
+def require_auth(request: Request):
+    token = request.headers.get("X-Session-Token", "")
+    if not token or not _verify_token(token):
+        raise HTTPException(status_code=401, detail="Unauthorised — invalid or missing session token")
+
+# ── Login rate limiter — max 5 attempts per IP per minute ────────────────────
+_login_attempts: dict = defaultdict(list)
+_RATE_LIMIT = 5
+_RATE_WINDOW = 60  # seconds
+
+def _check_rate_limit(ip: str):
+    now = time.time()
+    attempts = [t for t in _login_attempts[ip] if now - t < _RATE_WINDOW]
+    attempts.append(now)
+    _login_attempts[ip] = attempts
+    if len(attempts) > _RATE_LIMIT:
+        log_threat_event("brute_force_attempt", 50, [ip], f"rate_limit_exceeded ip={ip}")
+        raise HTTPException(status_code=429, detail="Too many login attempts — try again in 60 seconds")
 
 # ── Startup: init sandbox and start monitoring ──────────────────────────────
 
@@ -42,32 +83,91 @@ def startup():
     for d in [SANDBOX_DIR, BACKUP_DIR, QUARANTINE_DIR]:
         os.makedirs(d, exist_ok=True)
 
-    # Seed sandbox with demo files if they don't exist
-    demo_files = {
-        "report_q1.docx":             "SentinelShield demo file: report_q1.docx\n" * 20,
-        "employee_data.csv":          "id,name,dept\n1,Alice,Engineering\n2,Bob,Finance\n3,Carol,HR\n" * 10,
-        "budget_2025.xlsx":           "Q1: $1.2M\nQ2: $1.4M\nQ3: $1.6M\nQ4: $1.8M\nTotal: $6.0M\n" * 10,
-        "contracts.pdf":              "CONTRACT: Service Agreement 2025\nParty A: SentinelShield\nParty B: Client Corp\n" * 10,
-        "network_config.txt":         "host=10.0.1.1\ngateway=10.0.0.1\ndns=8.8.8.8\nsubnet=255.255.255.0\n" * 10,
-        "employee_records.csv":       "emp_id,name,role,salary\nEMP001,Alex,Admin,95000\nEMP002,Sarah,Analyst,72000\n" * 10,
-        "financial_report_q4.txt":    "Q4 Revenue: $7.74M\nExpenses: $5.71M\nNet Income: $2.03M\n" * 10,
-        "customer_database.csv":      "cust_id,company,value\nC001,Acme,48000\nC002,GlobalTech,24000\n" * 10,
-        "network_topology.txt":       "10.0.1.0/24 Corporate\n10.0.2.0/24 Engineering\n10.0.3.0/24 Finance\n" * 10,
-        "backup_policy.txt":          "Full backup: Sunday 02:00\nIncremental: Daily 02:00\nRTO: 4 hours\nRPO: 30 min\n" * 10,
-        "source_code_credentials.txt":"DB_HOST=db.internal\nDB_USER=app_user\nDB_PASS=[REDACTED]\n" * 10,
-        "project_roadmap.txt":        "Q1: Dashboard v2.4\nQ2: AI threat prediction\nQ3: Cloud module\nQ4: Autonomous response\n" * 10,
-        "incident_report_2025.txt":   "INC-2025-0847\nSeverity: HIGH\nStatus: RESOLVED\nRTO: 17 seconds\n" * 10,
-    }
-    for fname, content in demo_files.items():
+    # Always reset read-only flags on startup so canary can be deployed
+    import stat as st
+    for fname in os.listdir(SANDBOX_DIR):
+        fpath = os.path.join(SANDBOX_DIR, fname)
+        try:
+            os.chmod(fpath, st.S_IREAD | st.S_IWRITE | st.S_IRGRP | st.S_IROTH)
+        except Exception:
+            pass
+
+    # Seed sandbox with OT/industrial data (only if file doesn't exist)
+    from reseed_sandbox import REAL_FILES
+    for fname, content in REAL_FILES.items():
         p = os.path.join(SANDBOX_DIR, fname)
         if not os.path.exists(p):
             with open(p, "w", encoding="utf-8") as f:
                 f.write(content)
 
+    # ── Seed subdirectories with categorised files ────────────────────────────
+    subdir_files = {
+        "Finance": {
+            "budget_2025.xlsx":        "Q1: $1.2M\nQ2: $1.4M\nQ3: $1.6M\nQ4: $1.8M\n" * 10,
+            "payroll_q1.csv":          "emp_id,name,gross,net\nEMP001,Alex,7916,6333\n" * 10,
+            "invoice_log.csv":         "inv_id,vendor,amount\nINV001,TechCorp,12400\n" * 10,
+            "tax_filing_2025.txt":     "Tax Year: 2025\nGross Income: $7.74M\nTax Paid: $1.93M\n" * 10,
+            "expense_report_q1.csv":   "date,category,amount\n2025-01-10,Travel,450\n2025-01-15,Software,1200\n" * 10,
+        },
+        "HR": {
+            "employee_records.csv":    "emp_id,name,role,dept\nEMP001,Alex,Admin,IT\n" * 10,
+            "leave_tracker.csv":       "emp_id,type,days,status\nEMP001,Annual,5,approved\n" * 10,
+            "performance_reviews.txt": "EMP001 — Q1 2025: Exceeds Expectations\nEMP002 — Q1 2025: Meets Expectations\n" * 10,
+            "recruitment_pipeline.csv":"candidate,role,stage\nJohn Doe,DevOps,Interview\n" * 10,
+            "org_chart.txt":           "CEO → CTO → IT Security → SOC Analyst\nCEO → CFO → Finance → Payroll\n" * 10,
+        },
+        "Legal": {
+            "contracts.pdf":           "SERVICE AGREEMENT 2025\nParty A: SentinelShield\nParty B: Client Corp\n" * 10,
+            "nda_signed.txt":          "NDA signed by: Alex Morgan\nDate: 2025-01-05\nExpiry: 2027-01-05\n" * 10,
+            "compliance_checklist.txt":"GDPR: ✓\nISO 27001: ✓\nSOC 2: In Progress\nHIPAA: N/A\n" * 10,
+            "patent_filings.txt":      "PAT-2025-001: AI Threat Detection Engine\nStatus: Filed\nDate: 2025-02-10\n" * 10,
+        },
+        "IT": {
+            "network_config.txt":      "host=10.0.1.1\ngateway=10.0.0.1\ndns=8.8.8.8\n" * 10,
+            "server_inventory.csv":    "hostname,ip,os\nweb-01,10.0.1.10,Ubuntu 22.04\n" * 10,
+            "firewall_rules.txt":      "RULE 001: ALLOW 10.0.1.0/24 TCP 443\nRULE 002: DENY * TCP 22\n" * 10,
+            "ssl_certs.txt":           "CERT: *.sentinelshield.ai\nExpiry: 2026-08-15\n" * 10,
+            "patch_log.txt":           "2025-03-01: KB5034441 applied\n2025-03-10: OpenSSL 3.2.1 patched\n" * 10,
+            "vpn_config.txt":          "server=vpn.sentinelshield.ai\nprotocol=WireGuard\nport=51820\n" * 10,
+        },
+        "R&D": {
+            "project_roadmap.txt":     "Q1: Dashboard v2.4\nQ2: AI prediction\nQ3: Cloud module\n" * 10,
+            "research_notes.txt":      "Entropy threshold testing: 7.0 bits optimal\nFalse positive rate: 0.3%\n" * 10,
+            "model_training_log.txt":  "Epoch 1/50: loss=0.842\nEpoch 10/50: loss=0.341\nEpoch 50/50: loss=0.089\n" * 10,
+            "api_docs.txt":            "GET /status → system health\nPOST /simulate-attack → run demo\n" * 10,
+        },
+        "Operations": {
+            "incident_log.txt":        "INC-2025-0847: Ransomware detected — RESOLVED in 17s\n" * 10,
+            "deployment_runbook.txt":  "Step 1: Pull main\nStep 2: Run tests\nStep 3: Deploy staging\n" * 10,
+            "meeting_notes.txt":       "2025-03-15: Security review — deploy canary to all dirs\n" * 10,
+            "sla_report.txt":          "Uptime: 99.97%\nMTTR: 4.2 min\nMTTD: 8.1 sec\n" * 10,
+            "vendor_contacts.csv":     "vendor,contact,email\nCloudSvc,John Smith,john@cloudsvc.com\n" * 10,
+        },
+    }
+    for subdir, files in subdir_files.items():
+        dpath = os.path.join(SANDBOX_DIR, subdir)
+        os.makedirs(dpath, exist_ok=True)
+        for fname, content in files.items():
+            p = os.path.join(dpath, fname)
+            if not os.path.exists(p):
+                with open(p, "w", encoding="utf-8") as f:
+                    f.write(content)
+        deploy_canary(dpath)
+
     deploy_canary(SANDBOX_DIR)
     deploy_honeypots(SANDBOX_DIR)
     start_monitoring([SANDBOX_DIR])
     create_snapshot(SANDBOX_DIR)
+
+    # Auto-snapshot every 30 minutes in background
+    import threading, time as _time
+    def _auto_snapshot():
+        while True:
+            _time.sleep(1800)
+            create_snapshot(SANDBOX_DIR)
+            print("[Backup] Auto-snapshot taken (30-min schedule)")
+    threading.Thread(target=_auto_snapshot, daemon=True).start()
+
     print("[SentinelShield] Backend ready.")
 
 # ── Auth ─────────────────────────────────────────────────────────────────────
@@ -78,15 +178,20 @@ class LoginRequest(BaseModel):
     ip: Optional[str] = "Unknown"
 
 @app.post("/auth/login")
-def login(req: LoginRequest):
+def login(req: LoginRequest, request: Request):
+    ip = request.client.host if request.client else "unknown"
+    _check_rate_limit(ip)
     user = authenticate(req.email, req.password)
     if user:
-        log_threat_event("user_login", 0, [], f"{user['name']} ({user['role']}) logged in")
-        return {"success": True, "user": user}
+        token = _make_token(user)
+        log_threat_event("user_login", 0, [], f"{user['name']} ({user['role']}) logged in from {ip}")
+        return {"success": True, "user": user, "token": token}
     # Unknown email → send alert to admin
     if not is_known_email(req.email):
-        send_unauthorized_login(req.email, req.ip)
-        log_threat_event("unauthorized_login_attempt", 0, [req.email], f"unknown_email={req.email}")
+        send_unauthorized_login(req.email, ip)
+        log_threat_event("unauthorized_login_attempt", 0, [req.email], f"unknown_email={req.email} ip={ip}")
+    else:
+        log_threat_event("failed_login", 0, [req.email], f"wrong_password ip={ip}")
     return {"success": False, "error": "Invalid credentials"}
 
 @app.get("/auth/employees")
@@ -203,7 +308,7 @@ def snapshot_files(snapshot_id: str):
     }
 
 @app.post("/restore/{snapshot_id}")
-def restore(snapshot_id: str):
+def restore(snapshot_id: str, _auth=Depends(require_auth)):
     result = restore_snapshot(snapshot_id, SANDBOX_DIR)
     reset_threat_score()
     log_threat_event("recovery_complete", 0, result.get("restored_files", []), "system_restored")
@@ -226,7 +331,7 @@ def quarantine():
 # ── Simulate Attack ───────────────────────────────────────────────────────────
 
 @app.post("/simulate-attack")
-def simulate_attack():
+def simulate_attack(_auth=Depends(require_auth)):
     def _after_attack():
         import time; time.sleep(6)
         attacked = [f for f in os.listdir(SANDBOX_DIR) if f.endswith(".locked")]
@@ -244,12 +349,18 @@ def simulate_attack():
 # ── Containment ───────────────────────────────────────────────────────────────
 
 @app.post("/contain")
-def contain():
+def contain(_auth=Depends(require_auth)):
+    # Stop watchdog so file events don't re-trigger score after reset
+    stop_monitoring()
     killed = terminate_suspicious_processes()
     reset_threat_score()
-    # Re-deploy a fresh canary after containment
+    # Redeploy canary
     deploy_canary(SANDBOX_DIR)
     log_threat_event("containment_complete", 0, [], "threat_score_reset_canary_redeployed")
+    # Restart watchdog cleanly with score already at 0
+    import time
+    time.sleep(0.3)
+    start_monitoring([SANDBOX_DIR])
     return {"contained": True, "processes_killed": killed}
 
 # ── Reset (manual) ────────────────────────────────────────────────────────────
@@ -260,6 +371,62 @@ def reset():
     reset_threat_score()
     deploy_canary(SANDBOX_DIR)
     return {"reset": True}
+
+@app.post("/factory-reset")
+def factory_reset():
+    """Full reset — restore sandbox to clean state, wipe all threat state, reseed files."""
+    import stat as st
+    from reseed_sandbox import REAL_FILES
+    from engines.exfiltration import reset_exfil_state, deploy_honeypots
+    from engines.prevention import reset_prevention
+
+    # 1. Stop watchdog so file writes don't trigger detections
+    stop_monitoring()
+
+    # 2. Remove all .locked and .enc files
+    for fname in os.listdir(SANDBOX_DIR):
+        if fname.endswith(".locked") or fname.endswith(".enc"):
+            fpath = os.path.join(SANDBOX_DIR, fname)
+            try:
+                os.chmod(fpath, st.S_IWRITE | st.S_IREAD)
+                os.remove(fpath)
+            except Exception:
+                pass
+
+    # 3. Restore all sandbox files to read-write
+    for fname in os.listdir(SANDBOX_DIR):
+        fpath = os.path.join(SANDBOX_DIR, fname)
+        if os.path.isfile(fpath):
+            try:
+                os.chmod(fpath, st.S_IWRITE | st.S_IREAD)
+            except Exception:
+                pass
+
+    # 4. Reseed with clean OT data
+    for fname, content in REAL_FILES.items():
+        p = os.path.join(SANDBOX_DIR, fname)
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(content)
+
+    # 5. Reset ALL threat state to zero
+    reset_threat_score()
+    reset_exfil_state()
+    reset_prevention()
+    _exfil_accessed_files.clear()
+
+    # 6. Redeploy canary and honeypots
+    deploy_canary(SANDBOX_DIR)
+    deploy_honeypots(SANDBOX_DIR)
+
+    # 7. Take a fresh clean snapshot
+    snap = create_snapshot(SANDBOX_DIR)
+
+    # 8. Restart watchdog cleanly — score is already 0 before it starts
+    import time; time.sleep(0.5)
+    start_monitoring([SANDBOX_DIR])
+
+    log_threat_event("factory_reset", 0, [], "full_system_reset_clean_state")
+    return {"reset": True, "snapshot": snap["snapshot_id"], "files_restored": len(REAL_FILES)}
 
 # ── System Hardening Info (Layer 2) ──────────────────────────────────────────
 
@@ -371,6 +538,39 @@ def system_hardening():
         "firewall": "enabled",
     }
 
+# ── RAG Chatbot + SHAP Explainability ────────────────────────────────────────
+
+class ChatRequest(BaseModel):
+    message: str
+    threat_score: Optional[int] = 0
+    status: Optional[str] = "secure"
+    exfil: Optional[dict] = {}
+    attacked_files: Optional[list] = []
+    attack_steps: Optional[list] = []
+
+@app.post("/chat")
+def chat(req: ChatRequest):
+    """RAG chatbot with Gemini + SHAP explainability."""
+    system_state = {
+        "threat_score": req.threat_score,
+        "status": req.status,
+        "exfil": req.exfil or {},
+        "attacked_files": req.attacked_files or [],
+        "attack_steps": req.attack_steps or [],
+        "canary_hit": state.get("canary_hit", False),
+    }
+    result = rag_chat(req.message, system_state)
+    return result
+
+@app.get("/shap")
+def shap_explanation():
+    """Get SHAP-style ML explanation for current system state."""
+    return compute_shap_explanation(
+        state["threat_score"],
+        state["status"],
+        exfil_state,
+    )
+
 # ── URL Scanner ───────────────────────────────────────────────────────────────
 
 class URLScanRequest(BaseModel):
@@ -443,14 +643,8 @@ def file_content(filename: str):
         with open(fpath, "rb") as f:
             raw = f.read(8192)
         if is_locked:
-            # Show hex representation of encrypted bytes — meaningful for demo
-            hex_lines = []
-            for i in range(0, min(len(raw), 512), 16):
-                chunk = raw[i:i+16]
-                hex_part = " ".join(f"{b:02x}" for b in chunk)
-                ascii_part = "".join(chr(b) if 32 <= b < 127 else "." for b in chunk)
-                hex_lines.append(f"{i:04x}  {hex_part:<48}  {ascii_part}")
-            current_content = "\n".join(hex_lines)
+            # Show raw encrypted bytes as garbled latin-1 — visually shows destruction
+            current_content = raw[:4096].decode("latin-1")
             current_readable = False
         else:
             current_content = raw.decode("utf-8", errors="replace")
@@ -459,21 +653,43 @@ def file_content(filename: str):
         current_content = f"[Error reading file: {e}]"
         current_readable = False
 
-    # Original content from most recent snapshot
+    # Original content — find the OLDEST snapshot that has a clean (non-encrypted) version
     original_content = None
     original_snapshot = None
     snapshots_local = list_snapshots()
-    # Sort by name descending (snap_<timestamp>_xxx) to get latest first
-    for snap_id in sorted(snapshots_local, reverse=True):
+    # Sort ascending (oldest first) — we want the pre-attack clean snapshot
+    for snap_id in sorted(snapshots_local):
         snap_path = os.path.join(BACKUP_DIR, snap_id, original_name)
         if os.path.exists(snap_path):
             try:
-                with open(snap_path, "r", errors="replace") as f:
-                    original_content = f.read(8192)
-                original_snapshot = snap_id
-                break
+                with open(snap_path, "rb") as f:
+                    snap_raw = f.read(8192)
+                # Check if this snapshot copy is clean (low entropy = not encrypted)
+                if len(snap_raw) > 0:
+                    counts = [0] * 256
+                    for b in snap_raw[:2048]:
+                        counts[b] += 1
+                    total = min(len(snap_raw), 2048)
+                    import math as _math
+                    h = -sum((c/total)*_math.log2(c/total) for c in counts if c > 0)
+                    if h < 7.0:  # clean file — use this snapshot
+                        original_content = snap_raw.decode("utf-8", errors="replace")
+                        original_snapshot = snap_id
+                        break
             except Exception:
                 pass
+    # Fallback: use oldest snapshot regardless
+    if not original_content:
+        for snap_id in sorted(snapshots_local):
+            snap_path = os.path.join(BACKUP_DIR, snap_id, original_name)
+            if os.path.exists(snap_path):
+                try:
+                    with open(snap_path, "r", errors="replace") as f:
+                        original_content = f.read(8192)
+                    original_snapshot = snap_id
+                    break
+                except Exception:
+                    pass
 
     return {
         "filename":          filename,
@@ -512,15 +728,11 @@ def file_diff(filename: str, snapshot_id: str):
 
     if os.path.exists(current_path):
         if filename.endswith(".locked"):
-            # For encrypted files, decode XOR to show what it looks like
+            # Show the RAW encrypted bytes as latin-1 — garbled, unreadable, visually shocking
             with open(current_path, "rb") as f:
                 raw = f.read(8192)
-            # Try XOR decode (key 0xAB used in simulator)
-            decoded = bytes(b ^ 0xAB for b in raw)
-            try:
-                after_content = decoded.decode("utf-8", errors="replace")
-            except Exception:
-                after_content = "[Binary content — XOR encrypted]"
+            # Render as garbled characters — this is what ransomware actually does to your files
+            after_content = raw[:4096].decode("latin-1")
             after_lines = after_content.splitlines(keepends=True)[:100]
         else:
             with open(current_path, "r", errors="replace") as f:
@@ -637,9 +849,44 @@ def restore_quarantine_file(filename: str):
     if check.get("tampered"):
         raise HTTPException(403, f"Restore blocked — file tampered: {check['details']}")
     src = os.path.join(QUARANTINE_DIR, filename)
-    dst = os.path.join(SANDBOX_DIR, filename)
     if not os.path.exists(src):
         raise HTTPException(404, "File not found in quarantine")
+
+    # Get the original clean filename (strip .locked if present)
+    original_name = filename.replace(".locked", "")
+
+    # Try to find clean version in latest snapshot
+    restored_from_snapshot = False
+    for snap_id in sorted(list_snapshots(), reverse=True):
+        snap_path = os.path.join(BACKUP_DIR, snap_id, original_name)
+        if os.path.exists(snap_path):
+            dst = os.path.join(SANDBOX_DIR, original_name)
+            import stat as st
+            try:
+                os.chmod(snap_path, st.S_IWRITE | st.S_IREAD)
+            except Exception:
+                pass
+            shutil.copy2(snap_path, dst)
+            try:
+                os.chmod(dst, st.S_IWRITE | st.S_IREAD)
+            except Exception:
+                pass
+            # Remove the encrypted quarantine file
+            try:
+                os.chmod(src, st.S_IWRITE | st.S_IREAD)
+                os.remove(src)
+            except Exception:
+                pass
+            restored_from_snapshot = True
+            remove_from_manifest(filename)
+            log_threat_event("file_restored_from_quarantine", 0, [filename],
+                             f"decrypted_from_snapshot restored_as={original_name}")
+            return {"restored": original_name, "to": dst,
+                    "integrity_verified": check.get("ok", True),
+                    "decrypted": True, "source": snap_id}
+
+    # Fallback: move encrypted file back if no snapshot found
+    dst = os.path.join(SANDBOX_DIR, filename)
     try:
         import stat as st
         os.chmod(src, st.S_IWRITE | st.S_IREAD)
@@ -647,8 +894,8 @@ def restore_quarantine_file(filename: str):
         pass
     shutil.move(src, dst)
     remove_from_manifest(filename)
-    log_threat_event("file_restored_from_quarantine", 0, [filename], "restored_integrity_verified")
-    return {"restored": filename, "to": dst, "integrity_verified": check.get("ok", True)}
+    log_threat_event("file_restored_from_quarantine", 0, [filename], "restored_encrypted_no_snapshot")
+    return {"restored": filename, "to": dst, "integrity_verified": check.get("ok", True), "decrypted": False}
 
 # ── Quarantine integrity status ───────────────────────────────────────────────
 

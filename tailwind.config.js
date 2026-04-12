@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy:    '#F5F5DC', // page background (lightest beige)
-        panel:   '#D1BFA2', // sidebar / cards (light tan)
-        card:    '#C2A68D', // medium tan (borders, accents)
-        border:  '#BFAF8D', // warm tan (secondary elements)
-        green:   '#2d6a4f', // dark green (success)
-        red:     '#c0392b', // dark red (danger)
-        blue:    '#C2A68D', // warm tan accent
-        yellow:  '#b7770d', // dark amber (warning)
-        muted:   '#6b5a45', // muted text
+        navy:    '#F5F5DC',
+        panel:   '#D1BFA2',
+        card:    '#C2A68D',
+        border:  '#BFAF8D',
+        green:   '#2d6a4f',
+        red:     '#c0392b',
+        blue:    '#C2A68D',
+        yellow:  '#b7770d',
+        muted:   '#6b5a45',
       },
       fontFamily: {
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],

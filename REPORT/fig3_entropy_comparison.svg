@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" width="700" height="420" font-family="Arial, sans-serif">
+  <rect width="700" height="420" fill="white" stroke="#ddd" stroke-width="1"/>
+  <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">Fig. 3 — Shannon Entropy Analysis: Normal vs Encrypted Files</text>
+  <text x="350" y="46" text-anchor="middle" font-size="11" fill="#666">Entropy threshold at 7.0 bits/byte — files above threshold flagged as encrypted</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="340" x2="650" y2="340" stroke="#333" stroke-width="1.5"/>
+  <line x1="80" y1="6
