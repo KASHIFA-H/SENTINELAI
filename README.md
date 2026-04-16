@@ -2,11 +2,9 @@
 
 **Real-Time Ransomware Detection, Containment & Recovery Platform for OT and Industrial Environments**
 
-> TN-WISE 2026 Hackathon | Team Executioners | S.A. Engineering College
-
 ---
 
-## 🚀 What is SentinelShield AI?
+## What is SentinelShield AI?
 
 SentinelShield AI is a full-stack cybersecurity platform that detects ransomware attacks in **under 3 seconds**, automatically contains the threat, and recovers all encrypted files in **under 30 seconds** — with zero data loss.
 
@@ -14,7 +12,7 @@ Built specifically for **Operational Technology (OT)** environments — manufact
 
 ---
 
-## ⚡ Key Features
+## Key Features
 
 | Feature | Description |
 |---|---|
@@ -30,7 +28,7 @@ Built specifically for **Operational Technology (OT)** environments — manufact
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 OT File System (PLC, SCADA, HMI, Canary, Honeypot)
@@ -48,7 +46,7 @@ React Dashboard: Live score · OT Assets · ML Prediction · AI Chatbot · Audit
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** Python 3.14 · FastAPI · Uvicorn · watchdog · psutil
 - **Frontend:** React 18 · Vite · Tailwind CSS · Recharts
@@ -58,7 +56,7 @@ React Dashboard: Live score · OT Assets · ML Prediction · AI Chatbot · Audit
 
 ---
 
-## 📦 Installation & Running
+## Installation & Running
 
 ### Prerequisites
 - Python 3.8+
@@ -100,7 +98,7 @@ ALLOWED_ORIGIN=http://localhost:5173
 
 ---
 
-## 🔑 Default Login Credentials
+## Default Login Credentials
 
 | Role | Email | Password |
 |---|---|---|
@@ -112,7 +110,7 @@ ALLOWED_ORIGIN=http://localhost:5173
 
 ---
 
-## 🎯 Live Demo Flow
+## Live Demo Flow
 
 1. Click **Factory Reset** — clean state, all OT files readable
 2. Open File Explorer → `backend/sandbox/` — see real OT data (PLC code, SCADA CSV)
@@ -124,7 +122,7 @@ ALLOWED_ORIGIN=http://localhost:5173
 
 ---
 
-## 📊 Performance Results
+## Performance Results
 
 | Metric | Target | Achieved |
 |---|---|---|
@@ -136,7 +134,7 @@ ALLOWED_ORIGIN=http://localhost:5173
 
 ---
 
-## 🔮 Future Work
+## Future Work
 
 - Chunk-level entropy detection for LockBit 3.0 intermittent encryption
 - Reinforcement Learning adaptive thresholds
@@ -144,24 +142,6 @@ ALLOWED_ORIGIN=http://localhost:5173
 - Immutable WORM snapshot storage
 - Digital twin factory floor visualization
 - Federated multi-site agent deployment
-
----
-
-## 👥 Team Executioners
-
-| Name | Roll No | Department |
-|---|---|---|
-| Kashifa H (Leader) | 111923AI01043 | AI & Data Science |
-| Aashika Parveen M | 111923EE01002 | Electrical & Electronics |
-| Reyan Ruby P | 111923EE01073 | Electrical & Electronics |
-
-**Guide:** Dr. K. Subha | S.A. Engineering College, Chennai
-
----
-
-## 📄 License
-
-This project was built for the TN-WISE 2026 Hackathon. All rights reserved by Team Executioners.
 
 ---
 
